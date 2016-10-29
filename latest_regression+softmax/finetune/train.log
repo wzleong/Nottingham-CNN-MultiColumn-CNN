@@ -1,0 +1,2941 @@
+I1029 18:16:05.571725 17085 caffe.cpp:185] Using GPUs 0
+I1029 18:16:05.585947 17085 caffe.cpp:190] GPU 0: GeForce GTX 960M
+I1029 18:16:05.765872 17085 solver.cpp:48] Initializing solver from parameters: 
+test_iter: 10
+test_interval: 500
+base_lr: 0.0001
+display: 100
+max_iter: 200000
+lr_policy: "fixed"
+momentum: 0.9
+snapshot: 500
+snapshot_prefix: "examples/nottingham_multi_label/"
+solver_mode: GPU
+device_id: 0
+net: "examples/nottingham_multi_label/bioid_train_val.prototxt"
+momentum2: 0.999
+type: "Adam"
+I1029 18:16:05.765972 17085 solver.cpp:91] Creating training net from net file: examples/nottingham_multi_label/bioid_train_val.prototxt
+I1029 18:16:05.766368 17085 net.cpp:313] The NetState phase (0) differed from the phase (1) specified by a rule in layer data
+I1029 18:16:05.766579 17085 net.cpp:49] Initializing net from parameters: 
+name: "FaceNet"
+state {
+  phase: TRAIN
+}
+layer {
+  name: "data"
+  type: "HDF5Data"
+  top: "data"
+  top: "left_eye"
+  top: "visibility_left"
+  top: "right_eye"
+  top: "visibility_right"
+  include {
+    phase: TRAIN
+  }
+  hdf5_data_param {
+    source: "/home/wzleong/Downloads/nottingham_only_visible/train_scaled_mean_subtracted_own_data_1_multiple_label_data_list.txt"
+    batch_size: 128
+    shuffle: true
+  }
+}
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 13
+    stride: 2
+  }
+}
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "conv1"
+  top: "conv1"
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv2_1"
+  type: "Convolution"
+  bottom: "pool1"
+  top: "conv2_1"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 5
+    stride: 1
+  }
+}
+layer {
+  name: "relu2_1"
+  type: "ReLU"
+  bottom: "conv2_1"
+  top: "conv2_1"
+}
+layer {
+  name: "conv2_2"
+  type: "Convolution"
+  bottom: "conv2_1"
+  top: "conv2_2"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 32
+    pad: 0
+    kernel_size: 5
+    stride: 1
+  }
+}
+layer {
+  name: "relu2_2"
+  type: "ReLU"
+  bottom: "conv2_2"
+  top: "conv2_2"
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2_2"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv3_1_left"
+  type: "Convolution"
+  bottom: "pool2"
+  top: "conv3_1_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 32
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu3_1_left"
+  type: "ReLU"
+  bottom: "conv3_1_left"
+  top: "conv3_1_left"
+}
+layer {
+  name: "conv3_2_left"
+  type: "Convolution"
+  bottom: "conv3_1_left"
+  top: "conv3_2_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu3_2_left"
+  type: "ReLU"
+  bottom: "conv3_2_left"
+  top: "conv3_2_left"
+}
+layer {
+  name: "pool3_left"
+  type: "Pooling"
+  bottom: "conv3_2_left"
+  top: "pool3_left"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv4_1_left"
+  type: "Convolution"
+  bottom: "pool3_left"
+  top: "conv4_1_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu4_1_left"
+  type: "ReLU"
+  bottom: "conv4_1_left"
+  top: "conv4_1_left"
+}
+layer {
+  name: "conv4_2_left"
+  type: "Convolution"
+  bottom: "conv4_1_left"
+  top: "conv4_2_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu4_2_left"
+  type: "ReLU"
+  bottom: "conv4_2_left"
+  top: "conv4_2_left"
+}
+layer {
+  name: "conv4_3_left"
+  type: "Convolution"
+  bottom: "conv4_2_left"
+  top: "conv4_3_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu4_3_left"
+  type: "ReLU"
+  bottom: "conv4_3_left"
+  top: "conv4_3_left"
+}
+layer {
+  name: "conv3_1_right"
+  type: "Convolution"
+  bottom: "pool2"
+  top: "conv3_1_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 32
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu3_1_right"
+  type: "ReLU"
+  bottom: "conv3_1_right"
+  top: "conv3_1_right"
+}
+layer {
+  name: "conv3_2_right"
+  type: "Convolution"
+  bottom: "conv3_1_right"
+  top: "conv3_2_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu3_2_right"
+  type: "ReLU"
+  bottom: "conv3_2_right"
+  top: "conv3_2_right"
+}
+layer {
+  name: "pool3_right"
+  type: "Pooling"
+  bottom: "conv3_2_right"
+  top: "pool3_right"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv4_1_right"
+  type: "Convolution"
+  bottom: "pool3_right"
+  top: "conv4_1_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu4_1_right"
+  type: "ReLU"
+  bottom: "conv4_1_right"
+  top: "conv4_1_right"
+}
+layer {
+  name: "conv4_2_right"
+  type: "Convolution"
+  bottom: "conv4_1_right"
+  top: "conv4_2_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu4_2_right"
+  type: "ReLU"
+  bottom: "conv4_2_right"
+  top: "conv4_2_right"
+}
+layer {
+  name: "conv4_3_right"
+  type: "Convolution"
+  bottom: "conv4_2_right"
+  top: "conv4_3_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu4_3_right"
+  type: "ReLU"
+  bottom: "conv4_3_right"
+  top: "conv4_3_right"
+}
+layer {
+  name: "fc1_left"
+  type: "InnerProduct"
+  bottom: "conv4_3_left"
+  top: "fc1_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 256
+  }
+}
+layer {
+  name: "drop1_left"
+  type: "Dropout"
+  bottom: "fc1_left"
+  top: "fc1_left"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc2_left"
+  type: "InnerProduct"
+  bottom: "fc1_left"
+  top: "fc2_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+  }
+}
+layer {
+  name: "loss_left_coordinate"
+  type: "EuclideanLoss"
+  bottom: "fc2_left"
+  bottom: "left_eye"
+  top: "loss_left_coordinate"
+}
+layer {
+  name: "fc1_left_confidence"
+  type: "InnerProduct"
+  bottom: "conv4_3_left"
+  top: "fc1_left_confidence"
+  param {
+    lr_mult: 0.05
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0.2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 256
+  }
+}
+layer {
+  name: "relu_left1_confidence"
+  type: "ReLU"
+  bottom: "fc1_left_confidence"
+  top: "fc1_left_confidence"
+}
+layer {
+  name: "drop1_left_confidence"
+  type: "Dropout"
+  bottom: "fc1_left_confidence"
+  top: "fc1_left_confidence"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc2_left_confidence"
+  type: "InnerProduct"
+  bottom: "fc1_left_confidence"
+  top: "fc2_left_confidence"
+  param {
+    lr_mult: 0.05
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0.2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 1
+  }
+}
+layer {
+  name: "loss_left_confidence"
+  type: "EuclideanLoss"
+  bottom: "fc2_left_confidence"
+  bottom: "visibility_left"
+  top: "loss_left_confidence"
+}
+layer {
+  name: "fc1_right"
+  type: "InnerProduct"
+  bottom: "conv4_3_right"
+  top: "fc1_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 256
+  }
+}
+layer {
+  name: "drop1_right"
+  type: "Dropout"
+  bottom: "fc1_right"
+  top: "fc1_right"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc2_right"
+  type: "InnerProduct"
+  bottom: "fc1_right"
+  top: "fc2_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+  }
+}
+layer {
+  name: "loss_right_coordinate"
+  type: "EuclideanLoss"
+  bottom: "fc2_right"
+  bottom: "right_eye"
+  top: "loss_right_coordinate"
+}
+layer {
+  name: "fc1_right_confidence"
+  type: "InnerProduct"
+  bottom: "conv4_3_right"
+  top: "fc1_right_confidence"
+  param {
+    lr_mult: 0.05
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0.2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 256
+  }
+}
+layer {
+  name: "relu_right1_confidence"
+  type: "ReLU"
+  bottom: "fc1_right_confidence"
+  top: "fc1_right_confidence"
+}
+layer {
+  name: "drop1_right_confidence"
+  type: "Dropout"
+  bottom: "fc1_right_confidence"
+  top: "fc1_right_confidence"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc2_right_confidence"
+  type: "InnerProduct"
+  bottom: "fc1_right_confidence"
+  top: "fc2_right_confidence"
+  param {
+    lr_mult: 0.05
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0.2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 1
+  }
+}
+layer {
+  name: "loss_right_confidence"
+  type: "EuclideanLoss"
+  bottom: "fc2_right_confidence"
+  bottom: "visibility_right"
+  top: "loss_right_confidence"
+}
+I1029 18:16:05.766772 17085 layer_factory.hpp:77] Creating layer data
+I1029 18:16:05.766783 17085 net.cpp:91] Creating Layer data
+I1029 18:16:05.766788 17085 net.cpp:399] data -> data
+I1029 18:16:05.766806 17085 net.cpp:399] data -> left_eye
+I1029 18:16:05.766813 17085 net.cpp:399] data -> visibility_left
+I1029 18:16:05.766818 17085 net.cpp:399] data -> right_eye
+I1029 18:16:05.766821 17085 net.cpp:399] data -> visibility_right
+I1029 18:16:05.766829 17085 hdf5_data_layer.cpp:79] Loading list of HDF5 filenames from: /home/wzleong/Downloads/nottingham_only_visible/train_scaled_mean_subtracted_own_data_1_multiple_label_data_list.txt
+I1029 18:16:05.766849 17085 hdf5_data_layer.cpp:93] Number of HDF5 files: 2
+I1029 18:16:05.767604 17085 hdf5.cpp:32] Datatype class: H5T_FLOAT
+I1029 18:16:06.186837 17085 net.cpp:141] Setting up data
+I1029 18:16:06.186861 17085 net.cpp:148] Top shape: 128 1 200 200 (5120000)
+I1029 18:16:06.186866 17085 net.cpp:148] Top shape: 128 2 (256)
+I1029 18:16:06.186868 17085 net.cpp:148] Top shape: 128 1 (128)
+I1029 18:16:06.186872 17085 net.cpp:148] Top shape: 128 2 (256)
+I1029 18:16:06.186875 17085 net.cpp:148] Top shape: 128 1 (128)
+I1029 18:16:06.186877 17085 net.cpp:156] Memory required for data: 20483072
+I1029 18:16:06.186883 17085 layer_factory.hpp:77] Creating layer conv1
+I1029 18:16:06.186898 17085 net.cpp:91] Creating Layer conv1
+I1029 18:16:06.186904 17085 net.cpp:425] conv1 <- data
+I1029 18:16:06.186913 17085 net.cpp:399] conv1 -> conv1
+I1029 18:16:06.187510 17085 net.cpp:141] Setting up conv1
+I1029 18:16:06.187520 17085 net.cpp:148] Top shape: 128 16 94 94 (18096128)
+I1029 18:16:06.187523 17085 net.cpp:156] Memory required for data: 92867584
+I1029 18:16:06.187539 17085 layer_factory.hpp:77] Creating layer relu1
+I1029 18:16:06.187544 17085 net.cpp:91] Creating Layer relu1
+I1029 18:16:06.187547 17085 net.cpp:425] relu1 <- conv1
+I1029 18:16:06.187552 17085 net.cpp:386] relu1 -> conv1 (in-place)
+I1029 18:16:06.187558 17085 net.cpp:141] Setting up relu1
+I1029 18:16:06.187561 17085 net.cpp:148] Top shape: 128 16 94 94 (18096128)
+I1029 18:16:06.187563 17085 net.cpp:156] Memory required for data: 165252096
+I1029 18:16:06.187566 17085 layer_factory.hpp:77] Creating layer pool1
+I1029 18:16:06.187583 17085 net.cpp:91] Creating Layer pool1
+I1029 18:16:06.187587 17085 net.cpp:425] pool1 <- conv1
+I1029 18:16:06.187590 17085 net.cpp:399] pool1 -> pool1
+I1029 18:16:06.187629 17085 net.cpp:141] Setting up pool1
+I1029 18:16:06.187635 17085 net.cpp:148] Top shape: 128 16 47 47 (4524032)
+I1029 18:16:06.187638 17085 net.cpp:156] Memory required for data: 183348224
+I1029 18:16:06.187639 17085 layer_factory.hpp:77] Creating layer conv2_1
+I1029 18:16:06.187646 17085 net.cpp:91] Creating Layer conv2_1
+I1029 18:16:06.187649 17085 net.cpp:425] conv2_1 <- pool1
+I1029 18:16:06.187652 17085 net.cpp:399] conv2_1 -> conv2_1
+I1029 18:16:06.187825 17085 net.cpp:141] Setting up conv2_1
+I1029 18:16:06.187832 17085 net.cpp:148] Top shape: 128 16 43 43 (3786752)
+I1029 18:16:06.187834 17085 net.cpp:156] Memory required for data: 198495232
+I1029 18:16:06.187840 17085 layer_factory.hpp:77] Creating layer relu2_1
+I1029 18:16:06.187844 17085 net.cpp:91] Creating Layer relu2_1
+I1029 18:16:06.187847 17085 net.cpp:425] relu2_1 <- conv2_1
+I1029 18:16:06.187850 17085 net.cpp:386] relu2_1 -> conv2_1 (in-place)
+I1029 18:16:06.187855 17085 net.cpp:141] Setting up relu2_1
+I1029 18:16:06.187857 17085 net.cpp:148] Top shape: 128 16 43 43 (3786752)
+I1029 18:16:06.187860 17085 net.cpp:156] Memory required for data: 213642240
+I1029 18:16:06.187862 17085 layer_factory.hpp:77] Creating layer conv2_2
+I1029 18:16:06.187867 17085 net.cpp:91] Creating Layer conv2_2
+I1029 18:16:06.187870 17085 net.cpp:425] conv2_2 <- conv2_1
+I1029 18:16:06.187875 17085 net.cpp:399] conv2_2 -> conv2_2
+I1029 18:16:06.188051 17085 net.cpp:141] Setting up conv2_2
+I1029 18:16:06.188057 17085 net.cpp:148] Top shape: 128 32 39 39 (6230016)
+I1029 18:16:06.188060 17085 net.cpp:156] Memory required for data: 238562304
+I1029 18:16:06.188066 17085 layer_factory.hpp:77] Creating layer relu2_2
+I1029 18:16:06.188069 17085 net.cpp:91] Creating Layer relu2_2
+I1029 18:16:06.188071 17085 net.cpp:425] relu2_2 <- conv2_2
+I1029 18:16:06.188076 17085 net.cpp:386] relu2_2 -> conv2_2 (in-place)
+I1029 18:16:06.188079 17085 net.cpp:141] Setting up relu2_2
+I1029 18:16:06.188083 17085 net.cpp:148] Top shape: 128 32 39 39 (6230016)
+I1029 18:16:06.188086 17085 net.cpp:156] Memory required for data: 263482368
+I1029 18:16:06.188087 17085 layer_factory.hpp:77] Creating layer pool2
+I1029 18:16:06.188091 17085 net.cpp:91] Creating Layer pool2
+I1029 18:16:06.188093 17085 net.cpp:425] pool2 <- conv2_2
+I1029 18:16:06.188097 17085 net.cpp:399] pool2 -> pool2
+I1029 18:16:06.188123 17085 net.cpp:141] Setting up pool2
+I1029 18:16:06.188129 17085 net.cpp:148] Top shape: 128 32 20 20 (1638400)
+I1029 18:16:06.188132 17085 net.cpp:156] Memory required for data: 270035968
+I1029 18:16:06.188133 17085 layer_factory.hpp:77] Creating layer pool2_pool2_0_split
+I1029 18:16:06.188138 17085 net.cpp:91] Creating Layer pool2_pool2_0_split
+I1029 18:16:06.188140 17085 net.cpp:425] pool2_pool2_0_split <- pool2
+I1029 18:16:06.188143 17085 net.cpp:399] pool2_pool2_0_split -> pool2_pool2_0_split_0
+I1029 18:16:06.188148 17085 net.cpp:399] pool2_pool2_0_split -> pool2_pool2_0_split_1
+I1029 18:16:06.188172 17085 net.cpp:141] Setting up pool2_pool2_0_split
+I1029 18:16:06.188179 17085 net.cpp:148] Top shape: 128 32 20 20 (1638400)
+I1029 18:16:06.188181 17085 net.cpp:148] Top shape: 128 32 20 20 (1638400)
+I1029 18:16:06.188184 17085 net.cpp:156] Memory required for data: 283143168
+I1029 18:16:06.188185 17085 layer_factory.hpp:77] Creating layer conv3_1_left
+I1029 18:16:06.188191 17085 net.cpp:91] Creating Layer conv3_1_left
+I1029 18:16:06.188195 17085 net.cpp:425] conv3_1_left <- pool2_pool2_0_split_0
+I1029 18:16:06.188199 17085 net.cpp:399] conv3_1_left -> conv3_1_left
+I1029 18:16:06.188725 17085 net.cpp:141] Setting up conv3_1_left
+I1029 18:16:06.188735 17085 net.cpp:148] Top shape: 128 32 18 18 (1327104)
+I1029 18:16:06.188737 17085 net.cpp:156] Memory required for data: 288451584
+I1029 18:16:06.188742 17085 layer_factory.hpp:77] Creating layer relu3_1_left
+I1029 18:16:06.188747 17085 net.cpp:91] Creating Layer relu3_1_left
+I1029 18:16:06.188758 17085 net.cpp:425] relu3_1_left <- conv3_1_left
+I1029 18:16:06.188762 17085 net.cpp:386] relu3_1_left -> conv3_1_left (in-place)
+I1029 18:16:06.188767 17085 net.cpp:141] Setting up relu3_1_left
+I1029 18:16:06.188771 17085 net.cpp:148] Top shape: 128 32 18 18 (1327104)
+I1029 18:16:06.188773 17085 net.cpp:156] Memory required for data: 293760000
+I1029 18:16:06.188776 17085 layer_factory.hpp:77] Creating layer conv3_2_left
+I1029 18:16:06.188781 17085 net.cpp:91] Creating Layer conv3_2_left
+I1029 18:16:06.188783 17085 net.cpp:425] conv3_2_left <- conv3_1_left
+I1029 18:16:06.188791 17085 net.cpp:399] conv3_2_left -> conv3_2_left
+I1029 18:16:06.189339 17085 net.cpp:141] Setting up conv3_2_left
+I1029 18:16:06.189348 17085 net.cpp:148] Top shape: 128 64 16 16 (2097152)
+I1029 18:16:06.189350 17085 net.cpp:156] Memory required for data: 302148608
+I1029 18:16:06.189358 17085 layer_factory.hpp:77] Creating layer relu3_2_left
+I1029 18:16:06.189363 17085 net.cpp:91] Creating Layer relu3_2_left
+I1029 18:16:06.189365 17085 net.cpp:425] relu3_2_left <- conv3_2_left
+I1029 18:16:06.189369 17085 net.cpp:386] relu3_2_left -> conv3_2_left (in-place)
+I1029 18:16:06.189375 17085 net.cpp:141] Setting up relu3_2_left
+I1029 18:16:06.189378 17085 net.cpp:148] Top shape: 128 64 16 16 (2097152)
+I1029 18:16:06.189380 17085 net.cpp:156] Memory required for data: 310537216
+I1029 18:16:06.189383 17085 layer_factory.hpp:77] Creating layer pool3_left
+I1029 18:16:06.189386 17085 net.cpp:91] Creating Layer pool3_left
+I1029 18:16:06.189390 17085 net.cpp:425] pool3_left <- conv3_2_left
+I1029 18:16:06.189394 17085 net.cpp:399] pool3_left -> pool3_left
+I1029 18:16:06.189417 17085 net.cpp:141] Setting up pool3_left
+I1029 18:16:06.189424 17085 net.cpp:148] Top shape: 128 64 8 8 (524288)
+I1029 18:16:06.189425 17085 net.cpp:156] Memory required for data: 312634368
+I1029 18:16:06.189429 17085 layer_factory.hpp:77] Creating layer conv4_1_left
+I1029 18:16:06.189434 17085 net.cpp:91] Creating Layer conv4_1_left
+I1029 18:16:06.189436 17085 net.cpp:425] conv4_1_left <- pool3_left
+I1029 18:16:06.189440 17085 net.cpp:399] conv4_1_left -> conv4_1_left
+I1029 18:16:06.189635 17085 net.cpp:141] Setting up conv4_1_left
+I1029 18:16:06.189641 17085 net.cpp:148] Top shape: 128 64 6 6 (294912)
+I1029 18:16:06.189643 17085 net.cpp:156] Memory required for data: 313814016
+I1029 18:16:06.189649 17085 layer_factory.hpp:77] Creating layer relu4_1_left
+I1029 18:16:06.189654 17085 net.cpp:91] Creating Layer relu4_1_left
+I1029 18:16:06.189656 17085 net.cpp:425] relu4_1_left <- conv4_1_left
+I1029 18:16:06.189661 17085 net.cpp:386] relu4_1_left -> conv4_1_left (in-place)
+I1029 18:16:06.189666 17085 net.cpp:141] Setting up relu4_1_left
+I1029 18:16:06.189668 17085 net.cpp:148] Top shape: 128 64 6 6 (294912)
+I1029 18:16:06.189671 17085 net.cpp:156] Memory required for data: 314993664
+I1029 18:16:06.189672 17085 layer_factory.hpp:77] Creating layer conv4_2_left
+I1029 18:16:06.189677 17085 net.cpp:91] Creating Layer conv4_2_left
+I1029 18:16:06.189679 17085 net.cpp:425] conv4_2_left <- conv4_1_left
+I1029 18:16:06.189683 17085 net.cpp:399] conv4_2_left -> conv4_2_left
+I1029 18:16:06.189872 17085 net.cpp:141] Setting up conv4_2_left
+I1029 18:16:06.189877 17085 net.cpp:148] Top shape: 128 64 4 4 (131072)
+I1029 18:16:06.189880 17085 net.cpp:156] Memory required for data: 315517952
+I1029 18:16:06.189884 17085 layer_factory.hpp:77] Creating layer relu4_2_left
+I1029 18:16:06.189888 17085 net.cpp:91] Creating Layer relu4_2_left
+I1029 18:16:06.189890 17085 net.cpp:425] relu4_2_left <- conv4_2_left
+I1029 18:16:06.189894 17085 net.cpp:386] relu4_2_left -> conv4_2_left (in-place)
+I1029 18:16:06.189898 17085 net.cpp:141] Setting up relu4_2_left
+I1029 18:16:06.189901 17085 net.cpp:148] Top shape: 128 64 4 4 (131072)
+I1029 18:16:06.189903 17085 net.cpp:156] Memory required for data: 316042240
+I1029 18:16:06.189906 17085 layer_factory.hpp:77] Creating layer conv4_3_left
+I1029 18:16:06.189910 17085 net.cpp:91] Creating Layer conv4_3_left
+I1029 18:16:06.189924 17085 net.cpp:425] conv4_3_left <- conv4_2_left
+I1029 18:16:06.189929 17085 net.cpp:399] conv4_3_left -> conv4_3_left
+I1029 18:16:06.190515 17085 net.cpp:141] Setting up conv4_3_left
+I1029 18:16:06.190523 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.190526 17085 net.cpp:156] Memory required for data: 316304384
+I1029 18:16:06.190531 17085 layer_factory.hpp:77] Creating layer relu4_3_left
+I1029 18:16:06.190536 17085 net.cpp:91] Creating Layer relu4_3_left
+I1029 18:16:06.190538 17085 net.cpp:425] relu4_3_left <- conv4_3_left
+I1029 18:16:06.190541 17085 net.cpp:386] relu4_3_left -> conv4_3_left (in-place)
+I1029 18:16:06.190546 17085 net.cpp:141] Setting up relu4_3_left
+I1029 18:16:06.190551 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.190552 17085 net.cpp:156] Memory required for data: 316566528
+I1029 18:16:06.190554 17085 layer_factory.hpp:77] Creating layer conv4_3_left_relu4_3_left_0_split
+I1029 18:16:06.190557 17085 net.cpp:91] Creating Layer conv4_3_left_relu4_3_left_0_split
+I1029 18:16:06.190560 17085 net.cpp:425] conv4_3_left_relu4_3_left_0_split <- conv4_3_left
+I1029 18:16:06.190563 17085 net.cpp:399] conv4_3_left_relu4_3_left_0_split -> conv4_3_left_relu4_3_left_0_split_0
+I1029 18:16:06.190568 17085 net.cpp:399] conv4_3_left_relu4_3_left_0_split -> conv4_3_left_relu4_3_left_0_split_1
+I1029 18:16:06.190595 17085 net.cpp:141] Setting up conv4_3_left_relu4_3_left_0_split
+I1029 18:16:06.190601 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.190604 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.190606 17085 net.cpp:156] Memory required for data: 317090816
+I1029 18:16:06.190608 17085 layer_factory.hpp:77] Creating layer conv3_1_right
+I1029 18:16:06.190614 17085 net.cpp:91] Creating Layer conv3_1_right
+I1029 18:16:06.190618 17085 net.cpp:425] conv3_1_right <- pool2_pool2_0_split_1
+I1029 18:16:06.190621 17085 net.cpp:399] conv3_1_right -> conv3_1_right
+I1029 18:16:06.190798 17085 net.cpp:141] Setting up conv3_1_right
+I1029 18:16:06.190804 17085 net.cpp:148] Top shape: 128 32 18 18 (1327104)
+I1029 18:16:06.190806 17085 net.cpp:156] Memory required for data: 322399232
+I1029 18:16:06.190814 17085 layer_factory.hpp:77] Creating layer relu3_1_right
+I1029 18:16:06.190817 17085 net.cpp:91] Creating Layer relu3_1_right
+I1029 18:16:06.190820 17085 net.cpp:425] relu3_1_right <- conv3_1_right
+I1029 18:16:06.190824 17085 net.cpp:386] relu3_1_right -> conv3_1_right (in-place)
+I1029 18:16:06.190827 17085 net.cpp:141] Setting up relu3_1_right
+I1029 18:16:06.190830 17085 net.cpp:148] Top shape: 128 32 18 18 (1327104)
+I1029 18:16:06.190834 17085 net.cpp:156] Memory required for data: 327707648
+I1029 18:16:06.190835 17085 layer_factory.hpp:77] Creating layer conv3_2_right
+I1029 18:16:06.190840 17085 net.cpp:91] Creating Layer conv3_2_right
+I1029 18:16:06.190842 17085 net.cpp:425] conv3_2_right <- conv3_1_right
+I1029 18:16:06.190846 17085 net.cpp:399] conv3_2_right -> conv3_2_right
+I1029 18:16:06.191020 17085 net.cpp:141] Setting up conv3_2_right
+I1029 18:16:06.191025 17085 net.cpp:148] Top shape: 128 64 16 16 (2097152)
+I1029 18:16:06.191027 17085 net.cpp:156] Memory required for data: 336096256
+I1029 18:16:06.191032 17085 layer_factory.hpp:77] Creating layer relu3_2_right
+I1029 18:16:06.191035 17085 net.cpp:91] Creating Layer relu3_2_right
+I1029 18:16:06.191038 17085 net.cpp:425] relu3_2_right <- conv3_2_right
+I1029 18:16:06.191041 17085 net.cpp:386] relu3_2_right -> conv3_2_right (in-place)
+I1029 18:16:06.191045 17085 net.cpp:141] Setting up relu3_2_right
+I1029 18:16:06.191048 17085 net.cpp:148] Top shape: 128 64 16 16 (2097152)
+I1029 18:16:06.191051 17085 net.cpp:156] Memory required for data: 344484864
+I1029 18:16:06.191053 17085 layer_factory.hpp:77] Creating layer pool3_right
+I1029 18:16:06.191057 17085 net.cpp:91] Creating Layer pool3_right
+I1029 18:16:06.191059 17085 net.cpp:425] pool3_right <- conv3_2_right
+I1029 18:16:06.191062 17085 net.cpp:399] pool3_right -> pool3_right
+I1029 18:16:06.191085 17085 net.cpp:141] Setting up pool3_right
+I1029 18:16:06.191099 17085 net.cpp:148] Top shape: 128 64 8 8 (524288)
+I1029 18:16:06.191102 17085 net.cpp:156] Memory required for data: 346582016
+I1029 18:16:06.191103 17085 layer_factory.hpp:77] Creating layer conv4_1_right
+I1029 18:16:06.191108 17085 net.cpp:91] Creating Layer conv4_1_right
+I1029 18:16:06.191112 17085 net.cpp:425] conv4_1_right <- pool3_right
+I1029 18:16:06.191117 17085 net.cpp:399] conv4_1_right -> conv4_1_right
+I1029 18:16:06.191304 17085 net.cpp:141] Setting up conv4_1_right
+I1029 18:16:06.191310 17085 net.cpp:148] Top shape: 128 64 6 6 (294912)
+I1029 18:16:06.191313 17085 net.cpp:156] Memory required for data: 347761664
+I1029 18:16:06.191318 17085 layer_factory.hpp:77] Creating layer relu4_1_right
+I1029 18:16:06.191320 17085 net.cpp:91] Creating Layer relu4_1_right
+I1029 18:16:06.191323 17085 net.cpp:425] relu4_1_right <- conv4_1_right
+I1029 18:16:06.191328 17085 net.cpp:386] relu4_1_right -> conv4_1_right (in-place)
+I1029 18:16:06.191331 17085 net.cpp:141] Setting up relu4_1_right
+I1029 18:16:06.191334 17085 net.cpp:148] Top shape: 128 64 6 6 (294912)
+I1029 18:16:06.191336 17085 net.cpp:156] Memory required for data: 348941312
+I1029 18:16:06.191339 17085 layer_factory.hpp:77] Creating layer conv4_2_right
+I1029 18:16:06.191344 17085 net.cpp:91] Creating Layer conv4_2_right
+I1029 18:16:06.191347 17085 net.cpp:425] conv4_2_right <- conv4_1_right
+I1029 18:16:06.191350 17085 net.cpp:399] conv4_2_right -> conv4_2_right
+I1029 18:16:06.191539 17085 net.cpp:141] Setting up conv4_2_right
+I1029 18:16:06.191543 17085 net.cpp:148] Top shape: 128 64 4 4 (131072)
+I1029 18:16:06.191546 17085 net.cpp:156] Memory required for data: 349465600
+I1029 18:16:06.191550 17085 layer_factory.hpp:77] Creating layer relu4_2_right
+I1029 18:16:06.191555 17085 net.cpp:91] Creating Layer relu4_2_right
+I1029 18:16:06.191556 17085 net.cpp:425] relu4_2_right <- conv4_2_right
+I1029 18:16:06.191560 17085 net.cpp:386] relu4_2_right -> conv4_2_right (in-place)
+I1029 18:16:06.191565 17085 net.cpp:141] Setting up relu4_2_right
+I1029 18:16:06.191568 17085 net.cpp:148] Top shape: 128 64 4 4 (131072)
+I1029 18:16:06.191570 17085 net.cpp:156] Memory required for data: 349989888
+I1029 18:16:06.191572 17085 layer_factory.hpp:77] Creating layer conv4_3_right
+I1029 18:16:06.191577 17085 net.cpp:91] Creating Layer conv4_3_right
+I1029 18:16:06.191581 17085 net.cpp:425] conv4_3_right <- conv4_2_right
+I1029 18:16:06.191586 17085 net.cpp:399] conv4_3_right -> conv4_3_right
+I1029 18:16:06.191792 17085 net.cpp:141] Setting up conv4_3_right
+I1029 18:16:06.191797 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.191799 17085 net.cpp:156] Memory required for data: 350252032
+I1029 18:16:06.191803 17085 layer_factory.hpp:77] Creating layer relu4_3_right
+I1029 18:16:06.191812 17085 net.cpp:91] Creating Layer relu4_3_right
+I1029 18:16:06.191814 17085 net.cpp:425] relu4_3_right <- conv4_3_right
+I1029 18:16:06.191818 17085 net.cpp:386] relu4_3_right -> conv4_3_right (in-place)
+I1029 18:16:06.191823 17085 net.cpp:141] Setting up relu4_3_right
+I1029 18:16:06.191828 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.191830 17085 net.cpp:156] Memory required for data: 350514176
+I1029 18:16:06.191833 17085 layer_factory.hpp:77] Creating layer conv4_3_right_relu4_3_right_0_split
+I1029 18:16:06.191838 17085 net.cpp:91] Creating Layer conv4_3_right_relu4_3_right_0_split
+I1029 18:16:06.191841 17085 net.cpp:425] conv4_3_right_relu4_3_right_0_split <- conv4_3_right
+I1029 18:16:06.191845 17085 net.cpp:399] conv4_3_right_relu4_3_right_0_split -> conv4_3_right_relu4_3_right_0_split_0
+I1029 18:16:06.191851 17085 net.cpp:399] conv4_3_right_relu4_3_right_0_split -> conv4_3_right_relu4_3_right_0_split_1
+I1029 18:16:06.191879 17085 net.cpp:141] Setting up conv4_3_right_relu4_3_right_0_split
+I1029 18:16:06.191884 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.191886 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.191889 17085 net.cpp:156] Memory required for data: 351038464
+I1029 18:16:06.191891 17085 layer_factory.hpp:77] Creating layer fc1_left
+I1029 18:16:06.191906 17085 net.cpp:91] Creating Layer fc1_left
+I1029 18:16:06.191910 17085 net.cpp:425] fc1_left <- conv4_3_left_relu4_3_left_0_split_0
+I1029 18:16:06.191913 17085 net.cpp:399] fc1_left -> fc1_left
+I1029 18:16:06.192446 17085 net.cpp:141] Setting up fc1_left
+I1029 18:16:06.192456 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.192457 17085 net.cpp:156] Memory required for data: 351169536
+I1029 18:16:06.192462 17085 layer_factory.hpp:77] Creating layer drop1_left
+I1029 18:16:06.192467 17085 net.cpp:91] Creating Layer drop1_left
+I1029 18:16:06.192471 17085 net.cpp:425] drop1_left <- fc1_left
+I1029 18:16:06.192474 17085 net.cpp:386] drop1_left -> fc1_left (in-place)
+I1029 18:16:06.192492 17085 net.cpp:141] Setting up drop1_left
+I1029 18:16:06.192497 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.192499 17085 net.cpp:156] Memory required for data: 351300608
+I1029 18:16:06.192502 17085 layer_factory.hpp:77] Creating layer fc2_left
+I1029 18:16:06.192505 17085 net.cpp:91] Creating Layer fc2_left
+I1029 18:16:06.192508 17085 net.cpp:425] fc2_left <- fc1_left
+I1029 18:16:06.192512 17085 net.cpp:399] fc2_left -> fc2_left
+I1029 18:16:06.192589 17085 net.cpp:141] Setting up fc2_left
+I1029 18:16:06.192594 17085 net.cpp:148] Top shape: 128 2 (256)
+I1029 18:16:06.192596 17085 net.cpp:156] Memory required for data: 351301632
+I1029 18:16:06.192600 17085 layer_factory.hpp:77] Creating layer loss_left_coordinate
+I1029 18:16:06.192605 17085 net.cpp:91] Creating Layer loss_left_coordinate
+I1029 18:16:06.192606 17085 net.cpp:425] loss_left_coordinate <- fc2_left
+I1029 18:16:06.192610 17085 net.cpp:425] loss_left_coordinate <- left_eye
+I1029 18:16:06.192615 17085 net.cpp:399] loss_left_coordinate -> loss_left_coordinate
+I1029 18:16:06.192641 17085 net.cpp:141] Setting up loss_left_coordinate
+I1029 18:16:06.192646 17085 net.cpp:148] Top shape: (1)
+I1029 18:16:06.192648 17085 net.cpp:151]     with loss weight 1
+I1029 18:16:06.192662 17085 net.cpp:156] Memory required for data: 351301636
+I1029 18:16:06.192664 17085 layer_factory.hpp:77] Creating layer fc1_left_confidence
+I1029 18:16:06.192672 17085 net.cpp:91] Creating Layer fc1_left_confidence
+I1029 18:16:06.192675 17085 net.cpp:425] fc1_left_confidence <- conv4_3_left_relu4_3_left_0_split_1
+I1029 18:16:06.192680 17085 net.cpp:399] fc1_left_confidence -> fc1_left_confidence
+I1029 18:16:06.192826 17085 net.cpp:141] Setting up fc1_left_confidence
+I1029 18:16:06.192831 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.192834 17085 net.cpp:156] Memory required for data: 351432708
+I1029 18:16:06.192838 17085 layer_factory.hpp:77] Creating layer relu_left1_confidence
+I1029 18:16:06.192842 17085 net.cpp:91] Creating Layer relu_left1_confidence
+I1029 18:16:06.192844 17085 net.cpp:425] relu_left1_confidence <- fc1_left_confidence
+I1029 18:16:06.192849 17085 net.cpp:386] relu_left1_confidence -> fc1_left_confidence (in-place)
+I1029 18:16:06.192854 17085 net.cpp:141] Setting up relu_left1_confidence
+I1029 18:16:06.192857 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.192859 17085 net.cpp:156] Memory required for data: 351563780
+I1029 18:16:06.192862 17085 layer_factory.hpp:77] Creating layer drop1_left_confidence
+I1029 18:16:06.192865 17085 net.cpp:91] Creating Layer drop1_left_confidence
+I1029 18:16:06.192868 17085 net.cpp:425] drop1_left_confidence <- fc1_left_confidence
+I1029 18:16:06.192873 17085 net.cpp:386] drop1_left_confidence -> fc1_left_confidence (in-place)
+I1029 18:16:06.192888 17085 net.cpp:141] Setting up drop1_left_confidence
+I1029 18:16:06.192891 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.192893 17085 net.cpp:156] Memory required for data: 351694852
+I1029 18:16:06.192895 17085 layer_factory.hpp:77] Creating layer fc2_left_confidence
+I1029 18:16:06.192900 17085 net.cpp:91] Creating Layer fc2_left_confidence
+I1029 18:16:06.192903 17085 net.cpp:425] fc2_left_confidence <- fc1_left_confidence
+I1029 18:16:06.192908 17085 net.cpp:399] fc2_left_confidence -> fc2_left_confidence
+I1029 18:16:06.192988 17085 net.cpp:141] Setting up fc2_left_confidence
+I1029 18:16:06.192996 17085 net.cpp:148] Top shape: 128 1 (128)
+I1029 18:16:06.192997 17085 net.cpp:156] Memory required for data: 351695364
+I1029 18:16:06.193006 17085 layer_factory.hpp:77] Creating layer loss_left_confidence
+I1029 18:16:06.193009 17085 net.cpp:91] Creating Layer loss_left_confidence
+I1029 18:16:06.193012 17085 net.cpp:425] loss_left_confidence <- fc2_left_confidence
+I1029 18:16:06.193017 17085 net.cpp:425] loss_left_confidence <- visibility_left
+I1029 18:16:06.193022 17085 net.cpp:399] loss_left_confidence -> loss_left_confidence
+I1029 18:16:06.193047 17085 net.cpp:141] Setting up loss_left_confidence
+I1029 18:16:06.193051 17085 net.cpp:148] Top shape: (1)
+I1029 18:16:06.193053 17085 net.cpp:151]     with loss weight 1
+I1029 18:16:06.193059 17085 net.cpp:156] Memory required for data: 351695368
+I1029 18:16:06.193061 17085 layer_factory.hpp:77] Creating layer fc1_right
+I1029 18:16:06.193068 17085 net.cpp:91] Creating Layer fc1_right
+I1029 18:16:06.193070 17085 net.cpp:425] fc1_right <- conv4_3_right_relu4_3_right_0_split_0
+I1029 18:16:06.193074 17085 net.cpp:399] fc1_right -> fc1_right
+I1029 18:16:06.193593 17085 net.cpp:141] Setting up fc1_right
+I1029 18:16:06.193603 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.193606 17085 net.cpp:156] Memory required for data: 351826440
+I1029 18:16:06.193611 17085 layer_factory.hpp:77] Creating layer drop1_right
+I1029 18:16:06.193616 17085 net.cpp:91] Creating Layer drop1_right
+I1029 18:16:06.193620 17085 net.cpp:425] drop1_right <- fc1_right
+I1029 18:16:06.193629 17085 net.cpp:386] drop1_right -> fc1_right (in-place)
+I1029 18:16:06.193645 17085 net.cpp:141] Setting up drop1_right
+I1029 18:16:06.193647 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.193650 17085 net.cpp:156] Memory required for data: 351957512
+I1029 18:16:06.193652 17085 layer_factory.hpp:77] Creating layer fc2_right
+I1029 18:16:06.193657 17085 net.cpp:91] Creating Layer fc2_right
+I1029 18:16:06.193661 17085 net.cpp:425] fc2_right <- fc1_right
+I1029 18:16:06.193666 17085 net.cpp:399] fc2_right -> fc2_right
+I1029 18:16:06.193737 17085 net.cpp:141] Setting up fc2_right
+I1029 18:16:06.193742 17085 net.cpp:148] Top shape: 128 2 (256)
+I1029 18:16:06.193744 17085 net.cpp:156] Memory required for data: 351958536
+I1029 18:16:06.193749 17085 layer_factory.hpp:77] Creating layer loss_right_coordinate
+I1029 18:16:06.193754 17085 net.cpp:91] Creating Layer loss_right_coordinate
+I1029 18:16:06.193756 17085 net.cpp:425] loss_right_coordinate <- fc2_right
+I1029 18:16:06.193759 17085 net.cpp:425] loss_right_coordinate <- right_eye
+I1029 18:16:06.193765 17085 net.cpp:399] loss_right_coordinate -> loss_right_coordinate
+I1029 18:16:06.193790 17085 net.cpp:141] Setting up loss_right_coordinate
+I1029 18:16:06.193794 17085 net.cpp:148] Top shape: (1)
+I1029 18:16:06.193796 17085 net.cpp:151]     with loss weight 1
+I1029 18:16:06.193802 17085 net.cpp:156] Memory required for data: 351958540
+I1029 18:16:06.193804 17085 layer_factory.hpp:77] Creating layer fc1_right_confidence
+I1029 18:16:06.193809 17085 net.cpp:91] Creating Layer fc1_right_confidence
+I1029 18:16:06.193810 17085 net.cpp:425] fc1_right_confidence <- conv4_3_right_relu4_3_right_0_split_1
+I1029 18:16:06.193816 17085 net.cpp:399] fc1_right_confidence -> fc1_right_confidence
+I1029 18:16:06.193971 17085 net.cpp:141] Setting up fc1_right_confidence
+I1029 18:16:06.193976 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.193979 17085 net.cpp:156] Memory required for data: 352089612
+I1029 18:16:06.193984 17085 layer_factory.hpp:77] Creating layer relu_right1_confidence
+I1029 18:16:06.193989 17085 net.cpp:91] Creating Layer relu_right1_confidence
+I1029 18:16:06.193991 17085 net.cpp:425] relu_right1_confidence <- fc1_right_confidence
+I1029 18:16:06.193994 17085 net.cpp:386] relu_right1_confidence -> fc1_right_confidence (in-place)
+I1029 18:16:06.194000 17085 net.cpp:141] Setting up relu_right1_confidence
+I1029 18:16:06.194002 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.194013 17085 net.cpp:156] Memory required for data: 352220684
+I1029 18:16:06.194016 17085 layer_factory.hpp:77] Creating layer drop1_right_confidence
+I1029 18:16:06.194022 17085 net.cpp:91] Creating Layer drop1_right_confidence
+I1029 18:16:06.194025 17085 net.cpp:425] drop1_right_confidence <- fc1_right_confidence
+I1029 18:16:06.194028 17085 net.cpp:386] drop1_right_confidence -> fc1_right_confidence (in-place)
+I1029 18:16:06.194041 17085 net.cpp:141] Setting up drop1_right_confidence
+I1029 18:16:06.194046 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.194047 17085 net.cpp:156] Memory required for data: 352351756
+I1029 18:16:06.194049 17085 layer_factory.hpp:77] Creating layer fc2_right_confidence
+I1029 18:16:06.194054 17085 net.cpp:91] Creating Layer fc2_right_confidence
+I1029 18:16:06.194057 17085 net.cpp:425] fc2_right_confidence <- fc1_right_confidence
+I1029 18:16:06.194062 17085 net.cpp:399] fc2_right_confidence -> fc2_right_confidence
+I1029 18:16:06.194128 17085 net.cpp:141] Setting up fc2_right_confidence
+I1029 18:16:06.194133 17085 net.cpp:148] Top shape: 128 1 (128)
+I1029 18:16:06.194135 17085 net.cpp:156] Memory required for data: 352352268
+I1029 18:16:06.194140 17085 layer_factory.hpp:77] Creating layer loss_right_confidence
+I1029 18:16:06.194144 17085 net.cpp:91] Creating Layer loss_right_confidence
+I1029 18:16:06.194145 17085 net.cpp:425] loss_right_confidence <- fc2_right_confidence
+I1029 18:16:06.194149 17085 net.cpp:425] loss_right_confidence <- visibility_right
+I1029 18:16:06.194154 17085 net.cpp:399] loss_right_confidence -> loss_right_confidence
+I1029 18:16:06.194177 17085 net.cpp:141] Setting up loss_right_confidence
+I1029 18:16:06.194183 17085 net.cpp:148] Top shape: (1)
+I1029 18:16:06.194185 17085 net.cpp:151]     with loss weight 1
+I1029 18:16:06.194190 17085 net.cpp:156] Memory required for data: 352352272
+I1029 18:16:06.194191 17085 net.cpp:217] loss_right_confidence needs backward computation.
+I1029 18:16:06.194198 17085 net.cpp:217] fc2_right_confidence needs backward computation.
+I1029 18:16:06.194201 17085 net.cpp:217] drop1_right_confidence needs backward computation.
+I1029 18:16:06.194203 17085 net.cpp:217] relu_right1_confidence needs backward computation.
+I1029 18:16:06.194205 17085 net.cpp:217] fc1_right_confidence needs backward computation.
+I1029 18:16:06.194207 17085 net.cpp:217] loss_right_coordinate needs backward computation.
+I1029 18:16:06.194211 17085 net.cpp:217] fc2_right needs backward computation.
+I1029 18:16:06.194213 17085 net.cpp:217] drop1_right needs backward computation.
+I1029 18:16:06.194216 17085 net.cpp:217] fc1_right needs backward computation.
+I1029 18:16:06.194217 17085 net.cpp:217] loss_left_confidence needs backward computation.
+I1029 18:16:06.194221 17085 net.cpp:217] fc2_left_confidence needs backward computation.
+I1029 18:16:06.194223 17085 net.cpp:217] drop1_left_confidence needs backward computation.
+I1029 18:16:06.194226 17085 net.cpp:217] relu_left1_confidence needs backward computation.
+I1029 18:16:06.194227 17085 net.cpp:217] fc1_left_confidence needs backward computation.
+I1029 18:16:06.194231 17085 net.cpp:217] loss_left_coordinate needs backward computation.
+I1029 18:16:06.194233 17085 net.cpp:217] fc2_left needs backward computation.
+I1029 18:16:06.194236 17085 net.cpp:217] drop1_left needs backward computation.
+I1029 18:16:06.194237 17085 net.cpp:217] fc1_left needs backward computation.
+I1029 18:16:06.194241 17085 net.cpp:217] conv4_3_right_relu4_3_right_0_split needs backward computation.
+I1029 18:16:06.194242 17085 net.cpp:217] relu4_3_right needs backward computation.
+I1029 18:16:06.194244 17085 net.cpp:217] conv4_3_right needs backward computation.
+I1029 18:16:06.194247 17085 net.cpp:217] relu4_2_right needs backward computation.
+I1029 18:16:06.194249 17085 net.cpp:217] conv4_2_right needs backward computation.
+I1029 18:16:06.194252 17085 net.cpp:217] relu4_1_right needs backward computation.
+I1029 18:16:06.194253 17085 net.cpp:217] conv4_1_right needs backward computation.
+I1029 18:16:06.194257 17085 net.cpp:217] pool3_right needs backward computation.
+I1029 18:16:06.194267 17085 net.cpp:217] relu3_2_right needs backward computation.
+I1029 18:16:06.194268 17085 net.cpp:217] conv3_2_right needs backward computation.
+I1029 18:16:06.194272 17085 net.cpp:217] relu3_1_right needs backward computation.
+I1029 18:16:06.194273 17085 net.cpp:217] conv3_1_right needs backward computation.
+I1029 18:16:06.194278 17085 net.cpp:217] conv4_3_left_relu4_3_left_0_split needs backward computation.
+I1029 18:16:06.194280 17085 net.cpp:217] relu4_3_left needs backward computation.
+I1029 18:16:06.194283 17085 net.cpp:217] conv4_3_left needs backward computation.
+I1029 18:16:06.194285 17085 net.cpp:217] relu4_2_left needs backward computation.
+I1029 18:16:06.194288 17085 net.cpp:217] conv4_2_left needs backward computation.
+I1029 18:16:06.194290 17085 net.cpp:217] relu4_1_left needs backward computation.
+I1029 18:16:06.194293 17085 net.cpp:217] conv4_1_left needs backward computation.
+I1029 18:16:06.194295 17085 net.cpp:217] pool3_left needs backward computation.
+I1029 18:16:06.194298 17085 net.cpp:217] relu3_2_left needs backward computation.
+I1029 18:16:06.194300 17085 net.cpp:217] conv3_2_left needs backward computation.
+I1029 18:16:06.194303 17085 net.cpp:217] relu3_1_left needs backward computation.
+I1029 18:16:06.194304 17085 net.cpp:217] conv3_1_left needs backward computation.
+I1029 18:16:06.194308 17085 net.cpp:219] pool2_pool2_0_split does not need backward computation.
+I1029 18:16:06.194311 17085 net.cpp:219] pool2 does not need backward computation.
+I1029 18:16:06.194314 17085 net.cpp:219] relu2_2 does not need backward computation.
+I1029 18:16:06.194316 17085 net.cpp:219] conv2_2 does not need backward computation.
+I1029 18:16:06.194319 17085 net.cpp:219] relu2_1 does not need backward computation.
+I1029 18:16:06.194321 17085 net.cpp:219] conv2_1 does not need backward computation.
+I1029 18:16:06.194324 17085 net.cpp:219] pool1 does not need backward computation.
+I1029 18:16:06.194326 17085 net.cpp:219] relu1 does not need backward computation.
+I1029 18:16:06.194329 17085 net.cpp:219] conv1 does not need backward computation.
+I1029 18:16:06.194332 17085 net.cpp:219] data does not need backward computation.
+I1029 18:16:06.194334 17085 net.cpp:261] This network produces output loss_left_confidence
+I1029 18:16:06.194337 17085 net.cpp:261] This network produces output loss_left_coordinate
+I1029 18:16:06.194340 17085 net.cpp:261] This network produces output loss_right_confidence
+I1029 18:16:06.194342 17085 net.cpp:261] This network produces output loss_right_coordinate
+I1029 18:16:06.194375 17085 net.cpp:274] Network initialization done.
+I1029 18:16:06.194784 17085 solver.cpp:181] Creating test net (#0) specified by net file: examples/nottingham_multi_label/bioid_train_val.prototxt
+I1029 18:16:06.194824 17085 net.cpp:313] The NetState phase (1) differed from the phase (0) specified by a rule in layer data
+I1029 18:16:06.195062 17085 net.cpp:49] Initializing net from parameters: 
+name: "FaceNet"
+state {
+  phase: TEST
+}
+layer {
+  name: "data"
+  type: "HDF5Data"
+  top: "data"
+  top: "left_eye"
+  top: "visibility_left"
+  top: "right_eye"
+  top: "visibility_right"
+  include {
+    phase: TEST
+  }
+  hdf5_data_param {
+    source: "/home/wzleong/Downloads/nottingham_only_visible/val_scaled_mean_subtracted_own_data_1_multiple_label_data_list.txt"
+    batch_size: 128
+    shuffle: true
+  }
+}
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 13
+    stride: 2
+  }
+}
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "conv1"
+  top: "conv1"
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv2_1"
+  type: "Convolution"
+  bottom: "pool1"
+  top: "conv2_1"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 5
+    stride: 1
+  }
+}
+layer {
+  name: "relu2_1"
+  type: "ReLU"
+  bottom: "conv2_1"
+  top: "conv2_1"
+}
+layer {
+  name: "conv2_2"
+  type: "Convolution"
+  bottom: "conv2_1"
+  top: "conv2_2"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 32
+    pad: 0
+    kernel_size: 5
+    stride: 1
+  }
+}
+layer {
+  name: "relu2_2"
+  type: "ReLU"
+  bottom: "conv2_2"
+  top: "conv2_2"
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2_2"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv3_1_left"
+  type: "Convolution"
+  bottom: "pool2"
+  top: "conv3_1_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 32
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu3_1_left"
+  type: "ReLU"
+  bottom: "conv3_1_left"
+  top: "conv3_1_left"
+}
+layer {
+  name: "conv3_2_left"
+  type: "Convolution"
+  bottom: "conv3_1_left"
+  top: "conv3_2_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu3_2_left"
+  type: "ReLU"
+  bottom: "conv3_2_left"
+  top: "conv3_2_left"
+}
+layer {
+  name: "pool3_left"
+  type: "Pooling"
+  bottom: "conv3_2_left"
+  top: "pool3_left"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv4_1_left"
+  type: "Convolution"
+  bottom: "pool3_left"
+  top: "conv4_1_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu4_1_left"
+  type: "ReLU"
+  bottom: "conv4_1_left"
+  top: "conv4_1_left"
+}
+layer {
+  name: "conv4_2_left"
+  type: "Convolution"
+  bottom: "conv4_1_left"
+  top: "conv4_2_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu4_2_left"
+  type: "ReLU"
+  bottom: "conv4_2_left"
+  top: "conv4_2_left"
+}
+layer {
+  name: "conv4_3_left"
+  type: "Convolution"
+  bottom: "conv4_2_left"
+  top: "conv4_3_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu4_3_left"
+  type: "ReLU"
+  bottom: "conv4_3_left"
+  top: "conv4_3_left"
+}
+layer {
+  name: "conv3_1_right"
+  type: "Convolution"
+  bottom: "pool2"
+  top: "conv3_1_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 32
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu3_1_right"
+  type: "ReLU"
+  bottom: "conv3_1_right"
+  top: "conv3_1_right"
+}
+layer {
+  name: "conv3_2_right"
+  type: "Convolution"
+  bottom: "conv3_1_right"
+  top: "conv3_2_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu3_2_right"
+  type: "ReLU"
+  bottom: "conv3_2_right"
+  top: "conv3_2_right"
+}
+layer {
+  name: "pool3_right"
+  type: "Pooling"
+  bottom: "conv3_2_right"
+  top: "pool3_right"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv4_1_right"
+  type: "Convolution"
+  bottom: "pool3_right"
+  top: "conv4_1_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu4_1_right"
+  type: "ReLU"
+  bottom: "conv4_1_right"
+  top: "conv4_1_right"
+}
+layer {
+  name: "conv4_2_right"
+  type: "Convolution"
+  bottom: "conv4_1_right"
+  top: "conv4_2_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 64
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu4_2_right"
+  type: "ReLU"
+  bottom: "conv4_2_right"
+  top: "conv4_2_right"
+}
+layer {
+  name: "conv4_3_right"
+  type: "Convolution"
+  bottom: "conv4_2_right"
+  top: "conv4_3_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 128
+    pad: 0
+    kernel_size: 3
+    stride: 1
+  }
+}
+layer {
+  name: "relu4_3_right"
+  type: "ReLU"
+  bottom: "conv4_3_right"
+  top: "conv4_3_right"
+}
+layer {
+  name: "fc1_left"
+  type: "InnerProduct"
+  bottom: "conv4_3_left"
+  top: "fc1_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 256
+  }
+}
+layer {
+  name: "drop1_left"
+  type: "Dropout"
+  bottom: "fc1_left"
+  top: "fc1_left"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc2_left"
+  type: "InnerProduct"
+  bottom: "fc1_left"
+  top: "fc2_left"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+  }
+}
+layer {
+  name: "loss_left_coordinate"
+  type: "EuclideanLoss"
+  bottom: "fc2_left"
+  bottom: "left_eye"
+  top: "loss_left_coordinate"
+}
+layer {
+  name: "fc1_left_confidence"
+  type: "InnerProduct"
+  bottom: "conv4_3_left"
+  top: "fc1_left_confidence"
+  param {
+    lr_mult: 0.05
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0.2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 256
+  }
+}
+layer {
+  name: "relu_left1_confidence"
+  type: "ReLU"
+  bottom: "fc1_left_confidence"
+  top: "fc1_left_confidence"
+}
+layer {
+  name: "drop1_left_confidence"
+  type: "Dropout"
+  bottom: "fc1_left_confidence"
+  top: "fc1_left_confidence"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc2_left_confidence"
+  type: "InnerProduct"
+  bottom: "fc1_left_confidence"
+  top: "fc2_left_confidence"
+  param {
+    lr_mult: 0.05
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0.2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 1
+  }
+}
+layer {
+  name: "loss_left_confidence"
+  type: "EuclideanLoss"
+  bottom: "fc2_left_confidence"
+  bottom: "visibility_left"
+  top: "loss_left_confidence"
+}
+layer {
+  name: "fc1_right"
+  type: "InnerProduct"
+  bottom: "conv4_3_right"
+  top: "fc1_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 256
+  }
+}
+layer {
+  name: "drop1_right"
+  type: "Dropout"
+  bottom: "fc1_right"
+  top: "fc1_right"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc2_right"
+  type: "InnerProduct"
+  bottom: "fc1_right"
+  top: "fc2_right"
+  param {
+    lr_mult: 1
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+  }
+}
+layer {
+  name: "loss_right_coordinate"
+  type: "EuclideanLoss"
+  bottom: "fc2_right"
+  bottom: "right_eye"
+  top: "loss_right_coordinate"
+}
+layer {
+  name: "fc1_right_confidence"
+  type: "InnerProduct"
+  bottom: "conv4_3_right"
+  top: "fc1_right_confidence"
+  param {
+    lr_mult: 0.05
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0.2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 256
+  }
+}
+layer {
+  name: "relu_right1_confidence"
+  type: "ReLU"
+  bottom: "fc1_right_confidence"
+  top: "fc1_right_confidence"
+}
+layer {
+  name: "drop1_right_confidence"
+  type: "Dropout"
+  bottom: "fc1_right_confidence"
+  top: "fc1_right_confidence"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc2_right_confidence"
+  type: "InnerProduct"
+  bottom: "fc1_right_confidence"
+  top: "fc2_right_confidence"
+  param {
+    lr_mult: 0.05
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0.2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 1
+  }
+}
+layer {
+  name: "loss_right_confidence"
+  type: "EuclideanLoss"
+  bottom: "fc2_right_confidence"
+  bottom: "visibility_right"
+  top: "loss_right_confidence"
+}
+I1029 18:16:06.195214 17085 layer_factory.hpp:77] Creating layer data
+I1029 18:16:06.195220 17085 net.cpp:91] Creating Layer data
+I1029 18:16:06.195225 17085 net.cpp:399] data -> data
+I1029 18:16:06.195230 17085 net.cpp:399] data -> left_eye
+I1029 18:16:06.195235 17085 net.cpp:399] data -> visibility_left
+I1029 18:16:06.195240 17085 net.cpp:399] data -> right_eye
+I1029 18:16:06.195245 17085 net.cpp:399] data -> visibility_right
+I1029 18:16:06.195252 17085 hdf5_data_layer.cpp:79] Loading list of HDF5 filenames from: /home/wzleong/Downloads/nottingham_only_visible/val_scaled_mean_subtracted_own_data_1_multiple_label_data_list.txt
+I1029 18:16:06.195271 17085 hdf5_data_layer.cpp:93] Number of HDF5 files: 2
+I1029 18:16:06.204274 17085 net.cpp:141] Setting up data
+I1029 18:16:06.204295 17085 net.cpp:148] Top shape: 128 1 200 200 (5120000)
+I1029 18:16:06.204299 17085 net.cpp:148] Top shape: 128 2 (256)
+I1029 18:16:06.204303 17085 net.cpp:148] Top shape: 128 1 (128)
+I1029 18:16:06.204305 17085 net.cpp:148] Top shape: 128 2 (256)
+I1029 18:16:06.204308 17085 net.cpp:148] Top shape: 128 1 (128)
+I1029 18:16:06.204310 17085 net.cpp:156] Memory required for data: 20483072
+I1029 18:16:06.204315 17085 layer_factory.hpp:77] Creating layer conv1
+I1029 18:16:06.204327 17085 net.cpp:91] Creating Layer conv1
+I1029 18:16:06.204332 17085 net.cpp:425] conv1 <- data
+I1029 18:16:06.204337 17085 net.cpp:399] conv1 -> conv1
+I1029 18:16:06.204527 17085 net.cpp:141] Setting up conv1
+I1029 18:16:06.204533 17085 net.cpp:148] Top shape: 128 16 94 94 (18096128)
+I1029 18:16:06.204536 17085 net.cpp:156] Memory required for data: 92867584
+I1029 18:16:06.204545 17085 layer_factory.hpp:77] Creating layer relu1
+I1029 18:16:06.204551 17085 net.cpp:91] Creating Layer relu1
+I1029 18:16:06.204553 17085 net.cpp:425] relu1 <- conv1
+I1029 18:16:06.204560 17085 net.cpp:386] relu1 -> conv1 (in-place)
+I1029 18:16:06.204563 17085 net.cpp:141] Setting up relu1
+I1029 18:16:06.204567 17085 net.cpp:148] Top shape: 128 16 94 94 (18096128)
+I1029 18:16:06.204569 17085 net.cpp:156] Memory required for data: 165252096
+I1029 18:16:06.204572 17085 layer_factory.hpp:77] Creating layer pool1
+I1029 18:16:06.204576 17085 net.cpp:91] Creating Layer pool1
+I1029 18:16:06.204578 17085 net.cpp:425] pool1 <- conv1
+I1029 18:16:06.204581 17085 net.cpp:399] pool1 -> pool1
+I1029 18:16:06.204610 17085 net.cpp:141] Setting up pool1
+I1029 18:16:06.204615 17085 net.cpp:148] Top shape: 128 16 47 47 (4524032)
+I1029 18:16:06.204617 17085 net.cpp:156] Memory required for data: 183348224
+I1029 18:16:06.204619 17085 layer_factory.hpp:77] Creating layer conv2_1
+I1029 18:16:06.204627 17085 net.cpp:91] Creating Layer conv2_1
+I1029 18:16:06.204629 17085 net.cpp:425] conv2_1 <- pool1
+I1029 18:16:06.204633 17085 net.cpp:399] conv2_1 -> conv2_1
+I1029 18:16:06.204809 17085 net.cpp:141] Setting up conv2_1
+I1029 18:16:06.204815 17085 net.cpp:148] Top shape: 128 16 43 43 (3786752)
+I1029 18:16:06.204818 17085 net.cpp:156] Memory required for data: 198495232
+I1029 18:16:06.204823 17085 layer_factory.hpp:77] Creating layer relu2_1
+I1029 18:16:06.204828 17085 net.cpp:91] Creating Layer relu2_1
+I1029 18:16:06.204831 17085 net.cpp:425] relu2_1 <- conv2_1
+I1029 18:16:06.204834 17085 net.cpp:386] relu2_1 -> conv2_1 (in-place)
+I1029 18:16:06.204839 17085 net.cpp:141] Setting up relu2_1
+I1029 18:16:06.204843 17085 net.cpp:148] Top shape: 128 16 43 43 (3786752)
+I1029 18:16:06.204846 17085 net.cpp:156] Memory required for data: 213642240
+I1029 18:16:06.204849 17085 layer_factory.hpp:77] Creating layer conv2_2
+I1029 18:16:06.204854 17085 net.cpp:91] Creating Layer conv2_2
+I1029 18:16:06.204856 17085 net.cpp:425] conv2_2 <- conv2_1
+I1029 18:16:06.204861 17085 net.cpp:399] conv2_2 -> conv2_2
+I1029 18:16:06.205051 17085 net.cpp:141] Setting up conv2_2
+I1029 18:16:06.205057 17085 net.cpp:148] Top shape: 128 32 39 39 (6230016)
+I1029 18:16:06.205060 17085 net.cpp:156] Memory required for data: 238562304
+I1029 18:16:06.205066 17085 layer_factory.hpp:77] Creating layer relu2_2
+I1029 18:16:06.205083 17085 net.cpp:91] Creating Layer relu2_2
+I1029 18:16:06.205086 17085 net.cpp:425] relu2_2 <- conv2_2
+I1029 18:16:06.205090 17085 net.cpp:386] relu2_2 -> conv2_2 (in-place)
+I1029 18:16:06.205096 17085 net.cpp:141] Setting up relu2_2
+I1029 18:16:06.205098 17085 net.cpp:148] Top shape: 128 32 39 39 (6230016)
+I1029 18:16:06.205101 17085 net.cpp:156] Memory required for data: 263482368
+I1029 18:16:06.205102 17085 layer_factory.hpp:77] Creating layer pool2
+I1029 18:16:06.205107 17085 net.cpp:91] Creating Layer pool2
+I1029 18:16:06.205109 17085 net.cpp:425] pool2 <- conv2_2
+I1029 18:16:06.205112 17085 net.cpp:399] pool2 -> pool2
+I1029 18:16:06.205139 17085 net.cpp:141] Setting up pool2
+I1029 18:16:06.205145 17085 net.cpp:148] Top shape: 128 32 20 20 (1638400)
+I1029 18:16:06.205147 17085 net.cpp:156] Memory required for data: 270035968
+I1029 18:16:06.205149 17085 layer_factory.hpp:77] Creating layer pool2_pool2_0_split
+I1029 18:16:06.205153 17085 net.cpp:91] Creating Layer pool2_pool2_0_split
+I1029 18:16:06.205157 17085 net.cpp:425] pool2_pool2_0_split <- pool2
+I1029 18:16:06.205160 17085 net.cpp:399] pool2_pool2_0_split -> pool2_pool2_0_split_0
+I1029 18:16:06.205165 17085 net.cpp:399] pool2_pool2_0_split -> pool2_pool2_0_split_1
+I1029 18:16:06.205190 17085 net.cpp:141] Setting up pool2_pool2_0_split
+I1029 18:16:06.205195 17085 net.cpp:148] Top shape: 128 32 20 20 (1638400)
+I1029 18:16:06.205199 17085 net.cpp:148] Top shape: 128 32 20 20 (1638400)
+I1029 18:16:06.205200 17085 net.cpp:156] Memory required for data: 283143168
+I1029 18:16:06.205202 17085 layer_factory.hpp:77] Creating layer conv3_1_left
+I1029 18:16:06.205209 17085 net.cpp:91] Creating Layer conv3_1_left
+I1029 18:16:06.205210 17085 net.cpp:425] conv3_1_left <- pool2_pool2_0_split_0
+I1029 18:16:06.205214 17085 net.cpp:399] conv3_1_left -> conv3_1_left
+I1029 18:16:06.205387 17085 net.cpp:141] Setting up conv3_1_left
+I1029 18:16:06.205394 17085 net.cpp:148] Top shape: 128 32 18 18 (1327104)
+I1029 18:16:06.205395 17085 net.cpp:156] Memory required for data: 288451584
+I1029 18:16:06.205400 17085 layer_factory.hpp:77] Creating layer relu3_1_left
+I1029 18:16:06.205404 17085 net.cpp:91] Creating Layer relu3_1_left
+I1029 18:16:06.205409 17085 net.cpp:425] relu3_1_left <- conv3_1_left
+I1029 18:16:06.205411 17085 net.cpp:386] relu3_1_left -> conv3_1_left (in-place)
+I1029 18:16:06.205416 17085 net.cpp:141] Setting up relu3_1_left
+I1029 18:16:06.205420 17085 net.cpp:148] Top shape: 128 32 18 18 (1327104)
+I1029 18:16:06.205423 17085 net.cpp:156] Memory required for data: 293760000
+I1029 18:16:06.205425 17085 layer_factory.hpp:77] Creating layer conv3_2_left
+I1029 18:16:06.205430 17085 net.cpp:91] Creating Layer conv3_2_left
+I1029 18:16:06.205433 17085 net.cpp:425] conv3_2_left <- conv3_1_left
+I1029 18:16:06.205437 17085 net.cpp:399] conv3_2_left -> conv3_2_left
+I1029 18:16:06.205615 17085 net.cpp:141] Setting up conv3_2_left
+I1029 18:16:06.205620 17085 net.cpp:148] Top shape: 128 64 16 16 (2097152)
+I1029 18:16:06.205622 17085 net.cpp:156] Memory required for data: 302148608
+I1029 18:16:06.205636 17085 layer_factory.hpp:77] Creating layer relu3_2_left
+I1029 18:16:06.205641 17085 net.cpp:91] Creating Layer relu3_2_left
+I1029 18:16:06.205643 17085 net.cpp:425] relu3_2_left <- conv3_2_left
+I1029 18:16:06.205646 17085 net.cpp:386] relu3_2_left -> conv3_2_left (in-place)
+I1029 18:16:06.205651 17085 net.cpp:141] Setting up relu3_2_left
+I1029 18:16:06.205654 17085 net.cpp:148] Top shape: 128 64 16 16 (2097152)
+I1029 18:16:06.205657 17085 net.cpp:156] Memory required for data: 310537216
+I1029 18:16:06.205658 17085 layer_factory.hpp:77] Creating layer pool3_left
+I1029 18:16:06.205662 17085 net.cpp:91] Creating Layer pool3_left
+I1029 18:16:06.205664 17085 net.cpp:425] pool3_left <- conv3_2_left
+I1029 18:16:06.205667 17085 net.cpp:399] pool3_left -> pool3_left
+I1029 18:16:06.205691 17085 net.cpp:141] Setting up pool3_left
+I1029 18:16:06.205698 17085 net.cpp:148] Top shape: 128 64 8 8 (524288)
+I1029 18:16:06.205699 17085 net.cpp:156] Memory required for data: 312634368
+I1029 18:16:06.205710 17085 layer_factory.hpp:77] Creating layer conv4_1_left
+I1029 18:16:06.205715 17085 net.cpp:91] Creating Layer conv4_1_left
+I1029 18:16:06.205719 17085 net.cpp:425] conv4_1_left <- pool3_left
+I1029 18:16:06.205724 17085 net.cpp:399] conv4_1_left -> conv4_1_left
+I1029 18:16:06.205916 17085 net.cpp:141] Setting up conv4_1_left
+I1029 18:16:06.205922 17085 net.cpp:148] Top shape: 128 64 6 6 (294912)
+I1029 18:16:06.205925 17085 net.cpp:156] Memory required for data: 313814016
+I1029 18:16:06.205929 17085 layer_factory.hpp:77] Creating layer relu4_1_left
+I1029 18:16:06.205936 17085 net.cpp:91] Creating Layer relu4_1_left
+I1029 18:16:06.205940 17085 net.cpp:425] relu4_1_left <- conv4_1_left
+I1029 18:16:06.205943 17085 net.cpp:386] relu4_1_left -> conv4_1_left (in-place)
+I1029 18:16:06.205947 17085 net.cpp:141] Setting up relu4_1_left
+I1029 18:16:06.205950 17085 net.cpp:148] Top shape: 128 64 6 6 (294912)
+I1029 18:16:06.205952 17085 net.cpp:156] Memory required for data: 314993664
+I1029 18:16:06.205955 17085 layer_factory.hpp:77] Creating layer conv4_2_left
+I1029 18:16:06.205960 17085 net.cpp:91] Creating Layer conv4_2_left
+I1029 18:16:06.205963 17085 net.cpp:425] conv4_2_left <- conv4_1_left
+I1029 18:16:06.205966 17085 net.cpp:399] conv4_2_left -> conv4_2_left
+I1029 18:16:06.207586 17085 net.cpp:141] Setting up conv4_2_left
+I1029 18:16:06.207595 17085 net.cpp:148] Top shape: 128 64 4 4 (131072)
+I1029 18:16:06.207599 17085 net.cpp:156] Memory required for data: 315517952
+I1029 18:16:06.207604 17085 layer_factory.hpp:77] Creating layer relu4_2_left
+I1029 18:16:06.207610 17085 net.cpp:91] Creating Layer relu4_2_left
+I1029 18:16:06.207614 17085 net.cpp:425] relu4_2_left <- conv4_2_left
+I1029 18:16:06.207617 17085 net.cpp:386] relu4_2_left -> conv4_2_left (in-place)
+I1029 18:16:06.207623 17085 net.cpp:141] Setting up relu4_2_left
+I1029 18:16:06.207626 17085 net.cpp:148] Top shape: 128 64 4 4 (131072)
+I1029 18:16:06.207629 17085 net.cpp:156] Memory required for data: 316042240
+I1029 18:16:06.207631 17085 layer_factory.hpp:77] Creating layer conv4_3_left
+I1029 18:16:06.207636 17085 net.cpp:91] Creating Layer conv4_3_left
+I1029 18:16:06.207639 17085 net.cpp:425] conv4_3_left <- conv4_2_left
+I1029 18:16:06.207644 17085 net.cpp:399] conv4_3_left -> conv4_3_left
+I1029 18:16:06.207851 17085 net.cpp:141] Setting up conv4_3_left
+I1029 18:16:06.207857 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.207860 17085 net.cpp:156] Memory required for data: 316304384
+I1029 18:16:06.207865 17085 layer_factory.hpp:77] Creating layer relu4_3_left
+I1029 18:16:06.207870 17085 net.cpp:91] Creating Layer relu4_3_left
+I1029 18:16:06.207873 17085 net.cpp:425] relu4_3_left <- conv4_3_left
+I1029 18:16:06.207876 17085 net.cpp:386] relu4_3_left -> conv4_3_left (in-place)
+I1029 18:16:06.207882 17085 net.cpp:141] Setting up relu4_3_left
+I1029 18:16:06.207886 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.207888 17085 net.cpp:156] Memory required for data: 316566528
+I1029 18:16:06.207891 17085 layer_factory.hpp:77] Creating layer conv4_3_left_relu4_3_left_0_split
+I1029 18:16:06.207895 17085 net.cpp:91] Creating Layer conv4_3_left_relu4_3_left_0_split
+I1029 18:16:06.207897 17085 net.cpp:425] conv4_3_left_relu4_3_left_0_split <- conv4_3_left
+I1029 18:16:06.207901 17085 net.cpp:399] conv4_3_left_relu4_3_left_0_split -> conv4_3_left_relu4_3_left_0_split_0
+I1029 18:16:06.207906 17085 net.cpp:399] conv4_3_left_relu4_3_left_0_split -> conv4_3_left_relu4_3_left_0_split_1
+I1029 18:16:06.207932 17085 net.cpp:141] Setting up conv4_3_left_relu4_3_left_0_split
+I1029 18:16:06.207937 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.207942 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.207942 17085 net.cpp:156] Memory required for data: 317090816
+I1029 18:16:06.207945 17085 layer_factory.hpp:77] Creating layer conv3_1_right
+I1029 18:16:06.207950 17085 net.cpp:91] Creating Layer conv3_1_right
+I1029 18:16:06.207953 17085 net.cpp:425] conv3_1_right <- pool2_pool2_0_split_1
+I1029 18:16:06.207957 17085 net.cpp:399] conv3_1_right -> conv3_1_right
+I1029 18:16:06.208145 17085 net.cpp:141] Setting up conv3_1_right
+I1029 18:16:06.208151 17085 net.cpp:148] Top shape: 128 32 18 18 (1327104)
+I1029 18:16:06.208153 17085 net.cpp:156] Memory required for data: 322399232
+I1029 18:16:06.208160 17085 layer_factory.hpp:77] Creating layer relu3_1_right
+I1029 18:16:06.208165 17085 net.cpp:91] Creating Layer relu3_1_right
+I1029 18:16:06.208168 17085 net.cpp:425] relu3_1_right <- conv3_1_right
+I1029 18:16:06.208173 17085 net.cpp:386] relu3_1_right -> conv3_1_right (in-place)
+I1029 18:16:06.208178 17085 net.cpp:141] Setting up relu3_1_right
+I1029 18:16:06.208183 17085 net.cpp:148] Top shape: 128 32 18 18 (1327104)
+I1029 18:16:06.208184 17085 net.cpp:156] Memory required for data: 327707648
+I1029 18:16:06.208186 17085 layer_factory.hpp:77] Creating layer conv3_2_right
+I1029 18:16:06.208190 17085 net.cpp:91] Creating Layer conv3_2_right
+I1029 18:16:06.208194 17085 net.cpp:425] conv3_2_right <- conv3_1_right
+I1029 18:16:06.208199 17085 net.cpp:399] conv3_2_right -> conv3_2_right
+I1029 18:16:06.208377 17085 net.cpp:141] Setting up conv3_2_right
+I1029 18:16:06.208382 17085 net.cpp:148] Top shape: 128 64 16 16 (2097152)
+I1029 18:16:06.208385 17085 net.cpp:156] Memory required for data: 336096256
+I1029 18:16:06.208389 17085 layer_factory.hpp:77] Creating layer relu3_2_right
+I1029 18:16:06.208394 17085 net.cpp:91] Creating Layer relu3_2_right
+I1029 18:16:06.208397 17085 net.cpp:425] relu3_2_right <- conv3_2_right
+I1029 18:16:06.208401 17085 net.cpp:386] relu3_2_right -> conv3_2_right (in-place)
+I1029 18:16:06.208405 17085 net.cpp:141] Setting up relu3_2_right
+I1029 18:16:06.208407 17085 net.cpp:148] Top shape: 128 64 16 16 (2097152)
+I1029 18:16:06.208410 17085 net.cpp:156] Memory required for data: 344484864
+I1029 18:16:06.208412 17085 layer_factory.hpp:77] Creating layer pool3_right
+I1029 18:16:06.208416 17085 net.cpp:91] Creating Layer pool3_right
+I1029 18:16:06.208418 17085 net.cpp:425] pool3_right <- conv3_2_right
+I1029 18:16:06.208421 17085 net.cpp:399] pool3_right -> pool3_right
+I1029 18:16:06.208446 17085 net.cpp:141] Setting up pool3_right
+I1029 18:16:06.208451 17085 net.cpp:148] Top shape: 128 64 8 8 (524288)
+I1029 18:16:06.208452 17085 net.cpp:156] Memory required for data: 346582016
+I1029 18:16:06.208454 17085 layer_factory.hpp:77] Creating layer conv4_1_right
+I1029 18:16:06.208459 17085 net.cpp:91] Creating Layer conv4_1_right
+I1029 18:16:06.208462 17085 net.cpp:425] conv4_1_right <- pool3_right
+I1029 18:16:06.208469 17085 net.cpp:399] conv4_1_right -> conv4_1_right
+I1029 18:16:06.208657 17085 net.cpp:141] Setting up conv4_1_right
+I1029 18:16:06.208663 17085 net.cpp:148] Top shape: 128 64 6 6 (294912)
+I1029 18:16:06.208665 17085 net.cpp:156] Memory required for data: 347761664
+I1029 18:16:06.208669 17085 layer_factory.hpp:77] Creating layer relu4_1_right
+I1029 18:16:06.208673 17085 net.cpp:91] Creating Layer relu4_1_right
+I1029 18:16:06.208675 17085 net.cpp:425] relu4_1_right <- conv4_1_right
+I1029 18:16:06.208679 17085 net.cpp:386] relu4_1_right -> conv4_1_right (in-place)
+I1029 18:16:06.208683 17085 net.cpp:141] Setting up relu4_1_right
+I1029 18:16:06.208688 17085 net.cpp:148] Top shape: 128 64 6 6 (294912)
+I1029 18:16:06.208689 17085 net.cpp:156] Memory required for data: 348941312
+I1029 18:16:06.208691 17085 layer_factory.hpp:77] Creating layer conv4_2_right
+I1029 18:16:06.208696 17085 net.cpp:91] Creating Layer conv4_2_right
+I1029 18:16:06.208698 17085 net.cpp:425] conv4_2_right <- conv4_1_right
+I1029 18:16:06.208703 17085 net.cpp:399] conv4_2_right -> conv4_2_right
+I1029 18:16:06.208887 17085 net.cpp:141] Setting up conv4_2_right
+I1029 18:16:06.208894 17085 net.cpp:148] Top shape: 128 64 4 4 (131072)
+I1029 18:16:06.208895 17085 net.cpp:156] Memory required for data: 349465600
+I1029 18:16:06.208900 17085 layer_factory.hpp:77] Creating layer relu4_2_right
+I1029 18:16:06.208904 17085 net.cpp:91] Creating Layer relu4_2_right
+I1029 18:16:06.208905 17085 net.cpp:425] relu4_2_right <- conv4_2_right
+I1029 18:16:06.208909 17085 net.cpp:386] relu4_2_right -> conv4_2_right (in-place)
+I1029 18:16:06.208920 17085 net.cpp:141] Setting up relu4_2_right
+I1029 18:16:06.208925 17085 net.cpp:148] Top shape: 128 64 4 4 (131072)
+I1029 18:16:06.208928 17085 net.cpp:156] Memory required for data: 349989888
+I1029 18:16:06.208930 17085 layer_factory.hpp:77] Creating layer conv4_3_right
+I1029 18:16:06.208935 17085 net.cpp:91] Creating Layer conv4_3_right
+I1029 18:16:06.208938 17085 net.cpp:425] conv4_3_right <- conv4_2_right
+I1029 18:16:06.208941 17085 net.cpp:399] conv4_3_right -> conv4_3_right
+I1029 18:16:06.209529 17085 net.cpp:141] Setting up conv4_3_right
+I1029 18:16:06.209539 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.209542 17085 net.cpp:156] Memory required for data: 350252032
+I1029 18:16:06.209547 17085 layer_factory.hpp:77] Creating layer relu4_3_right
+I1029 18:16:06.209553 17085 net.cpp:91] Creating Layer relu4_3_right
+I1029 18:16:06.209556 17085 net.cpp:425] relu4_3_right <- conv4_3_right
+I1029 18:16:06.209561 17085 net.cpp:386] relu4_3_right -> conv4_3_right (in-place)
+I1029 18:16:06.209566 17085 net.cpp:141] Setting up relu4_3_right
+I1029 18:16:06.209569 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.209571 17085 net.cpp:156] Memory required for data: 350514176
+I1029 18:16:06.209573 17085 layer_factory.hpp:77] Creating layer conv4_3_right_relu4_3_right_0_split
+I1029 18:16:06.209578 17085 net.cpp:91] Creating Layer conv4_3_right_relu4_3_right_0_split
+I1029 18:16:06.209579 17085 net.cpp:425] conv4_3_right_relu4_3_right_0_split <- conv4_3_right
+I1029 18:16:06.209583 17085 net.cpp:399] conv4_3_right_relu4_3_right_0_split -> conv4_3_right_relu4_3_right_0_split_0
+I1029 18:16:06.209589 17085 net.cpp:399] conv4_3_right_relu4_3_right_0_split -> conv4_3_right_relu4_3_right_0_split_1
+I1029 18:16:06.209617 17085 net.cpp:141] Setting up conv4_3_right_relu4_3_right_0_split
+I1029 18:16:06.209622 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.209630 17085 net.cpp:148] Top shape: 128 128 2 2 (65536)
+I1029 18:16:06.209633 17085 net.cpp:156] Memory required for data: 351038464
+I1029 18:16:06.209635 17085 layer_factory.hpp:77] Creating layer fc1_left
+I1029 18:16:06.209640 17085 net.cpp:91] Creating Layer fc1_left
+I1029 18:16:06.209642 17085 net.cpp:425] fc1_left <- conv4_3_left_relu4_3_left_0_split_0
+I1029 18:16:06.209647 17085 net.cpp:399] fc1_left -> fc1_left
+I1029 18:16:06.209792 17085 net.cpp:141] Setting up fc1_left
+I1029 18:16:06.209799 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.209800 17085 net.cpp:156] Memory required for data: 351169536
+I1029 18:16:06.209805 17085 layer_factory.hpp:77] Creating layer drop1_left
+I1029 18:16:06.209810 17085 net.cpp:91] Creating Layer drop1_left
+I1029 18:16:06.209812 17085 net.cpp:425] drop1_left <- fc1_left
+I1029 18:16:06.209815 17085 net.cpp:386] drop1_left -> fc1_left (in-place)
+I1029 18:16:06.209828 17085 net.cpp:141] Setting up drop1_left
+I1029 18:16:06.209833 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.209834 17085 net.cpp:156] Memory required for data: 351300608
+I1029 18:16:06.209837 17085 layer_factory.hpp:77] Creating layer fc2_left
+I1029 18:16:06.209841 17085 net.cpp:91] Creating Layer fc2_left
+I1029 18:16:06.209846 17085 net.cpp:425] fc2_left <- fc1_left
+I1029 18:16:06.209851 17085 net.cpp:399] fc2_left -> fc2_left
+I1029 18:16:06.209933 17085 net.cpp:141] Setting up fc2_left
+I1029 18:16:06.209939 17085 net.cpp:148] Top shape: 128 2 (256)
+I1029 18:16:06.209940 17085 net.cpp:156] Memory required for data: 351301632
+I1029 18:16:06.209944 17085 layer_factory.hpp:77] Creating layer loss_left_coordinate
+I1029 18:16:06.209949 17085 net.cpp:91] Creating Layer loss_left_coordinate
+I1029 18:16:06.209952 17085 net.cpp:425] loss_left_coordinate <- fc2_left
+I1029 18:16:06.209954 17085 net.cpp:425] loss_left_coordinate <- left_eye
+I1029 18:16:06.209959 17085 net.cpp:399] loss_left_coordinate -> loss_left_coordinate
+I1029 18:16:06.209985 17085 net.cpp:141] Setting up loss_left_coordinate
+I1029 18:16:06.209990 17085 net.cpp:148] Top shape: (1)
+I1029 18:16:06.210000 17085 net.cpp:151]     with loss weight 1
+I1029 18:16:06.210010 17085 net.cpp:156] Memory required for data: 351301636
+I1029 18:16:06.210011 17085 layer_factory.hpp:77] Creating layer fc1_left_confidence
+I1029 18:16:06.210017 17085 net.cpp:91] Creating Layer fc1_left_confidence
+I1029 18:16:06.210021 17085 net.cpp:425] fc1_left_confidence <- conv4_3_left_relu4_3_left_0_split_1
+I1029 18:16:06.210024 17085 net.cpp:399] fc1_left_confidence -> fc1_left_confidence
+I1029 18:16:06.210542 17085 net.cpp:141] Setting up fc1_left_confidence
+I1029 18:16:06.210551 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.210553 17085 net.cpp:156] Memory required for data: 351432708
+I1029 18:16:06.210558 17085 layer_factory.hpp:77] Creating layer relu_left1_confidence
+I1029 18:16:06.210562 17085 net.cpp:91] Creating Layer relu_left1_confidence
+I1029 18:16:06.210566 17085 net.cpp:425] relu_left1_confidence <- fc1_left_confidence
+I1029 18:16:06.210572 17085 net.cpp:386] relu_left1_confidence -> fc1_left_confidence (in-place)
+I1029 18:16:06.210577 17085 net.cpp:141] Setting up relu_left1_confidence
+I1029 18:16:06.210580 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.210583 17085 net.cpp:156] Memory required for data: 351563780
+I1029 18:16:06.210585 17085 layer_factory.hpp:77] Creating layer drop1_left_confidence
+I1029 18:16:06.210589 17085 net.cpp:91] Creating Layer drop1_left_confidence
+I1029 18:16:06.210592 17085 net.cpp:425] drop1_left_confidence <- fc1_left_confidence
+I1029 18:16:06.210597 17085 net.cpp:386] drop1_left_confidence -> fc1_left_confidence (in-place)
+I1029 18:16:06.210610 17085 net.cpp:141] Setting up drop1_left_confidence
+I1029 18:16:06.210614 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.210616 17085 net.cpp:156] Memory required for data: 351694852
+I1029 18:16:06.210619 17085 layer_factory.hpp:77] Creating layer fc2_left_confidence
+I1029 18:16:06.210623 17085 net.cpp:91] Creating Layer fc2_left_confidence
+I1029 18:16:06.210626 17085 net.cpp:425] fc2_left_confidence <- fc1_left_confidence
+I1029 18:16:06.210631 17085 net.cpp:399] fc2_left_confidence -> fc2_left_confidence
+I1029 18:16:06.210706 17085 net.cpp:141] Setting up fc2_left_confidence
+I1029 18:16:06.210713 17085 net.cpp:148] Top shape: 128 1 (128)
+I1029 18:16:06.210716 17085 net.cpp:156] Memory required for data: 351695364
+I1029 18:16:06.210724 17085 layer_factory.hpp:77] Creating layer loss_left_confidence
+I1029 18:16:06.210731 17085 net.cpp:91] Creating Layer loss_left_confidence
+I1029 18:16:06.210733 17085 net.cpp:425] loss_left_confidence <- fc2_left_confidence
+I1029 18:16:06.210736 17085 net.cpp:425] loss_left_confidence <- visibility_left
+I1029 18:16:06.210741 17085 net.cpp:399] loss_left_confidence -> loss_left_confidence
+I1029 18:16:06.210767 17085 net.cpp:141] Setting up loss_left_confidence
+I1029 18:16:06.210772 17085 net.cpp:148] Top shape: (1)
+I1029 18:16:06.210773 17085 net.cpp:151]     with loss weight 1
+I1029 18:16:06.210777 17085 net.cpp:156] Memory required for data: 351695368
+I1029 18:16:06.210780 17085 layer_factory.hpp:77] Creating layer fc1_right
+I1029 18:16:06.210783 17085 net.cpp:91] Creating Layer fc1_right
+I1029 18:16:06.210786 17085 net.cpp:425] fc1_right <- conv4_3_right_relu4_3_right_0_split_0
+I1029 18:16:06.210790 17085 net.cpp:399] fc1_right -> fc1_right
+I1029 18:16:06.210932 17085 net.cpp:141] Setting up fc1_right
+I1029 18:16:06.210938 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.210940 17085 net.cpp:156] Memory required for data: 351826440
+I1029 18:16:06.210944 17085 layer_factory.hpp:77] Creating layer drop1_right
+I1029 18:16:06.210950 17085 net.cpp:91] Creating Layer drop1_right
+I1029 18:16:06.210952 17085 net.cpp:425] drop1_right <- fc1_right
+I1029 18:16:06.210955 17085 net.cpp:386] drop1_right -> fc1_right (in-place)
+I1029 18:16:06.210969 17085 net.cpp:141] Setting up drop1_right
+I1029 18:16:06.210974 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.210976 17085 net.cpp:156] Memory required for data: 351957512
+I1029 18:16:06.210978 17085 layer_factory.hpp:77] Creating layer fc2_right
+I1029 18:16:06.210990 17085 net.cpp:91] Creating Layer fc2_right
+I1029 18:16:06.210994 17085 net.cpp:425] fc2_right <- fc1_right
+I1029 18:16:06.210999 17085 net.cpp:399] fc2_right -> fc2_right
+I1029 18:16:06.211089 17085 net.cpp:141] Setting up fc2_right
+I1029 18:16:06.211094 17085 net.cpp:148] Top shape: 128 2 (256)
+I1029 18:16:06.211097 17085 net.cpp:156] Memory required for data: 351958536
+I1029 18:16:06.211102 17085 layer_factory.hpp:77] Creating layer loss_right_coordinate
+I1029 18:16:06.211104 17085 net.cpp:91] Creating Layer loss_right_coordinate
+I1029 18:16:06.211108 17085 net.cpp:425] loss_right_coordinate <- fc2_right
+I1029 18:16:06.211112 17085 net.cpp:425] loss_right_coordinate <- right_eye
+I1029 18:16:06.211115 17085 net.cpp:399] loss_right_coordinate -> loss_right_coordinate
+I1029 18:16:06.211141 17085 net.cpp:141] Setting up loss_right_coordinate
+I1029 18:16:06.211145 17085 net.cpp:148] Top shape: (1)
+I1029 18:16:06.211148 17085 net.cpp:151]     with loss weight 1
+I1029 18:16:06.211151 17085 net.cpp:156] Memory required for data: 351958540
+I1029 18:16:06.211153 17085 layer_factory.hpp:77] Creating layer fc1_right_confidence
+I1029 18:16:06.211158 17085 net.cpp:91] Creating Layer fc1_right_confidence
+I1029 18:16:06.211160 17085 net.cpp:425] fc1_right_confidence <- conv4_3_right_relu4_3_right_0_split_1
+I1029 18:16:06.211165 17085 net.cpp:399] fc1_right_confidence -> fc1_right_confidence
+I1029 18:16:06.211663 17085 net.cpp:141] Setting up fc1_right_confidence
+I1029 18:16:06.211669 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.211673 17085 net.cpp:156] Memory required for data: 352089612
+I1029 18:16:06.211678 17085 layer_factory.hpp:77] Creating layer relu_right1_confidence
+I1029 18:16:06.211683 17085 net.cpp:91] Creating Layer relu_right1_confidence
+I1029 18:16:06.211685 17085 net.cpp:425] relu_right1_confidence <- fc1_right_confidence
+I1029 18:16:06.211690 17085 net.cpp:386] relu_right1_confidence -> fc1_right_confidence (in-place)
+I1029 18:16:06.211695 17085 net.cpp:141] Setting up relu_right1_confidence
+I1029 18:16:06.211699 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.211700 17085 net.cpp:156] Memory required for data: 352220684
+I1029 18:16:06.211704 17085 layer_factory.hpp:77] Creating layer drop1_right_confidence
+I1029 18:16:06.211709 17085 net.cpp:91] Creating Layer drop1_right_confidence
+I1029 18:16:06.211711 17085 net.cpp:425] drop1_right_confidence <- fc1_right_confidence
+I1029 18:16:06.211714 17085 net.cpp:386] drop1_right_confidence -> fc1_right_confidence (in-place)
+I1029 18:16:06.211729 17085 net.cpp:141] Setting up drop1_right_confidence
+I1029 18:16:06.211733 17085 net.cpp:148] Top shape: 128 256 (32768)
+I1029 18:16:06.211735 17085 net.cpp:156] Memory required for data: 352351756
+I1029 18:16:06.211737 17085 layer_factory.hpp:77] Creating layer fc2_right_confidence
+I1029 18:16:06.211742 17085 net.cpp:91] Creating Layer fc2_right_confidence
+I1029 18:16:06.211745 17085 net.cpp:425] fc2_right_confidence <- fc1_right_confidence
+I1029 18:16:06.211748 17085 net.cpp:399] fc2_right_confidence -> fc2_right_confidence
+I1029 18:16:06.211818 17085 net.cpp:141] Setting up fc2_right_confidence
+I1029 18:16:06.211823 17085 net.cpp:148] Top shape: 128 1 (128)
+I1029 18:16:06.211825 17085 net.cpp:156] Memory required for data: 352352268
+I1029 18:16:06.211829 17085 layer_factory.hpp:77] Creating layer loss_right_confidence
+I1029 18:16:06.211834 17085 net.cpp:91] Creating Layer loss_right_confidence
+I1029 18:16:06.211838 17085 net.cpp:425] loss_right_confidence <- fc2_right_confidence
+I1029 18:16:06.211841 17085 net.cpp:425] loss_right_confidence <- visibility_right
+I1029 18:16:06.211844 17085 net.cpp:399] loss_right_confidence -> loss_right_confidence
+I1029 18:16:06.211870 17085 net.cpp:141] Setting up loss_right_confidence
+I1029 18:16:06.211875 17085 net.cpp:148] Top shape: (1)
+I1029 18:16:06.211876 17085 net.cpp:151]     with loss weight 1
+I1029 18:16:06.211880 17085 net.cpp:156] Memory required for data: 352352272
+I1029 18:16:06.211884 17085 net.cpp:217] loss_right_confidence needs backward computation.
+I1029 18:16:06.211895 17085 net.cpp:217] fc2_right_confidence needs backward computation.
+I1029 18:16:06.211897 17085 net.cpp:217] drop1_right_confidence needs backward computation.
+I1029 18:16:06.211899 17085 net.cpp:217] relu_right1_confidence needs backward computation.
+I1029 18:16:06.211901 17085 net.cpp:217] fc1_right_confidence needs backward computation.
+I1029 18:16:06.211905 17085 net.cpp:217] loss_right_coordinate needs backward computation.
+I1029 18:16:06.211908 17085 net.cpp:217] fc2_right needs backward computation.
+I1029 18:16:06.211910 17085 net.cpp:217] drop1_right needs backward computation.
+I1029 18:16:06.211912 17085 net.cpp:217] fc1_right needs backward computation.
+I1029 18:16:06.211915 17085 net.cpp:217] loss_left_confidence needs backward computation.
+I1029 18:16:06.211918 17085 net.cpp:217] fc2_left_confidence needs backward computation.
+I1029 18:16:06.211920 17085 net.cpp:217] drop1_left_confidence needs backward computation.
+I1029 18:16:06.211922 17085 net.cpp:217] relu_left1_confidence needs backward computation.
+I1029 18:16:06.211925 17085 net.cpp:217] fc1_left_confidence needs backward computation.
+I1029 18:16:06.211927 17085 net.cpp:217] loss_left_coordinate needs backward computation.
+I1029 18:16:06.211930 17085 net.cpp:217] fc2_left needs backward computation.
+I1029 18:16:06.211932 17085 net.cpp:217] drop1_left needs backward computation.
+I1029 18:16:06.211935 17085 net.cpp:217] fc1_left needs backward computation.
+I1029 18:16:06.211938 17085 net.cpp:217] conv4_3_right_relu4_3_right_0_split needs backward computation.
+I1029 18:16:06.211941 17085 net.cpp:217] relu4_3_right needs backward computation.
+I1029 18:16:06.211943 17085 net.cpp:217] conv4_3_right needs backward computation.
+I1029 18:16:06.211947 17085 net.cpp:217] relu4_2_right needs backward computation.
+I1029 18:16:06.211952 17085 net.cpp:217] conv4_2_right needs backward computation.
+I1029 18:16:06.211957 17085 net.cpp:217] relu4_1_right needs backward computation.
+I1029 18:16:06.211959 17085 net.cpp:217] conv4_1_right needs backward computation.
+I1029 18:16:06.211962 17085 net.cpp:217] pool3_right needs backward computation.
+I1029 18:16:06.211967 17085 net.cpp:217] relu3_2_right needs backward computation.
+I1029 18:16:06.211969 17085 net.cpp:217] conv3_2_right needs backward computation.
+I1029 18:16:06.211971 17085 net.cpp:217] relu3_1_right needs backward computation.
+I1029 18:16:06.211974 17085 net.cpp:217] conv3_1_right needs backward computation.
+I1029 18:16:06.211977 17085 net.cpp:217] conv4_3_left_relu4_3_left_0_split needs backward computation.
+I1029 18:16:06.211979 17085 net.cpp:217] relu4_3_left needs backward computation.
+I1029 18:16:06.211982 17085 net.cpp:217] conv4_3_left needs backward computation.
+I1029 18:16:06.211985 17085 net.cpp:217] relu4_2_left needs backward computation.
+I1029 18:16:06.211987 17085 net.cpp:217] conv4_2_left needs backward computation.
+I1029 18:16:06.211989 17085 net.cpp:217] relu4_1_left needs backward computation.
+I1029 18:16:06.211992 17085 net.cpp:217] conv4_1_left needs backward computation.
+I1029 18:16:06.211994 17085 net.cpp:217] pool3_left needs backward computation.
+I1029 18:16:06.211997 17085 net.cpp:217] relu3_2_left needs backward computation.
+I1029 18:16:06.211999 17085 net.cpp:217] conv3_2_left needs backward computation.
+I1029 18:16:06.212002 17085 net.cpp:217] relu3_1_left needs backward computation.
+I1029 18:16:06.212004 17085 net.cpp:217] conv3_1_left needs backward computation.
+I1029 18:16:06.212007 17085 net.cpp:219] pool2_pool2_0_split does not need backward computation.
+I1029 18:16:06.212010 17085 net.cpp:219] pool2 does not need backward computation.
+I1029 18:16:06.212013 17085 net.cpp:219] relu2_2 does not need backward computation.
+I1029 18:16:06.212015 17085 net.cpp:219] conv2_2 does not need backward computation.
+I1029 18:16:06.212018 17085 net.cpp:219] relu2_1 does not need backward computation.
+I1029 18:16:06.212020 17085 net.cpp:219] conv2_1 does not need backward computation.
+I1029 18:16:06.212023 17085 net.cpp:219] pool1 does not need backward computation.
+I1029 18:16:06.212033 17085 net.cpp:219] relu1 does not need backward computation.
+I1029 18:16:06.212035 17085 net.cpp:219] conv1 does not need backward computation.
+I1029 18:16:06.212038 17085 net.cpp:219] data does not need backward computation.
+I1029 18:16:06.212040 17085 net.cpp:261] This network produces output loss_left_confidence
+I1029 18:16:06.212044 17085 net.cpp:261] This network produces output loss_left_coordinate
+I1029 18:16:06.212047 17085 net.cpp:261] This network produces output loss_right_confidence
+I1029 18:16:06.212049 17085 net.cpp:261] This network produces output loss_right_coordinate
+I1029 18:16:06.212082 17085 net.cpp:274] Network initialization done.
+I1029 18:16:06.212194 17085 solver.cpp:60] Solver scaffolding done.
+I1029 18:16:06.213764 17085 caffe.cpp:129] Finetuning from examples/nottingham_multi_label/_iter_12000.caffemodel
+I1029 18:16:06.218142 17085 caffe.cpp:219] Starting Optimization
+I1029 18:16:06.218159 17085 solver.cpp:279] Solving FaceNet
+I1029 18:16:06.218163 17085 solver.cpp:280] Learning Rate Policy: fixed
+I1029 18:16:06.219488 17085 solver.cpp:337] Iteration 0, Testing net (#0)
+I1029 18:16:08.440340 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00512191 (* 1 = 0.00512191 loss)
+I1029 18:16:08.440372 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000441278 (* 1 = 0.000441278 loss)
+I1029 18:16:08.440378 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00476678 (* 1 = 0.00476678 loss)
+I1029 18:16:08.440382 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000493583 (* 1 = 0.000493583 loss)
+I1029 18:16:08.742883 17085 solver.cpp:228] Iteration 0, loss = 0.00492234
+I1029 18:16:08.742925 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00159699 (* 1 = 0.00159699 loss)
+I1029 18:16:08.742931 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000884177 (* 1 = 0.000884177 loss)
+I1029 18:16:08.742935 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00165902 (* 1 = 0.00165902 loss)
+I1029 18:16:08.742939 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000782149 (* 1 = 0.000782149 loss)
+I1029 18:16:08.742944 17085 sgd_solver.cpp:106] Iteration 0, lr = 0.0001
+I1029 18:16:40.211462 17085 solver.cpp:228] Iteration 100, loss = 0.00468868
+I1029 18:16:40.211529 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00172047 (* 1 = 0.00172047 loss)
+I1029 18:16:40.211534 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000795075 (* 1 = 0.000795075 loss)
+I1029 18:16:40.211539 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00138532 (* 1 = 0.00138532 loss)
+I1029 18:16:40.211541 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000787826 (* 1 = 0.000787826 loss)
+I1029 18:16:40.211544 17085 sgd_solver.cpp:106] Iteration 100, lr = 0.0001
+I1029 18:17:12.234956 17085 solver.cpp:228] Iteration 200, loss = 0.00473133
+I1029 18:17:12.235011 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00155773 (* 1 = 0.00155773 loss)
+I1029 18:17:12.235016 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000803063 (* 1 = 0.000803063 loss)
+I1029 18:17:12.235020 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00145318 (* 1 = 0.00145318 loss)
+I1029 18:17:12.235024 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000917355 (* 1 = 0.000917355 loss)
+I1029 18:17:12.235026 17085 sgd_solver.cpp:106] Iteration 200, lr = 0.0001
+I1029 18:17:44.236580 17085 solver.cpp:228] Iteration 300, loss = 0.00526725
+I1029 18:17:44.236743 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00167111 (* 1 = 0.00167111 loss)
+I1029 18:17:44.236769 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000865164 (* 1 = 0.000865164 loss)
+I1029 18:17:44.236773 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00181638 (* 1 = 0.00181638 loss)
+I1029 18:17:44.236778 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000914592 (* 1 = 0.000914592 loss)
+I1029 18:17:44.236779 17085 sgd_solver.cpp:106] Iteration 300, lr = 0.0001
+I1029 18:18:15.716691 17085 solver.cpp:228] Iteration 400, loss = 0.00439539
+I1029 18:18:15.716866 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00137227 (* 1 = 0.00137227 loss)
+I1029 18:18:15.716873 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000801379 (* 1 = 0.000801379 loss)
+I1029 18:18:15.716877 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00142746 (* 1 = 0.00142746 loss)
+I1029 18:18:15.716881 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000794283 (* 1 = 0.000794283 loss)
+I1029 18:18:15.716883 17085 sgd_solver.cpp:106] Iteration 400, lr = 0.0001
+I1029 18:18:47.442181 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_500.caffemodel
+I1029 18:18:47.487921 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_500.solverstate
+I1029 18:18:47.496364 17085 solver.cpp:337] Iteration 500, Testing net (#0)
+I1029 18:18:49.698948 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.0061293 (* 1 = 0.0061293 loss)
+I1029 18:18:49.698983 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000322566 (* 1 = 0.000322566 loss)
+I1029 18:18:49.698987 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00433505 (* 1 = 0.00433505 loss)
+I1029 18:18:49.698992 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000294351 (* 1 = 0.000294351 loss)
+I1029 18:18:49.988981 17085 solver.cpp:228] Iteration 500, loss = 0.00468826
+I1029 18:18:49.989022 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00189068 (* 1 = 0.00189068 loss)
+I1029 18:18:49.989027 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000720286 (* 1 = 0.000720286 loss)
+I1029 18:18:49.989030 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00133187 (* 1 = 0.00133187 loss)
+I1029 18:18:49.989034 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.00074542 (* 1 = 0.00074542 loss)
+I1029 18:18:49.989037 17085 sgd_solver.cpp:106] Iteration 500, lr = 0.0001
+I1029 18:19:21.978221 17085 solver.cpp:228] Iteration 600, loss = 0.00461329
+I1029 18:19:21.978286 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00130509 (* 1 = 0.00130509 loss)
+I1029 18:19:21.978291 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000812693 (* 1 = 0.000812693 loss)
+I1029 18:19:21.978296 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00168571 (* 1 = 0.00168571 loss)
+I1029 18:19:21.978298 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000809797 (* 1 = 0.000809797 loss)
+I1029 18:19:21.978301 17085 sgd_solver.cpp:106] Iteration 600, lr = 0.0001
+I1029 18:19:53.972728 17085 solver.cpp:228] Iteration 700, loss = 0.00460642
+I1029 18:19:53.972898 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.001423 (* 1 = 0.001423 loss)
+I1029 18:19:53.972905 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000840305 (* 1 = 0.000840305 loss)
+I1029 18:19:53.972909 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00157493 (* 1 = 0.00157493 loss)
+I1029 18:19:53.972913 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000768179 (* 1 = 0.000768179 loss)
+I1029 18:19:53.972915 17085 sgd_solver.cpp:106] Iteration 700, lr = 0.0001
+I1029 18:20:25.466409 17085 solver.cpp:228] Iteration 800, loss = 0.00439238
+I1029 18:20:25.466583 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.001548 (* 1 = 0.001548 loss)
+I1029 18:20:25.466609 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.00079582 (* 1 = 0.00079582 loss)
+I1029 18:20:25.466614 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.0013739 (* 1 = 0.0013739 loss)
+I1029 18:20:25.466617 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000674658 (* 1 = 0.000674658 loss)
+I1029 18:20:25.466619 17085 sgd_solver.cpp:106] Iteration 800, lr = 0.0001
+I1029 18:20:57.464678 17085 solver.cpp:228] Iteration 900, loss = 0.00450211
+I1029 18:20:57.464869 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00173679 (* 1 = 0.00173679 loss)
+I1029 18:20:57.464875 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000647695 (* 1 = 0.000647695 loss)
+I1029 18:20:57.464879 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00130781 (* 1 = 0.00130781 loss)
+I1029 18:20:57.464882 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000809813 (* 1 = 0.000809813 loss)
+I1029 18:20:57.464885 17085 sgd_solver.cpp:106] Iteration 900, lr = 0.0001
+I1029 18:21:29.151947 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_1000.caffemodel
+I1029 18:21:29.192090 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_1000.solverstate
+I1029 18:21:29.200657 17085 solver.cpp:337] Iteration 1000, Testing net (#0)
+I1029 18:21:31.395963 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00537445 (* 1 = 0.00537445 loss)
+I1029 18:21:31.395997 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000308258 (* 1 = 0.000308258 loss)
+I1029 18:21:31.396001 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00405601 (* 1 = 0.00405601 loss)
+I1029 18:21:31.396004 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000331042 (* 1 = 0.000331042 loss)
+I1029 18:21:31.686642 17085 solver.cpp:228] Iteration 1000, loss = 0.00490049
+I1029 18:21:31.686682 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00198044 (* 1 = 0.00198044 loss)
+I1029 18:21:31.686687 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000810513 (* 1 = 0.000810513 loss)
+I1029 18:21:31.686691 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00135562 (* 1 = 0.00135562 loss)
+I1029 18:21:31.686695 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000753917 (* 1 = 0.000753917 loss)
+I1029 18:21:31.686698 17085 sgd_solver.cpp:106] Iteration 1000, lr = 0.0001
+I1029 18:22:03.715822 17085 solver.cpp:228] Iteration 1100, loss = 0.00468739
+I1029 18:22:03.715869 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00160418 (* 1 = 0.00160418 loss)
+I1029 18:22:03.715878 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000818073 (* 1 = 0.000818073 loss)
+I1029 18:22:03.715884 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00147279 (* 1 = 0.00147279 loss)
+I1029 18:22:03.715890 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000792358 (* 1 = 0.000792358 loss)
+I1029 18:22:03.715893 17085 sgd_solver.cpp:106] Iteration 1100, lr = 0.0001
+I1029 18:22:35.401396 17085 solver.cpp:228] Iteration 1200, loss = 0.0049096
+I1029 18:22:35.401459 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00169955 (* 1 = 0.00169955 loss)
+I1029 18:22:35.401464 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000769345 (* 1 = 0.000769345 loss)
+I1029 18:22:35.401468 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00156872 (* 1 = 0.00156872 loss)
+I1029 18:22:35.401471 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000871984 (* 1 = 0.000871984 loss)
+I1029 18:22:35.401474 17085 sgd_solver.cpp:106] Iteration 1200, lr = 0.0001
+I1029 18:23:07.435255 17085 solver.cpp:228] Iteration 1300, loss = 0.00389543
+I1029 18:23:07.435353 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00122288 (* 1 = 0.00122288 loss)
+I1029 18:23:07.435359 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000768517 (* 1 = 0.000768517 loss)
+I1029 18:23:07.435364 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.0012776 (* 1 = 0.0012776 loss)
+I1029 18:23:07.435367 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000626433 (* 1 = 0.000626433 loss)
+I1029 18:23:07.435369 17085 sgd_solver.cpp:106] Iteration 1300, lr = 0.0001
+I1029 18:23:39.455396 17085 solver.cpp:228] Iteration 1400, loss = 0.00484368
+I1029 18:23:39.455572 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00114307 (* 1 = 0.00114307 loss)
+I1029 18:23:39.455597 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000981398 (* 1 = 0.000981398 loss)
+I1029 18:23:39.455601 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.001833 (* 1 = 0.001833 loss)
+I1029 18:23:39.455605 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.00088621 (* 1 = 0.00088621 loss)
+I1029 18:23:39.455608 17085 sgd_solver.cpp:106] Iteration 1400, lr = 0.0001
+I1029 18:24:10.646328 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_1500.caffemodel
+I1029 18:24:10.687180 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_1500.solverstate
+I1029 18:24:10.695813 17085 solver.cpp:337] Iteration 1500, Testing net (#0)
+I1029 18:24:12.901559 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00585484 (* 1 = 0.00585484 loss)
+I1029 18:24:12.901574 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000280795 (* 1 = 0.000280795 loss)
+I1029 18:24:12.901597 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00447936 (* 1 = 0.00447936 loss)
+I1029 18:24:12.901600 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000306079 (* 1 = 0.000306079 loss)
+I1029 18:24:13.192026 17085 solver.cpp:228] Iteration 1500, loss = 0.00443697
+I1029 18:24:13.192046 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00175855 (* 1 = 0.00175855 loss)
+I1029 18:24:13.192070 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000717345 (* 1 = 0.000717345 loss)
+I1029 18:24:13.192075 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00129921 (* 1 = 0.00129921 loss)
+I1029 18:24:13.192078 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000661863 (* 1 = 0.000661863 loss)
+I1029 18:24:13.192081 17085 sgd_solver.cpp:106] Iteration 1500, lr = 0.0001
+I1029 18:24:45.183517 17085 solver.cpp:228] Iteration 1600, loss = 0.0049767
+I1029 18:24:45.183575 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00150517 (* 1 = 0.00150517 loss)
+I1029 18:24:45.183581 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000754399 (* 1 = 0.000754399 loss)
+I1029 18:24:45.183585 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00184398 (* 1 = 0.00184398 loss)
+I1029 18:24:45.183590 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000873154 (* 1 = 0.000873154 loss)
+I1029 18:24:45.183593 17085 sgd_solver.cpp:106] Iteration 1600, lr = 0.0001
+I1029 18:25:17.199167 17085 solver.cpp:228] Iteration 1700, loss = 0.00514773
+I1029 18:25:17.199220 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00170711 (* 1 = 0.00170711 loss)
+I1029 18:25:17.199225 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000916867 (* 1 = 0.000916867 loss)
+I1029 18:25:17.199244 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00178884 (* 1 = 0.00178884 loss)
+I1029 18:25:17.199246 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.00073491 (* 1 = 0.00073491 loss)
+I1029 18:25:17.199267 17085 sgd_solver.cpp:106] Iteration 1700, lr = 0.0001
+I1029 18:25:49.231159 17085 solver.cpp:228] Iteration 1800, loss = 0.00411468
+I1029 18:25:49.231326 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00157394 (* 1 = 0.00157394 loss)
+I1029 18:25:49.231333 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000664153 (* 1 = 0.000664153 loss)
+I1029 18:25:49.231338 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00133066 (* 1 = 0.00133066 loss)
+I1029 18:25:49.231340 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000545927 (* 1 = 0.000545927 loss)
+I1029 18:25:49.231343 17085 sgd_solver.cpp:106] Iteration 1800, lr = 0.0001
+I1029 18:26:20.717391 17085 solver.cpp:228] Iteration 1900, loss = 0.00447423
+I1029 18:26:20.717489 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00160604 (* 1 = 0.00160604 loss)
+I1029 18:26:20.717494 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000642601 (* 1 = 0.000642601 loss)
+I1029 18:26:20.717497 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00152052 (* 1 = 0.00152052 loss)
+I1029 18:26:20.717501 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000705062 (* 1 = 0.000705062 loss)
+I1029 18:26:20.717504 17085 sgd_solver.cpp:106] Iteration 1900, lr = 0.0001
+I1029 18:26:52.434593 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_2000.caffemodel
+I1029 18:26:52.474840 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_2000.solverstate
+I1029 18:26:52.483336 17085 solver.cpp:337] Iteration 2000, Testing net (#0)
+I1029 18:26:54.689972 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00582516 (* 1 = 0.00582516 loss)
+I1029 18:26:54.690006 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000270864 (* 1 = 0.000270864 loss)
+I1029 18:26:54.690011 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00436454 (* 1 = 0.00436454 loss)
+I1029 18:26:54.690014 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000262756 (* 1 = 0.000262756 loss)
+I1029 18:26:54.980350 17085 solver.cpp:228] Iteration 2000, loss = 0.00365716
+I1029 18:26:54.980389 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00126967 (* 1 = 0.00126967 loss)
+I1029 18:26:54.980408 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000706172 (* 1 = 0.000706172 loss)
+I1029 18:26:54.980412 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00116377 (* 1 = 0.00116377 loss)
+I1029 18:26:54.980417 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000517551 (* 1 = 0.000517551 loss)
+I1029 18:26:54.980419 17085 sgd_solver.cpp:106] Iteration 2000, lr = 0.0001
+I1029 18:27:26.976920 17085 solver.cpp:228] Iteration 2100, loss = 0.00491041
+I1029 18:27:26.977082 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00176882 (* 1 = 0.00176882 loss)
+I1029 18:27:26.977088 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000870569 (* 1 = 0.000870569 loss)
+I1029 18:27:26.977092 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00141643 (* 1 = 0.00141643 loss)
+I1029 18:27:26.977097 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000854589 (* 1 = 0.000854589 loss)
+I1029 18:27:26.977099 17085 sgd_solver.cpp:106] Iteration 2100, lr = 0.0001
+I1029 18:27:58.963186 17085 solver.cpp:228] Iteration 2200, loss = 0.00468265
+I1029 18:27:58.963347 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00161849 (* 1 = 0.00161849 loss)
+I1029 18:27:58.963354 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000782669 (* 1 = 0.000782669 loss)
+I1029 18:27:58.963359 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00148865 (* 1 = 0.00148865 loss)
+I1029 18:27:58.963362 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000792842 (* 1 = 0.000792842 loss)
+I1029 18:27:58.963366 17085 sgd_solver.cpp:106] Iteration 2200, lr = 0.0001
+I1029 18:28:30.478893 17085 solver.cpp:228] Iteration 2300, loss = 0.00472058
+I1029 18:28:30.478960 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00132139 (* 1 = 0.00132139 loss)
+I1029 18:28:30.478977 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000871225 (* 1 = 0.000871225 loss)
+I1029 18:28:30.478981 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00167374 (* 1 = 0.00167374 loss)
+I1029 18:28:30.478984 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000854226 (* 1 = 0.000854226 loss)
+I1029 18:28:30.479007 17085 sgd_solver.cpp:106] Iteration 2300, lr = 0.0001
+I1029 18:29:02.487015 17085 solver.cpp:228] Iteration 2400, loss = 0.0046578
+I1029 18:29:02.487174 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00166706 (* 1 = 0.00166706 loss)
+I1029 18:29:02.487179 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000913412 (* 1 = 0.000913412 loss)
+I1029 18:29:02.487185 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00127194 (* 1 = 0.00127194 loss)
+I1029 18:29:02.487188 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000805376 (* 1 = 0.000805376 loss)
+I1029 18:29:02.487190 17085 sgd_solver.cpp:106] Iteration 2400, lr = 0.0001
+I1029 18:29:34.166949 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_2500.caffemodel
+I1029 18:29:34.207280 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_2500.solverstate
+I1029 18:29:34.215783 17085 solver.cpp:337] Iteration 2500, Testing net (#0)
+I1029 18:29:36.412016 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00566439 (* 1 = 0.00566439 loss)
+I1029 18:29:36.412031 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.00022279 (* 1 = 0.00022279 loss)
+I1029 18:29:36.412055 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00435238 (* 1 = 0.00435238 loss)
+I1029 18:29:36.412058 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000340166 (* 1 = 0.000340166 loss)
+I1029 18:29:36.701562 17085 solver.cpp:228] Iteration 2500, loss = 0.00562018
+I1029 18:29:36.701619 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00180046 (* 1 = 0.00180046 loss)
+I1029 18:29:36.701623 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000710701 (* 1 = 0.000710701 loss)
+I1029 18:29:36.701644 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00236706 (* 1 = 0.00236706 loss)
+I1029 18:29:36.701647 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000741957 (* 1 = 0.000741957 loss)
+I1029 18:29:36.701650 17085 sgd_solver.cpp:106] Iteration 2500, lr = 0.0001
+I1029 18:30:08.733887 17085 solver.cpp:228] Iteration 2600, loss = 0.00452616
+I1029 18:30:08.734055 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00146326 (* 1 = 0.00146326 loss)
+I1029 18:30:08.734061 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000836271 (* 1 = 0.000836271 loss)
+I1029 18:30:08.734066 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00148679 (* 1 = 0.00148679 loss)
+I1029 18:30:08.734069 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000739838 (* 1 = 0.000739838 loss)
+I1029 18:30:08.734072 17085 sgd_solver.cpp:106] Iteration 2600, lr = 0.0001
+I1029 18:30:40.234663 17085 solver.cpp:228] Iteration 2700, loss = 0.00453108
+I1029 18:30:40.234730 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00156858 (* 1 = 0.00156858 loss)
+I1029 18:30:40.234735 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.00065426 (* 1 = 0.00065426 loss)
+I1029 18:30:40.234752 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00158516 (* 1 = 0.00158516 loss)
+I1029 18:30:40.234755 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000723077 (* 1 = 0.000723077 loss)
+I1029 18:30:40.234757 17085 sgd_solver.cpp:106] Iteration 2700, lr = 0.0001
+I1029 18:31:12.228487 17085 solver.cpp:228] Iteration 2800, loss = 0.00517323
+I1029 18:31:12.228567 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00170777 (* 1 = 0.00170777 loss)
+I1029 18:31:12.228572 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000784246 (* 1 = 0.000784246 loss)
+I1029 18:31:12.228576 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00193126 (* 1 = 0.00193126 loss)
+I1029 18:31:12.228579 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000749952 (* 1 = 0.000749952 loss)
+I1029 18:31:12.228582 17085 sgd_solver.cpp:106] Iteration 2800, lr = 0.0001
+I1029 18:31:44.229740 17085 solver.cpp:228] Iteration 2900, loss = 0.00466409
+I1029 18:31:44.229935 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00155306 (* 1 = 0.00155306 loss)
+I1029 18:31:44.229961 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.00080707 (* 1 = 0.00080707 loss)
+I1029 18:31:44.229965 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00144265 (* 1 = 0.00144265 loss)
+I1029 18:31:44.229969 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000861307 (* 1 = 0.000861307 loss)
+I1029 18:31:44.229971 17085 sgd_solver.cpp:106] Iteration 2900, lr = 0.0001
+I1029 18:32:15.442463 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_3000.caffemodel
+I1029 18:32:15.486590 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_3000.solverstate
+I1029 18:32:15.499369 17085 solver.cpp:337] Iteration 3000, Testing net (#0)
+I1029 18:32:17.762212 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00480527 (* 1 = 0.00480527 loss)
+I1029 18:32:17.762235 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000257415 (* 1 = 0.000257415 loss)
+I1029 18:32:17.762243 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00445645 (* 1 = 0.00445645 loss)
+I1029 18:32:17.762249 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000269026 (* 1 = 0.000269026 loss)
+I1029 18:32:18.052196 17085 solver.cpp:228] Iteration 3000, loss = 0.0053579
+I1029 18:32:18.052228 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00163641 (* 1 = 0.00163641 loss)
+I1029 18:32:18.052237 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000812302 (* 1 = 0.000812302 loss)
+I1029 18:32:18.052243 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00205598 (* 1 = 0.00205598 loss)
+I1029 18:32:18.052249 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000853214 (* 1 = 0.000853214 loss)
+I1029 18:32:18.052254 17085 sgd_solver.cpp:106] Iteration 3000, lr = 0.0001
+I1029 18:32:50.058840 17085 solver.cpp:228] Iteration 3100, loss = 0.00428367
+I1029 18:32:50.059015 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00133509 (* 1 = 0.00133509 loss)
+I1029 18:32:50.059022 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000796929 (* 1 = 0.000796929 loss)
+I1029 18:32:50.059026 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00148514 (* 1 = 0.00148514 loss)
+I1029 18:32:50.059029 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000666501 (* 1 = 0.000666501 loss)
+I1029 18:32:50.059033 17085 sgd_solver.cpp:106] Iteration 3100, lr = 0.0001
+I1029 18:33:22.092104 17085 solver.cpp:228] Iteration 3200, loss = 0.00475403
+I1029 18:33:22.092262 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00164757 (* 1 = 0.00164757 loss)
+I1029 18:33:22.092269 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000777598 (* 1 = 0.000777598 loss)
+I1029 18:33:22.092274 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00157551 (* 1 = 0.00157551 loss)
+I1029 18:33:22.092278 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.00075335 (* 1 = 0.00075335 loss)
+I1029 18:33:22.092280 17085 sgd_solver.cpp:106] Iteration 3200, lr = 0.0001
+I1029 18:33:54.097452 17085 solver.cpp:228] Iteration 3300, loss = 0.00443816
+I1029 18:33:54.097656 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00174052 (* 1 = 0.00174052 loss)
+I1029 18:33:54.097676 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.00074255 (* 1 = 0.00074255 loss)
+I1029 18:33:54.097699 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00114667 (* 1 = 0.00114667 loss)
+I1029 18:33:54.097703 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000808415 (* 1 = 0.000808415 loss)
+I1029 18:33:54.097707 17085 sgd_solver.cpp:106] Iteration 3300, lr = 0.0001
+I1029 18:34:25.588994 17085 solver.cpp:228] Iteration 3400, loss = 0.00518629
+I1029 18:34:25.589144 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00187004 (* 1 = 0.00187004 loss)
+I1029 18:34:25.589169 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000817247 (* 1 = 0.000817247 loss)
+I1029 18:34:25.589174 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00149974 (* 1 = 0.00149974 loss)
+I1029 18:34:25.589177 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000999261 (* 1 = 0.000999261 loss)
+I1029 18:34:25.589180 17085 sgd_solver.cpp:106] Iteration 3400, lr = 0.0001
+I1029 18:34:57.275913 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_3500.caffemodel
+I1029 18:34:57.316270 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_3500.solverstate
+I1029 18:34:57.324735 17085 solver.cpp:337] Iteration 3500, Testing net (#0)
+I1029 18:34:59.532886 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00541426 (* 1 = 0.00541426 loss)
+I1029 18:34:59.532919 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000297393 (* 1 = 0.000297393 loss)
+I1029 18:34:59.532923 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00555176 (* 1 = 0.00555176 loss)
+I1029 18:34:59.532927 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000223019 (* 1 = 0.000223019 loss)
+I1029 18:34:59.822424 17085 solver.cpp:228] Iteration 3500, loss = 0.00493243
+I1029 18:34:59.822464 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00172625 (* 1 = 0.00172625 loss)
+I1029 18:34:59.822469 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000855686 (* 1 = 0.000855686 loss)
+I1029 18:34:59.822474 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00145416 (* 1 = 0.00145416 loss)
+I1029 18:34:59.822477 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000896348 (* 1 = 0.000896348 loss)
+I1029 18:34:59.822480 17085 sgd_solver.cpp:106] Iteration 3500, lr = 0.0001
+I1029 18:35:31.819077 17085 solver.cpp:228] Iteration 3600, loss = 0.00467382
+I1029 18:35:31.819239 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00181786 (* 1 = 0.00181786 loss)
+I1029 18:35:31.819247 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000734678 (* 1 = 0.000734678 loss)
+I1029 18:35:31.819252 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00136428 (* 1 = 0.00136428 loss)
+I1029 18:35:31.819255 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000757008 (* 1 = 0.000757008 loss)
+I1029 18:35:31.819257 17085 sgd_solver.cpp:106] Iteration 3600, lr = 0.0001
+I1029 18:36:03.829156 17085 solver.cpp:228] Iteration 3700, loss = 0.00470296
+I1029 18:36:03.829212 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00164813 (* 1 = 0.00164813 loss)
+I1029 18:36:03.829216 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000645247 (* 1 = 0.000645247 loss)
+I1029 18:36:03.829233 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00176956 (* 1 = 0.00176956 loss)
+I1029 18:36:03.829238 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000640019 (* 1 = 0.000640019 loss)
+I1029 18:36:03.829241 17085 sgd_solver.cpp:106] Iteration 3700, lr = 0.0001
+I1029 18:36:35.322938 17085 solver.cpp:228] Iteration 3800, loss = 0.00436747
+I1029 18:36:35.323010 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00173217 (* 1 = 0.00173217 loss)
+I1029 18:36:35.323016 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.00063935 (* 1 = 0.00063935 loss)
+I1029 18:36:35.323038 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00132706 (* 1 = 0.00132706 loss)
+I1029 18:36:35.323041 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000668892 (* 1 = 0.000668892 loss)
+I1029 18:36:35.323060 17085 sgd_solver.cpp:106] Iteration 3800, lr = 0.0001
+I1029 18:37:07.310216 17085 solver.cpp:228] Iteration 3900, loss = 0.0043298
+I1029 18:37:07.310278 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00134237 (* 1 = 0.00134237 loss)
+I1029 18:37:07.310284 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000722496 (* 1 = 0.000722496 loss)
+I1029 18:37:07.310289 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00155382 (* 1 = 0.00155382 loss)
+I1029 18:37:07.310294 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000711104 (* 1 = 0.000711104 loss)
+I1029 18:37:07.310298 17085 sgd_solver.cpp:106] Iteration 3900, lr = 0.0001
+I1029 18:37:39.018100 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_4000.caffemodel
+I1029 18:37:39.058287 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_4000.solverstate
+I1029 18:37:39.067518 17085 solver.cpp:337] Iteration 4000, Testing net (#0)
+I1029 18:37:41.263181 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00588375 (* 1 = 0.00588375 loss)
+I1029 18:37:41.263197 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000249119 (* 1 = 0.000249119 loss)
+I1029 18:37:41.263202 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.0045414 (* 1 = 0.0045414 loss)
+I1029 18:37:41.263206 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000234696 (* 1 = 0.000234696 loss)
+I1029 18:37:41.552846 17085 solver.cpp:228] Iteration 4000, loss = 0.00433579
+I1029 18:37:41.552870 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00147303 (* 1 = 0.00147303 loss)
+I1029 18:37:41.552875 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000719938 (* 1 = 0.000719938 loss)
+I1029 18:37:41.552880 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00139246 (* 1 = 0.00139246 loss)
+I1029 18:37:41.552882 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000750366 (* 1 = 0.000750366 loss)
+I1029 18:37:41.552886 17085 sgd_solver.cpp:106] Iteration 4000, lr = 0.0001
+I1029 18:38:13.056527 17085 solver.cpp:228] Iteration 4100, loss = 0.00367608
+I1029 18:38:13.056680 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.001306 (* 1 = 0.001306 loss)
+I1029 18:38:13.056706 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000729731 (* 1 = 0.000729731 loss)
+I1029 18:38:13.056710 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00106795 (* 1 = 0.00106795 loss)
+I1029 18:38:13.056715 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000572402 (* 1 = 0.000572402 loss)
+I1029 18:38:13.056716 17085 sgd_solver.cpp:106] Iteration 4100, lr = 0.0001
+I1029 18:38:45.104722 17085 solver.cpp:228] Iteration 4200, loss = 0.00470209
+I1029 18:38:45.104773 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00159727 (* 1 = 0.00159727 loss)
+I1029 18:38:45.104797 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000701511 (* 1 = 0.000701511 loss)
+I1029 18:38:45.104801 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00161686 (* 1 = 0.00161686 loss)
+I1029 18:38:45.104805 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000786451 (* 1 = 0.000786451 loss)
+I1029 18:38:45.104807 17085 sgd_solver.cpp:106] Iteration 4200, lr = 0.0001
+I1029 18:39:17.180450 17085 solver.cpp:228] Iteration 4300, loss = 0.00427146
+I1029 18:39:17.180618 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00142224 (* 1 = 0.00142224 loss)
+I1029 18:39:17.180644 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000629808 (* 1 = 0.000629808 loss)
+I1029 18:39:17.180649 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00149459 (* 1 = 0.00149459 loss)
+I1029 18:39:17.180651 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000724827 (* 1 = 0.000724827 loss)
+I1029 18:39:17.180655 17085 sgd_solver.cpp:106] Iteration 4300, lr = 0.0001
+I1029 18:39:49.489711 17085 solver.cpp:228] Iteration 4400, loss = 0.00477901
+I1029 18:39:49.489873 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00127994 (* 1 = 0.00127994 loss)
+I1029 18:39:49.489879 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000788025 (* 1 = 0.000788025 loss)
+I1029 18:39:49.489883 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00185063 (* 1 = 0.00185063 loss)
+I1029 18:39:49.489887 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000860417 (* 1 = 0.000860417 loss)
+I1029 18:39:49.489891 17085 sgd_solver.cpp:106] Iteration 4400, lr = 0.0001
+I1029 18:40:20.695427 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_4500.caffemodel
+I1029 18:40:20.735602 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_4500.solverstate
+I1029 18:40:20.744374 17085 solver.cpp:337] Iteration 4500, Testing net (#0)
+I1029 18:40:22.952021 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00506841 (* 1 = 0.00506841 loss)
+I1029 18:40:22.952036 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000254176 (* 1 = 0.000254176 loss)
+I1029 18:40:22.952040 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00467296 (* 1 = 0.00467296 loss)
+I1029 18:40:22.952044 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000292547 (* 1 = 0.000292547 loss)
+I1029 18:40:23.242079 17085 solver.cpp:228] Iteration 4500, loss = 0.00469285
+I1029 18:40:23.242102 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00137611 (* 1 = 0.00137611 loss)
+I1029 18:40:23.242107 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000974993 (* 1 = 0.000974993 loss)
+I1029 18:40:23.242112 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00159701 (* 1 = 0.00159701 loss)
+I1029 18:40:23.242115 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000744736 (* 1 = 0.000744736 loss)
+I1029 18:40:23.242120 17085 sgd_solver.cpp:106] Iteration 4500, lr = 0.0001
+I1029 18:40:55.283324 17085 solver.cpp:228] Iteration 4600, loss = 0.00501337
+I1029 18:40:55.283474 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.0016928 (* 1 = 0.0016928 loss)
+I1029 18:40:55.283504 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000797178 (* 1 = 0.000797178 loss)
+I1029 18:40:55.283509 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00181646 (* 1 = 0.00181646 loss)
+I1029 18:40:55.283515 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.00070693 (* 1 = 0.00070693 loss)
+I1029 18:40:55.283532 17085 sgd_solver.cpp:106] Iteration 4600, lr = 0.0001
+I1029 18:41:27.298086 17085 solver.cpp:228] Iteration 4700, loss = 0.00418408
+I1029 18:41:27.298138 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00127406 (* 1 = 0.00127406 loss)
+I1029 18:41:27.298162 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000620341 (* 1 = 0.000620341 loss)
+I1029 18:41:27.298166 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00161769 (* 1 = 0.00161769 loss)
+I1029 18:41:27.298171 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000671991 (* 1 = 0.000671991 loss)
+I1029 18:41:27.298172 17085 sgd_solver.cpp:106] Iteration 4700, lr = 0.0001
+I1029 18:41:59.344530 17085 solver.cpp:228] Iteration 4800, loss = 0.00474667
+I1029 18:41:59.344571 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00160945 (* 1 = 0.00160945 loss)
+I1029 18:41:59.344578 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000679886 (* 1 = 0.000679886 loss)
+I1029 18:41:59.344581 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00164335 (* 1 = 0.00164335 loss)
+I1029 18:41:59.344585 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.00081398 (* 1 = 0.00081398 loss)
+I1029 18:41:59.344588 17085 sgd_solver.cpp:106] Iteration 4800, lr = 0.0001
+I1029 18:42:30.856906 17085 solver.cpp:228] Iteration 4900, loss = 0.00471965
+I1029 18:42:30.856971 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00137427 (* 1 = 0.00137427 loss)
+I1029 18:42:30.856976 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.00069055 (* 1 = 0.00069055 loss)
+I1029 18:42:30.856981 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.001947 (* 1 = 0.001947 loss)
+I1029 18:42:30.856984 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000707821 (* 1 = 0.000707821 loss)
+I1029 18:42:30.856986 17085 sgd_solver.cpp:106] Iteration 4900, lr = 0.0001
+I1029 18:43:02.627259 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_5000.caffemodel
+I1029 18:43:02.667372 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_5000.solverstate
+I1029 18:43:02.676532 17085 solver.cpp:337] Iteration 5000, Testing net (#0)
+I1029 18:43:04.890780 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00586265 (* 1 = 0.00586265 loss)
+I1029 18:43:04.890815 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000224826 (* 1 = 0.000224826 loss)
+I1029 18:43:04.890820 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.0044206 (* 1 = 0.0044206 loss)
+I1029 18:43:04.890823 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000207957 (* 1 = 0.000207957 loss)
+I1029 18:43:05.181267 17085 solver.cpp:228] Iteration 5000, loss = 0.00436595
+I1029 18:43:05.181289 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00184423 (* 1 = 0.00184423 loss)
+I1029 18:43:05.181313 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000771266 (* 1 = 0.000771266 loss)
+I1029 18:43:05.181318 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00106377 (* 1 = 0.00106377 loss)
+I1029 18:43:05.181320 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000686679 (* 1 = 0.000686679 loss)
+I1029 18:43:05.181324 17085 sgd_solver.cpp:106] Iteration 5000, lr = 0.0001
+I1029 18:43:37.426578 17085 solver.cpp:228] Iteration 5100, loss = 0.00459423
+I1029 18:43:37.426741 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00163042 (* 1 = 0.00163042 loss)
+I1029 18:43:37.426748 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000726513 (* 1 = 0.000726513 loss)
+I1029 18:43:37.426753 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00161667 (* 1 = 0.00161667 loss)
+I1029 18:43:37.426755 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000620622 (* 1 = 0.000620622 loss)
+I1029 18:43:37.426759 17085 sgd_solver.cpp:106] Iteration 5100, lr = 0.0001
+I1029 18:44:09.456483 17085 solver.cpp:228] Iteration 5200, loss = 0.00420548
+I1029 18:44:09.456540 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00132026 (* 1 = 0.00132026 loss)
+I1029 18:44:09.456564 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000660101 (* 1 = 0.000660101 loss)
+I1029 18:44:09.456583 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00152543 (* 1 = 0.00152543 loss)
+I1029 18:44:09.456585 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000699682 (* 1 = 0.000699682 loss)
+I1029 18:44:09.456588 17085 sgd_solver.cpp:106] Iteration 5200, lr = 0.0001
+I1029 18:44:40.965950 17085 solver.cpp:228] Iteration 5300, loss = 0.00431442
+I1029 18:44:40.965993 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00123898 (* 1 = 0.00123898 loss)
+I1029 18:44:40.966017 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000708012 (* 1 = 0.000708012 loss)
+I1029 18:44:40.966022 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00157154 (* 1 = 0.00157154 loss)
+I1029 18:44:40.966025 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000795889 (* 1 = 0.000795889 loss)
+I1029 18:44:40.966028 17085 sgd_solver.cpp:106] Iteration 5300, lr = 0.0001
+I1029 18:45:13.023239 17085 solver.cpp:228] Iteration 5400, loss = 0.00483273
+I1029 18:45:13.023277 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00150574 (* 1 = 0.00150574 loss)
+I1029 18:45:13.023301 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.0007761 (* 1 = 0.0007761 loss)
+I1029 18:45:13.023305 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00177421 (* 1 = 0.00177421 loss)
+I1029 18:45:13.023309 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000776684 (* 1 = 0.000776684 loss)
+I1029 18:45:13.023313 17085 sgd_solver.cpp:106] Iteration 5400, lr = 0.0001
+I1029 18:45:44.728970 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_5500.caffemodel
+I1029 18:45:44.769078 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_5500.solverstate
+I1029 18:45:44.778209 17085 solver.cpp:337] Iteration 5500, Testing net (#0)
+I1029 18:45:46.984694 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00513052 (* 1 = 0.00513052 loss)
+I1029 18:45:46.984712 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000267622 (* 1 = 0.000267622 loss)
+I1029 18:45:46.984719 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00458634 (* 1 = 0.00458634 loss)
+I1029 18:45:46.984726 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000221019 (* 1 = 0.000221019 loss)
+I1029 18:45:47.275166 17085 solver.cpp:228] Iteration 5500, loss = 0.00418513
+I1029 18:45:47.275189 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.001393 (* 1 = 0.001393 loss)
+I1029 18:45:47.275194 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000666942 (* 1 = 0.000666942 loss)
+I1029 18:45:47.275198 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00147585 (* 1 = 0.00147585 loss)
+I1029 18:45:47.275202 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000649328 (* 1 = 0.000649328 loss)
+I1029 18:45:47.275205 17085 sgd_solver.cpp:106] Iteration 5500, lr = 0.0001
+I1029 18:46:18.799612 17085 solver.cpp:228] Iteration 5600, loss = 0.00461537
+I1029 18:46:18.799651 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00133838 (* 1 = 0.00133838 loss)
+I1029 18:46:18.799656 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000755637 (* 1 = 0.000755637 loss)
+I1029 18:46:18.799660 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.0018606 (* 1 = 0.0018606 loss)
+I1029 18:46:18.799684 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000660749 (* 1 = 0.000660749 loss)
+I1029 18:46:18.799686 17085 sgd_solver.cpp:106] Iteration 5600, lr = 0.0001
+I1029 18:46:50.872099 17085 solver.cpp:228] Iteration 5700, loss = 0.00519849
+I1029 18:46:50.872277 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00182513 (* 1 = 0.00182513 loss)
+I1029 18:46:50.872303 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000790378 (* 1 = 0.000790378 loss)
+I1029 18:46:50.872306 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.001884 (* 1 = 0.001884 loss)
+I1029 18:46:50.872323 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000698977 (* 1 = 0.000698977 loss)
+I1029 18:46:50.872325 17085 sgd_solver.cpp:106] Iteration 5700, lr = 0.0001
+I1029 18:47:22.887449 17085 solver.cpp:228] Iteration 5800, loss = 0.00440644
+I1029 18:47:22.887609 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00142064 (* 1 = 0.00142064 loss)
+I1029 18:47:22.887616 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000687974 (* 1 = 0.000687974 loss)
+I1029 18:47:22.887621 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00153178 (* 1 = 0.00153178 loss)
+I1029 18:47:22.887625 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000766047 (* 1 = 0.000766047 loss)
+I1029 18:47:22.887629 17085 sgd_solver.cpp:106] Iteration 5800, lr = 0.0001
+I1029 18:47:55.116145 17085 solver.cpp:228] Iteration 5900, loss = 0.0052319
+I1029 18:47:55.116185 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00188405 (* 1 = 0.00188405 loss)
+I1029 18:47:55.116209 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.00071251 (* 1 = 0.00071251 loss)
+I1029 18:47:55.116212 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00181792 (* 1 = 0.00181792 loss)
+I1029 18:47:55.116216 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000817415 (* 1 = 0.000817415 loss)
+I1029 18:47:55.116219 17085 sgd_solver.cpp:106] Iteration 5900, lr = 0.0001
+I1029 18:48:26.313458 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_6000.caffemodel
+I1029 18:48:26.359700 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_6000.solverstate
+I1029 18:48:26.374694 17085 solver.cpp:337] Iteration 6000, Testing net (#0)
+I1029 18:48:28.622905 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00578854 (* 1 = 0.00578854 loss)
+I1029 18:48:28.622941 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000263141 (* 1 = 0.000263141 loss)
+I1029 18:48:28.622944 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00489065 (* 1 = 0.00489065 loss)
+I1029 18:48:28.622948 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000228684 (* 1 = 0.000228684 loss)
+I1029 18:48:28.913045 17085 solver.cpp:228] Iteration 6000, loss = 0.00401431
+I1029 18:48:28.913069 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00115243 (* 1 = 0.00115243 loss)
+I1029 18:48:28.913094 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000593555 (* 1 = 0.000593555 loss)
+I1029 18:48:28.913099 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00140855 (* 1 = 0.00140855 loss)
+I1029 18:48:28.913115 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000859774 (* 1 = 0.000859774 loss)
+I1029 18:48:28.913120 17085 sgd_solver.cpp:106] Iteration 6000, lr = 0.0001
+I1029 18:49:00.951390 17085 solver.cpp:228] Iteration 6100, loss = 0.00500744
+I1029 18:49:00.951426 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00138313 (* 1 = 0.00138313 loss)
+I1029 18:49:00.951448 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000724976 (* 1 = 0.000724976 loss)
+I1029 18:49:00.951454 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00208662 (* 1 = 0.00208662 loss)
+I1029 18:49:00.951458 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000812711 (* 1 = 0.000812711 loss)
+I1029 18:49:00.951460 17085 sgd_solver.cpp:106] Iteration 6100, lr = 0.0001
+I1029 18:49:32.976166 17085 solver.cpp:228] Iteration 6200, loss = 0.00452392
+I1029 18:49:32.976235 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00167559 (* 1 = 0.00167559 loss)
+I1029 18:49:32.976241 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000705863 (* 1 = 0.000705863 loss)
+I1029 18:49:32.976244 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00144568 (* 1 = 0.00144568 loss)
+I1029 18:49:32.976248 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.00069679 (* 1 = 0.00069679 loss)
+I1029 18:49:32.976251 17085 sgd_solver.cpp:106] Iteration 6200, lr = 0.0001
+I1029 18:50:05.008074 17085 solver.cpp:228] Iteration 6300, loss = 0.00466453
+I1029 18:50:05.008117 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00157061 (* 1 = 0.00157061 loss)
+I1029 18:50:05.008141 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.00087263 (* 1 = 0.00087263 loss)
+I1029 18:50:05.008147 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00157105 (* 1 = 0.00157105 loss)
+I1029 18:50:05.008162 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.00065024 (* 1 = 0.00065024 loss)
+I1029 18:50:05.008165 17085 sgd_solver.cpp:106] Iteration 6300, lr = 0.0001
+I1029 18:50:36.793810 17085 solver.cpp:228] Iteration 6400, loss = 0.00381957
+I1029 18:50:36.793965 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00110366 (* 1 = 0.00110366 loss)
+I1029 18:50:36.793990 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000664032 (* 1 = 0.000664032 loss)
+I1029 18:50:36.793994 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.0014907 (* 1 = 0.0014907 loss)
+I1029 18:50:36.793998 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000561172 (* 1 = 0.000561172 loss)
+I1029 18:50:36.794000 17085 sgd_solver.cpp:106] Iteration 6400, lr = 0.0001
+I1029 18:51:08.496829 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_6500.caffemodel
+I1029 18:51:08.536859 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_6500.solverstate
+I1029 18:51:08.546020 17085 solver.cpp:337] Iteration 6500, Testing net (#0)
+I1029 18:51:10.756912 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00567158 (* 1 = 0.00567158 loss)
+I1029 18:51:10.756928 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000261611 (* 1 = 0.000261611 loss)
+I1029 18:51:10.756932 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00509213 (* 1 = 0.00509213 loss)
+I1029 18:51:10.756937 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000231297 (* 1 = 0.000231297 loss)
+I1029 18:51:11.046241 17085 solver.cpp:228] Iteration 6500, loss = 0.00381374
+I1029 18:51:11.046264 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00126306 (* 1 = 0.00126306 loss)
+I1029 18:51:11.046269 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000614624 (* 1 = 0.000614624 loss)
+I1029 18:51:11.046273 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.0011881 (* 1 = 0.0011881 loss)
+I1029 18:51:11.046277 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000747959 (* 1 = 0.000747959 loss)
+I1029 18:51:11.046280 17085 sgd_solver.cpp:106] Iteration 6500, lr = 0.0001
+I1029 18:51:43.077702 17085 solver.cpp:228] Iteration 6600, loss = 0.00450426
+I1029 18:51:43.077769 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00140926 (* 1 = 0.00140926 loss)
+I1029 18:51:43.077775 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000648789 (* 1 = 0.000648789 loss)
+I1029 18:51:43.077778 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00160689 (* 1 = 0.00160689 loss)
+I1029 18:51:43.077782 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000839324 (* 1 = 0.000839324 loss)
+I1029 18:51:43.077785 17085 sgd_solver.cpp:106] Iteration 6600, lr = 0.0001
+I1029 18:52:14.567800 17085 solver.cpp:228] Iteration 6700, loss = 0.00524297
+I1029 18:52:14.567854 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00164667 (* 1 = 0.00164667 loss)
+I1029 18:52:14.567878 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000805998 (* 1 = 0.000805998 loss)
+I1029 18:52:14.567883 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00192122 (* 1 = 0.00192122 loss)
+I1029 18:52:14.567901 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000869089 (* 1 = 0.000869089 loss)
+I1029 18:52:14.567903 17085 sgd_solver.cpp:106] Iteration 6700, lr = 0.0001
+I1029 18:52:46.628386 17085 solver.cpp:228] Iteration 6800, loss = 0.00503088
+I1029 18:52:46.628515 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.0015313 (* 1 = 0.0015313 loss)
+I1029 18:52:46.628523 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.00101274 (* 1 = 0.00101274 loss)
+I1029 18:52:46.628526 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00167443 (* 1 = 0.00167443 loss)
+I1029 18:52:46.628530 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000812414 (* 1 = 0.000812414 loss)
+I1029 18:52:46.628533 17085 sgd_solver.cpp:106] Iteration 6800, lr = 0.0001
+I1029 18:53:18.890601 17085 solver.cpp:228] Iteration 6900, loss = 0.00441222
+I1029 18:53:18.890754 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00143822 (* 1 = 0.00143822 loss)
+I1029 18:53:18.890779 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000760633 (* 1 = 0.000760633 loss)
+I1029 18:53:18.890784 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00145687 (* 1 = 0.00145687 loss)
+I1029 18:53:18.890787 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000756495 (* 1 = 0.000756495 loss)
+I1029 18:53:18.890803 17085 sgd_solver.cpp:106] Iteration 6900, lr = 0.0001
+I1029 18:53:50.690358 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_7000.caffemodel
+I1029 18:53:50.730309 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_7000.solverstate
+I1029 18:53:50.739539 17085 solver.cpp:337] Iteration 7000, Testing net (#0)
+I1029 18:53:52.946851 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00502493 (* 1 = 0.00502493 loss)
+I1029 18:53:52.946866 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000223708 (* 1 = 0.000223708 loss)
+I1029 18:53:52.946869 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00466937 (* 1 = 0.00466937 loss)
+I1029 18:53:52.946873 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.0002535 (* 1 = 0.0002535 loss)
+I1029 18:53:53.236853 17085 solver.cpp:228] Iteration 7000, loss = 0.0043795
+I1029 18:53:53.236877 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00136074 (* 1 = 0.00136074 loss)
+I1029 18:53:53.236901 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000727893 (* 1 = 0.000727893 loss)
+I1029 18:53:53.236907 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00166291 (* 1 = 0.00166291 loss)
+I1029 18:53:53.236912 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000627953 (* 1 = 0.000627953 loss)
+I1029 18:53:53.236915 17085 sgd_solver.cpp:106] Iteration 7000, lr = 0.0001
+I1029 18:54:24.754058 17085 solver.cpp:228] Iteration 7100, loss = 0.00440841
+I1029 18:54:24.754132 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.0017083 (* 1 = 0.0017083 loss)
+I1029 18:54:24.754151 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000750345 (* 1 = 0.000750345 loss)
+I1029 18:54:24.754155 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00122859 (* 1 = 0.00122859 loss)
+I1029 18:54:24.754158 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.00072118 (* 1 = 0.00072118 loss)
+I1029 18:54:24.754161 17085 sgd_solver.cpp:106] Iteration 7100, lr = 0.0001
+I1029 18:54:57.178556 17085 solver.cpp:228] Iteration 7200, loss = 0.00442809
+I1029 18:54:57.178725 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00144015 (* 1 = 0.00144015 loss)
+I1029 18:54:57.178731 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000746768 (* 1 = 0.000746768 loss)
+I1029 18:54:57.178736 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00161475 (* 1 = 0.00161475 loss)
+I1029 18:54:57.178740 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000626422 (* 1 = 0.000626422 loss)
+I1029 18:54:57.178743 17085 sgd_solver.cpp:106] Iteration 7200, lr = 0.0001
+I1029 18:55:30.017782 17085 solver.cpp:228] Iteration 7300, loss = 0.00429208
+I1029 18:55:30.017942 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00112699 (* 1 = 0.00112699 loss)
+I1029 18:55:30.017951 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000649643 (* 1 = 0.000649643 loss)
+I1029 18:55:30.017954 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00168777 (* 1 = 0.00168777 loss)
+I1029 18:55:30.017958 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000827679 (* 1 = 0.000827679 loss)
+I1029 18:55:30.017985 17085 sgd_solver.cpp:106] Iteration 7300, lr = 0.0001
+I1029 18:56:02.849103 17085 solver.cpp:228] Iteration 7400, loss = 0.00453847
+I1029 18:56:02.849238 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00179874 (* 1 = 0.00179874 loss)
+I1029 18:56:02.849261 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000668632 (* 1 = 0.000668632 loss)
+I1029 18:56:02.849266 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.0014148 (* 1 = 0.0014148 loss)
+I1029 18:56:02.849289 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000656297 (* 1 = 0.000656297 loss)
+I1029 18:56:02.849293 17085 sgd_solver.cpp:106] Iteration 7400, lr = 0.0001
+I1029 18:56:34.524844 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_7500.caffemodel
+I1029 18:56:34.561313 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_7500.solverstate
+I1029 18:56:34.570276 17085 solver.cpp:337] Iteration 7500, Testing net (#0)
+I1029 18:56:36.847403 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00476524 (* 1 = 0.00476524 loss)
+I1029 18:56:36.847435 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000232604 (* 1 = 0.000232604 loss)
+I1029 18:56:36.847440 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00458 (* 1 = 0.00458 loss)
+I1029 18:56:36.847445 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000255326 (* 1 = 0.000255326 loss)
+I1029 18:56:37.133991 17085 solver.cpp:228] Iteration 7500, loss = 0.00476847
+I1029 18:56:37.134032 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00136625 (* 1 = 0.00136625 loss)
+I1029 18:56:37.134035 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000814394 (* 1 = 0.000814394 loss)
+I1029 18:56:37.134040 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00170227 (* 1 = 0.00170227 loss)
+I1029 18:56:37.134043 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000885546 (* 1 = 0.000885546 loss)
+I1029 18:56:37.134047 17085 sgd_solver.cpp:106] Iteration 7500, lr = 0.0001
+I1029 18:57:09.321236 17085 solver.cpp:228] Iteration 7600, loss = 0.00433406
+I1029 18:57:09.321413 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00160219 (* 1 = 0.00160219 loss)
+I1029 18:57:09.321420 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000763081 (* 1 = 0.000763081 loss)
+I1029 18:57:09.321424 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00130536 (* 1 = 0.00130536 loss)
+I1029 18:57:09.321427 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000663433 (* 1 = 0.000663433 loss)
+I1029 18:57:09.321430 17085 sgd_solver.cpp:106] Iteration 7600, lr = 0.0001
+I1029 18:57:41.570200 17085 solver.cpp:228] Iteration 7700, loss = 0.00460796
+I1029 18:57:41.570338 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00157977 (* 1 = 0.00157977 loss)
+I1029 18:57:41.570343 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000731362 (* 1 = 0.000731362 loss)
+I1029 18:57:41.570365 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00162095 (* 1 = 0.00162095 loss)
+I1029 18:57:41.570369 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000675877 (* 1 = 0.000675877 loss)
+I1029 18:57:41.570372 17085 sgd_solver.cpp:106] Iteration 7700, lr = 0.0001
+I1029 18:58:13.835798 17085 solver.cpp:228] Iteration 7800, loss = 0.00498144
+I1029 18:58:13.835963 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00186584 (* 1 = 0.00186584 loss)
+I1029 18:58:13.835969 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000751498 (* 1 = 0.000751498 loss)
+I1029 18:58:13.835973 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.0016349 (* 1 = 0.0016349 loss)
+I1029 18:58:13.835978 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000729199 (* 1 = 0.000729199 loss)
+I1029 18:58:13.835980 17085 sgd_solver.cpp:106] Iteration 7800, lr = 0.0001
+I1029 18:58:45.308903 17085 solver.cpp:228] Iteration 7900, loss = 0.00452641
+I1029 18:58:45.308969 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00136701 (* 1 = 0.00136701 loss)
+I1029 18:58:45.308974 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000672043 (* 1 = 0.000672043 loss)
+I1029 18:58:45.308997 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.0018113 (* 1 = 0.0018113 loss)
+I1029 18:58:45.309001 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000676056 (* 1 = 0.000676056 loss)
+I1029 18:58:45.309003 17085 sgd_solver.cpp:106] Iteration 7900, lr = 0.0001
+I1029 18:59:17.025452 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_8000.caffemodel
+I1029 18:59:17.065258 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_8000.solverstate
+I1029 18:59:17.073869 17085 solver.cpp:337] Iteration 8000, Testing net (#0)
+I1029 18:59:19.281200 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.0050221 (* 1 = 0.0050221 loss)
+I1029 18:59:19.281236 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.00023242 (* 1 = 0.00023242 loss)
+I1029 18:59:19.281242 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00475094 (* 1 = 0.00475094 loss)
+I1029 18:59:19.281251 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000239752 (* 1 = 0.000239752 loss)
+I1029 18:59:19.571272 17085 solver.cpp:228] Iteration 8000, loss = 0.00403493
+I1029 18:59:19.571313 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.0010936 (* 1 = 0.0010936 loss)
+I1029 18:59:19.571318 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000725194 (* 1 = 0.000725194 loss)
+I1029 18:59:19.571322 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.0015091 (* 1 = 0.0015091 loss)
+I1029 18:59:19.571326 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000707033 (* 1 = 0.000707033 loss)
+I1029 18:59:19.571329 17085 sgd_solver.cpp:106] Iteration 8000, lr = 0.0001
+I1029 18:59:51.581696 17085 solver.cpp:228] Iteration 8100, loss = 0.0047711
+I1029 18:59:51.581862 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00183366 (* 1 = 0.00183366 loss)
+I1029 18:59:51.581867 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000799969 (* 1 = 0.000799969 loss)
+I1029 18:59:51.581890 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00148695 (* 1 = 0.00148695 loss)
+I1029 18:59:51.581894 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000650514 (* 1 = 0.000650514 loss)
+I1029 18:59:51.581910 17085 sgd_solver.cpp:106] Iteration 8100, lr = 0.0001
+I1029 19:00:23.152776 17085 solver.cpp:228] Iteration 8200, loss = 0.00432462
+I1029 19:00:23.152871 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00141268 (* 1 = 0.00141268 loss)
+I1029 19:00:23.152878 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000693362 (* 1 = 0.000693362 loss)
+I1029 19:00:23.152882 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00141586 (* 1 = 0.00141586 loss)
+I1029 19:00:23.152886 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000802721 (* 1 = 0.000802721 loss)
+I1029 19:00:23.152889 17085 sgd_solver.cpp:106] Iteration 8200, lr = 0.0001
+I1029 19:00:55.507572 17085 solver.cpp:228] Iteration 8300, loss = 0.00448019
+I1029 19:00:55.507740 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00124749 (* 1 = 0.00124749 loss)
+I1029 19:00:55.507766 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000669006 (* 1 = 0.000669006 loss)
+I1029 19:00:55.507771 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00184902 (* 1 = 0.00184902 loss)
+I1029 19:00:55.507774 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000714684 (* 1 = 0.000714684 loss)
+I1029 19:00:55.507778 17085 sgd_solver.cpp:106] Iteration 8300, lr = 0.0001
+I1029 19:01:27.724268 17085 solver.cpp:228] Iteration 8400, loss = 0.00461026
+I1029 19:01:27.724344 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.0014154 (* 1 = 0.0014154 loss)
+I1029 19:01:27.724350 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000755496 (* 1 = 0.000755496 loss)
+I1029 19:01:27.724355 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00174401 (* 1 = 0.00174401 loss)
+I1029 19:01:27.724360 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000695341 (* 1 = 0.000695341 loss)
+I1029 19:01:27.724381 17085 sgd_solver.cpp:106] Iteration 8400, lr = 0.0001
+I1029 19:01:59.503094 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_8500.caffemodel
+I1029 19:01:59.539073 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_8500.solverstate
+I1029 19:01:59.547549 17085 solver.cpp:337] Iteration 8500, Testing net (#0)
+I1029 19:02:01.753315 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00513097 (* 1 = 0.00513097 loss)
+I1029 19:02:01.753350 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000231544 (* 1 = 0.000231544 loss)
+I1029 19:02:01.753353 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00447469 (* 1 = 0.00447469 loss)
+I1029 19:02:01.753371 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000309796 (* 1 = 0.000309796 loss)
+I1029 19:02:02.038091 17085 solver.cpp:228] Iteration 8500, loss = 0.00410375
+I1029 19:02:02.038132 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00134737 (* 1 = 0.00134737 loss)
+I1029 19:02:02.038138 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000637719 (* 1 = 0.000637719 loss)
+I1029 19:02:02.038143 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00135589 (* 1 = 0.00135589 loss)
+I1029 19:02:02.038148 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000762765 (* 1 = 0.000762765 loss)
+I1029 19:02:02.038152 17085 sgd_solver.cpp:106] Iteration 8500, lr = 0.0001
+I1029 19:02:33.519448 17085 solver.cpp:228] Iteration 8600, loss = 0.00454876
+I1029 19:02:33.519625 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00156974 (* 1 = 0.00156974 loss)
+I1029 19:02:33.519651 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000716918 (* 1 = 0.000716918 loss)
+I1029 19:02:33.519655 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00154929 (* 1 = 0.00154929 loss)
+I1029 19:02:33.519672 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000712817 (* 1 = 0.000712817 loss)
+I1029 19:02:33.519675 17085 sgd_solver.cpp:106] Iteration 8600, lr = 0.0001
+I1029 19:03:05.514062 17085 solver.cpp:228] Iteration 8700, loss = 0.00422891
+I1029 19:03:05.514119 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00141284 (* 1 = 0.00141284 loss)
+I1029 19:03:05.514125 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000693723 (* 1 = 0.000693723 loss)
+I1029 19:03:05.514129 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00145007 (* 1 = 0.00145007 loss)
+I1029 19:03:05.514133 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000672283 (* 1 = 0.000672283 loss)
+I1029 19:03:05.514135 17085 sgd_solver.cpp:106] Iteration 8700, lr = 0.0001
+I1029 19:03:37.512056 17085 solver.cpp:228] Iteration 8800, loss = 0.00411644
+I1029 19:03:37.512228 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00120007 (* 1 = 0.00120007 loss)
+I1029 19:03:37.512254 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000664809 (* 1 = 0.000664809 loss)
+I1029 19:03:37.512259 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00157355 (* 1 = 0.00157355 loss)
+I1029 19:03:37.512261 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000678013 (* 1 = 0.000678013 loss)
+I1029 19:03:37.512264 17085 sgd_solver.cpp:106] Iteration 8800, lr = 0.0001
+I1029 19:04:09.544075 17085 solver.cpp:228] Iteration 8900, loss = 0.00437194
+I1029 19:04:09.544136 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00144809 (* 1 = 0.00144809 loss)
+I1029 19:04:09.544140 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.0006762 (* 1 = 0.0006762 loss)
+I1029 19:04:09.544144 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00141472 (* 1 = 0.00141472 loss)
+I1029 19:04:09.544148 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.00083293 (* 1 = 0.00083293 loss)
+I1029 19:04:09.544152 17085 sgd_solver.cpp:106] Iteration 8900, lr = 0.0001
+I1029 19:04:40.717509 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_9000.caffemodel
+I1029 19:04:40.753715 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_9000.solverstate
+I1029 19:04:40.762646 17085 solver.cpp:337] Iteration 9000, Testing net (#0)
+I1029 19:04:42.979197 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00549258 (* 1 = 0.00549258 loss)
+I1029 19:04:42.979231 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000235164 (* 1 = 0.000235164 loss)
+I1029 19:04:42.979235 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00494214 (* 1 = 0.00494214 loss)
+I1029 19:04:42.979239 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000303575 (* 1 = 0.000303575 loss)
+I1029 19:04:43.264150 17085 solver.cpp:228] Iteration 9000, loss = 0.00454648
+I1029 19:04:43.264170 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00145939 (* 1 = 0.00145939 loss)
+I1029 19:04:43.264194 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000733222 (* 1 = 0.000733222 loss)
+I1029 19:04:43.264199 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00159612 (* 1 = 0.00159612 loss)
+I1029 19:04:43.264215 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000757751 (* 1 = 0.000757751 loss)
+I1029 19:04:43.264219 17085 sgd_solver.cpp:106] Iteration 9000, lr = 0.0001
+I1029 19:05:15.266327 17085 solver.cpp:228] Iteration 9100, loss = 0.00427286
+I1029 19:05:15.266510 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.0013304 (* 1 = 0.0013304 loss)
+I1029 19:05:15.266535 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000752768 (* 1 = 0.000752768 loss)
+I1029 19:05:15.266538 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00155318 (* 1 = 0.00155318 loss)
+I1029 19:05:15.266541 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000636517 (* 1 = 0.000636517 loss)
+I1029 19:05:15.266544 17085 sgd_solver.cpp:106] Iteration 9100, lr = 0.0001
+I1029 19:05:47.293028 17085 solver.cpp:228] Iteration 9200, loss = 0.00404557
+I1029 19:05:47.293128 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00111316 (* 1 = 0.00111316 loss)
+I1029 19:05:47.293134 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.00072066 (* 1 = 0.00072066 loss)
+I1029 19:05:47.293138 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00137348 (* 1 = 0.00137348 loss)
+I1029 19:05:47.293141 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000838262 (* 1 = 0.000838262 loss)
+I1029 19:05:47.293144 17085 sgd_solver.cpp:106] Iteration 9200, lr = 0.0001
+I1029 19:06:19.022200 17085 solver.cpp:228] Iteration 9300, loss = 0.00462663
+I1029 19:06:19.022375 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00137468 (* 1 = 0.00137468 loss)
+I1029 19:06:19.022400 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000702429 (* 1 = 0.000702429 loss)
+I1029 19:06:19.022404 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.0016875 (* 1 = 0.0016875 loss)
+I1029 19:06:19.022408 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000862023 (* 1 = 0.000862023 loss)
+I1029 19:06:19.022411 17085 sgd_solver.cpp:106] Iteration 9300, lr = 0.0001
+I1029 19:06:51.470938 17085 solver.cpp:228] Iteration 9400, loss = 0.00480983
+I1029 19:06:51.471077 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00176443 (* 1 = 0.00176443 loss)
+I1029 19:06:51.471083 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000826382 (* 1 = 0.000826382 loss)
+I1029 19:06:51.471088 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00159984 (* 1 = 0.00159984 loss)
+I1029 19:06:51.471091 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000619178 (* 1 = 0.000619178 loss)
+I1029 19:06:51.471094 17085 sgd_solver.cpp:106] Iteration 9400, lr = 0.0001
+I1029 19:07:23.221570 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_9500.caffemodel
+I1029 19:07:23.257493 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_9500.solverstate
+I1029 19:07:23.265981 17085 solver.cpp:337] Iteration 9500, Testing net (#0)
+I1029 19:07:25.473114 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00551028 (* 1 = 0.00551028 loss)
+I1029 19:07:25.473147 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000254929 (* 1 = 0.000254929 loss)
+I1029 19:07:25.473152 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00415039 (* 1 = 0.00415039 loss)
+I1029 19:07:25.473170 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000205286 (* 1 = 0.000205286 loss)
+I1029 19:07:25.757966 17085 solver.cpp:228] Iteration 9500, loss = 0.00418055
+I1029 19:07:25.757985 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00124474 (* 1 = 0.00124474 loss)
+I1029 19:07:25.758008 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000684081 (* 1 = 0.000684081 loss)
+I1029 19:07:25.758013 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.0016122 (* 1 = 0.0016122 loss)
+I1029 19:07:25.758016 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000639528 (* 1 = 0.000639528 loss)
+I1029 19:07:25.758019 17085 sgd_solver.cpp:106] Iteration 9500, lr = 0.0001
+I1029 19:07:58.057442 17085 solver.cpp:228] Iteration 9600, loss = 0.00410653
+I1029 19:07:58.057579 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00146331 (* 1 = 0.00146331 loss)
+I1029 19:07:58.057597 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000640124 (* 1 = 0.000640124 loss)
+I1029 19:07:58.057601 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00135018 (* 1 = 0.00135018 loss)
+I1029 19:07:58.057623 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000652923 (* 1 = 0.000652923 loss)
+I1029 19:07:58.057648 17085 sgd_solver.cpp:106] Iteration 9600, lr = 0.0001
+I1029 19:08:30.501721 17085 solver.cpp:228] Iteration 9700, loss = 0.00417218
+I1029 19:08:30.501895 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00178478 (* 1 = 0.00178478 loss)
+I1029 19:08:30.501904 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000546988 (* 1 = 0.000546988 loss)
+I1029 19:08:30.501910 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00115715 (* 1 = 0.00115715 loss)
+I1029 19:08:30.501915 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000683256 (* 1 = 0.000683256 loss)
+I1029 19:08:30.501919 17085 sgd_solver.cpp:106] Iteration 9700, lr = 0.0001
+I1029 19:09:03.267238 17085 solver.cpp:228] Iteration 9800, loss = 0.0042134
+I1029 19:09:03.267424 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00153253 (* 1 = 0.00153253 loss)
+I1029 19:09:03.267451 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000544548 (* 1 = 0.000544548 loss)
+I1029 19:09:03.267467 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00140031 (* 1 = 0.00140031 loss)
+I1029 19:09:03.267470 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000736014 (* 1 = 0.000736014 loss)
+I1029 19:09:03.267474 17085 sgd_solver.cpp:106] Iteration 9800, lr = 0.0001
+I1029 19:09:35.941900 17085 solver.cpp:228] Iteration 9900, loss = 0.00473259
+I1029 19:09:35.942064 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.0015903 (* 1 = 0.0015903 loss)
+I1029 19:09:35.942070 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000617768 (* 1 = 0.000617768 loss)
+I1029 19:09:35.942075 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00179322 (* 1 = 0.00179322 loss)
+I1029 19:09:35.942080 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000731303 (* 1 = 0.000731303 loss)
+I1029 19:09:35.942082 17085 sgd_solver.cpp:106] Iteration 9900, lr = 0.0001
+I1029 19:10:08.275667 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_10000.caffemodel
+I1029 19:10:08.314291 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_10000.solverstate
+I1029 19:10:08.323079 17085 solver.cpp:337] Iteration 10000, Testing net (#0)
+I1029 19:10:10.545918 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00590494 (* 1 = 0.00590494 loss)
+I1029 19:10:10.545951 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000236203 (* 1 = 0.000236203 loss)
+I1029 19:10:10.545955 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00524067 (* 1 = 0.00524067 loss)
+I1029 19:10:10.545959 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000210737 (* 1 = 0.000210737 loss)
+I1029 19:10:10.834302 17085 solver.cpp:228] Iteration 10000, loss = 0.00499666
+I1029 19:10:10.834342 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00151686 (* 1 = 0.00151686 loss)
+I1029 19:10:10.834347 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000885231 (* 1 = 0.000885231 loss)
+I1029 19:10:10.834352 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00173986 (* 1 = 0.00173986 loss)
+I1029 19:10:10.834355 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000854706 (* 1 = 0.000854706 loss)
+I1029 19:10:10.834358 17085 sgd_solver.cpp:106] Iteration 10000, lr = 0.0001
+I1029 19:10:43.198940 17085 solver.cpp:228] Iteration 10100, loss = 0.00433181
+I1029 19:10:43.199091 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00136438 (* 1 = 0.00136438 loss)
+I1029 19:10:43.199100 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000804217 (* 1 = 0.000804217 loss)
+I1029 19:10:43.199103 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00126556 (* 1 = 0.00126556 loss)
+I1029 19:10:43.199107 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000897651 (* 1 = 0.000897651 loss)
+I1029 19:10:43.199112 17085 sgd_solver.cpp:106] Iteration 10100, lr = 0.0001
+I1029 19:11:15.460824 17085 solver.cpp:228] Iteration 10200, loss = 0.00392434
+I1029 19:11:15.460958 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00134112 (* 1 = 0.00134112 loss)
+I1029 19:11:15.460979 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000650815 (* 1 = 0.000650815 loss)
+I1029 19:11:15.460983 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00133306 (* 1 = 0.00133306 loss)
+I1029 19:11:15.461005 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000599342 (* 1 = 0.000599342 loss)
+I1029 19:11:15.461007 17085 sgd_solver.cpp:106] Iteration 10200, lr = 0.0001
+I1029 19:11:48.024127 17085 solver.cpp:228] Iteration 10300, loss = 0.00517703
+I1029 19:11:48.024269 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00171546 (* 1 = 0.00171546 loss)
+I1029 19:11:48.024276 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000740217 (* 1 = 0.000740217 loss)
+I1029 19:11:48.024281 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00202614 (* 1 = 0.00202614 loss)
+I1029 19:11:48.024286 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000695215 (* 1 = 0.000695215 loss)
+I1029 19:11:48.024291 17085 sgd_solver.cpp:106] Iteration 10300, lr = 0.0001
+I1029 19:12:20.774898 17085 solver.cpp:228] Iteration 10400, loss = 0.00390119
+I1029 19:12:20.775099 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.001348 (* 1 = 0.001348 loss)
+I1029 19:12:20.775108 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000649318 (* 1 = 0.000649318 loss)
+I1029 19:12:20.775115 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00129545 (* 1 = 0.00129545 loss)
+I1029 19:12:20.775140 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.000608414 (* 1 = 0.000608414 loss)
+I1029 19:12:20.775146 17085 sgd_solver.cpp:106] Iteration 10400, lr = 0.0001
+I1029 19:12:53.408718 17085 solver.cpp:454] Snapshotting to binary proto file examples/nottingham_multi_label/_iter_10500.caffemodel
+I1029 19:12:53.455385 17085 sgd_solver.cpp:273] Snapshotting solver state to binary proto file examples/nottingham_multi_label/_iter_10500.solverstate
+I1029 19:12:53.467105 17085 solver.cpp:337] Iteration 10500, Testing net (#0)
+I1029 19:12:55.851505 17085 solver.cpp:404]     Test net output #0: loss_left_confidence = 0.00489082 (* 1 = 0.00489082 loss)
+I1029 19:12:55.851527 17085 solver.cpp:404]     Test net output #1: loss_left_coordinate = 0.000257555 (* 1 = 0.000257555 loss)
+I1029 19:12:55.851536 17085 solver.cpp:404]     Test net output #2: loss_right_confidence = 0.00449798 (* 1 = 0.00449798 loss)
+I1029 19:12:55.851543 17085 solver.cpp:404]     Test net output #3: loss_right_coordinate = 0.000222893 (* 1 = 0.000222893 loss)
+I1029 19:12:56.159153 17085 solver.cpp:228] Iteration 10500, loss = 0.00384604
+I1029 19:12:56.159188 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00134746 (* 1 = 0.00134746 loss)
+I1029 19:12:56.159196 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000692565 (* 1 = 0.000692565 loss)
+I1029 19:12:56.159204 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00122431 (* 1 = 0.00122431 loss)
+I1029 19:12:56.159212 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.0005817 (* 1 = 0.0005817 loss)
+I1029 19:12:56.159219 17085 sgd_solver.cpp:106] Iteration 10500, lr = 0.0001
+I1029 19:13:29.417695 17085 solver.cpp:228] Iteration 10600, loss = 0.004132
+I1029 19:13:29.417906 17085 solver.cpp:244]     Train net output #0: loss_left_confidence = 0.00155256 (* 1 = 0.00155256 loss)
+I1029 19:13:29.417917 17085 solver.cpp:244]     Train net output #1: loss_left_coordinate = 0.000741842 (* 1 = 0.000741842 loss)
+I1029 19:13:29.417924 17085 solver.cpp:244]     Train net output #2: loss_right_confidence = 0.00121672 (* 1 = 0.00121672 loss)
+I1029 19:13:29.417949 17085 solver.cpp:244]     Train net output #3: loss_right_coordinate = 0.00062088 (* 1 = 0.00062088 loss)
+I1029 19:13:29.417968 17085 sgd_solver.cpp:106] Iteration 10600, lr = 0.0001

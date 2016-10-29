@@ -1,0 +1,872 @@
+name: "FaceNet"
+layer {
+    	name: "data"
+    	type: "HDF5Data"
+    	top: "data"
+     	top: "left_eye"
+	top: "visibility_left"
+     	top: "right_eye"
+	top: "visibility_right"
+    	hdf5_data_param {
+		source: "/home/wzleong/Downloads/nottingham_only_visible/train_scaled_mean_subtracted_own_data_1_multiple_label_data_list.txt"
+		#source: "/home/wzleong/Downloads/nottingham_new/train_scaled_mean_subtracted_own_data_1_multiple_label_classification_data_list_compile.txt"
+		#source : "/home/wzleong/Downloads/nottingham/resize_128/train_scaled_mean_subtracted_own_data_data_list.txt"
+		#source: "/home/wzleong/Downloads/nottingham/hdf5_latest/train_scaled_mean_subtracted_own_data_compile_multiple_label_data_list.txt"
+		#source: "/home/wzleong/caffe/data/BIO_ID_face/hdf5_latest/train_scaled_mean_subtracted_own_data_compile_multiple_label_data_list.txt"
+		#source: "/home/wzleong/caffe/data/BIO_ID_face/hdf5_latest/train_scaled_nottingham_bioid_list_compile.txt"
+		#source: "/home/wzleong/caffe/data/BIO_ID_face/train_scaled_combine_nottingham_bioid_mean_subtraction.txt"
+		#source: "/home/wzleong/caffe/data/BIO_ID_face/train_scaled_compiled_data_list_mean_subtracted_own_data_multiple_label.txt"
+		#source: "/home/wzleong/Downloads/nottingham/auto_generate_dataset/train_scaled_mean_subtracted_own_data_multiple_label_data_list_compiled.txt"
+		batch_size: 128
+		shuffle: true
+	}
+	include: { phase: TRAIN }
+}
+layer {
+    	name: "data"
+    	type: "HDF5Data"
+    	top: "data"
+     	top: "left_eye"
+	top: "visibility_left"
+     	top: "right_eye"
+	top: "visibility_right"
+    	hdf5_data_param {
+		source: "/home/wzleong/Downloads/nottingham_only_visible/val_scaled_mean_subtracted_own_data_1_multiple_label_data_list.txt"
+		#source: "/home/wzleong/Downloads/nottingham_new/val_scaled_mean_subtracted_own_data_1_multiple_label_classification_data_list_compile.txt"
+		#source: "/home/wzleong/Downloads/nottingham/resize_128/val_scaled_mean_subtracted_own_data_data_list.txt"
+		#source: "/home/wzleong/Downloads/nottingham/hdf5_latest/val_scaled_mean_subtracted_own_data_compile_multiple_label_data_list.txt"
+		#source: "/home/wzleong/caffe/data/BIO_ID_face/hdf5_latest/val_scaled_mean_subtracted_own_data_compile_multiple_label_data_list.txt"
+		#source: "/home/wzleong/caffe/data/BIO_ID_face/hdf5_latest/val_scaled_nottingham_bioid_list_compile.txt"
+		#source: "/home/wzleong/caffe/data/BIO_ID_face/val_scaled_combine_nottingham_bioid_mean_subtraction.txt"
+		#source: "/home/wzleong/caffe/data/BIO_ID_face/val_scaled_compiled_data_list_mean_subtracted_own_data_multiple_label.txt"
+		#source: "/home/wzleong/Downloads/nottingham/auto_generate_dataset/val_scaled_mean_subtracted_own_data_multiple_label_data_list_compiled.txt"
+		batch_size: 128
+		shuffle: true
+	}
+	include: { phase: TEST }
+}
+
+###########################################################
+## Conv1+pool1 1
+###########################################################
+layer {
+    	name: "conv1"
+    	type: "Convolution"
+	bottom: "data"
+    	top: "conv1"
+    	convolution_param {
+		num_output: 16
+		kernel_size: 13
+		stride: 2
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu1"
+	type: "ReLU"
+	bottom: "conv1"
+	top: "conv1"
+}
+layer {
+	name: "pool1"
+	type: "Pooling"
+	bottom: "conv1"
+	top: "pool1"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 2
+	} 
+}
+
+layer {
+    	name: "conv2_1"
+    	type: "Convolution"
+	bottom: "pool1"
+    	top: "conv2_1"
+    	convolution_param {
+		num_output: 16
+		kernel_size: 5
+		stride: 1
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu2_1"
+	type: "ReLU"
+	bottom: "conv2_1"
+	top: "conv2_1"
+}
+layer {
+    	name: "conv2_2"
+    	type: "Convolution"
+	bottom: "conv2_1"
+    	top: "conv2_2"
+    	convolution_param {
+		num_output: 32
+		kernel_size: 5
+		stride: 1
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu2_2"
+	type: "ReLU"
+	bottom: "conv2_2"
+	top: "conv2_2"
+}
+layer {
+	name: "pool2"
+	type: "Pooling"
+	bottom: "conv2_2"
+	top: "pool2"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 2
+	} 
+}
+layer {
+    	name: "conv3_1_left"
+    	type: "Convolution"
+	bottom: "pool2"
+    	top: "conv3_1_left"
+    	convolution_param {
+		num_output: 32
+		kernel_size: 3
+		stride: 1
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu3_1_left"
+	type: "ReLU"
+	bottom: "conv3_1_left"
+	top: "conv3_1_left"
+}
+layer {
+    	name: "conv3_2_left"
+    	type: "Convolution"
+	bottom: "conv3_1_left"
+    	top: "conv3_2_left"
+    	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu3_2_left"
+	type: "ReLU"
+	bottom: "conv3_2_left"
+	top: "conv3_2_left"
+}
+layer {
+	name: "pool3_left"
+	type: "Pooling"
+	bottom: "conv3_2_left"
+	top: "pool3_left"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 2
+	} 
+}
+layer {
+    	name: "conv4_1_left"
+    	type: "Convolution"
+	bottom: "pool3_left"
+    	top: "conv4_1_left"
+    	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu4_1_left"
+	type: "ReLU"
+	bottom: "conv4_1_left"
+	top: "conv4_1_left"
+}
+layer {
+    	name: "conv4_2_left"
+    	type: "Convolution"
+	bottom: "conv4_1_left"
+    	top: "conv4_2_left"
+    	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu4_2_left"
+	type: "ReLU"
+	bottom: "conv4_2_left"
+	top: "conv4_2_left"
+}
+layer {
+    	name: "conv4_3_left"
+    	type: "Convolution"
+	bottom: "conv4_2_left"
+    	top: "conv4_3_left"
+    	convolution_param {
+		num_output: 128
+		kernel_size: 3
+		stride: 1
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu4_3_left"
+	type: "ReLU"
+	bottom: "conv4_3_left"
+	top: "conv4_3_left"
+}
+
+layer {
+    	name: "conv3_1_right"
+    	type: "Convolution"
+	bottom: "pool2"
+    	top: "conv3_1_right"
+    	convolution_param {
+		num_output: 32
+		kernel_size: 3
+		stride: 1
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu3_1_right"
+	type: "ReLU"
+	bottom: "conv3_1_right"
+	top: "conv3_1_right"
+}
+layer {
+    	name: "conv3_2_right"
+    	type: "Convolution"
+	bottom: "conv3_1_right"
+    	top: "conv3_2_right"
+    	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu3_2_right"
+	type: "ReLU"
+	bottom: "conv3_2_right"
+	top: "conv3_2_right"
+}
+layer {
+	name: "pool3_right"
+	type: "Pooling"
+	bottom: "conv3_2_right"
+	top: "pool3_right"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 2
+	} 
+}
+layer {
+    	name: "conv4_1_right"
+    	type: "Convolution"
+	bottom: "pool3_right"
+    	top: "conv4_1_right"
+    	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu4_1_right"
+	type: "ReLU"
+	bottom: "conv4_1_right"
+	top: "conv4_1_right"
+}
+layer {
+    	name: "conv4_2_right"
+    	type: "Convolution"
+	bottom: "conv4_1_right"
+    	top: "conv4_2_right"
+    	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu4_2_right"
+	type: "ReLU"
+	bottom: "conv4_2_right"
+	top: "conv4_2_right"
+}
+layer {
+    	name: "conv4_3_right"
+    	type: "Convolution"
+	bottom: "conv4_2_right"
+    	top: "conv4_3_right"
+    	convolution_param {
+		num_output: 128
+		kernel_size: 3
+		stride: 1
+		pad: 0
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}	
+ 	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu4_3_right"
+	type: "ReLU"
+	bottom: "conv4_3_right"
+	top: "conv4_3_right"
+}
+
+#-------------------------------------------------
+# coordinate
+#-------------------------------------------------
+
+layer {
+	name: "fc1_left"
+	type: "InnerProduct"
+	bottom: "conv4_3_left"
+	top: "fc1_left"
+	inner_product_param {
+   		num_output: 256
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}
+	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases (usually double for better convergence)
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+#layer {
+#	name: "relu_left1"
+#	type: "ReLU"
+#	bottom: "fc1_left"
+#	top: "fc1_left"
+#}
+layer {
+	name: "drop1_left"
+  	type: "Dropout"
+  	bottom: "fc1_left"
+	top: "fc1_left"
+	dropout_param {
+ 	dropout_ratio: 0.5
+  	}
+}
+layer {
+	name: "fc2_left"
+	type: "InnerProduct"
+	bottom: "fc1_left"
+	top: "fc2_left"
+	inner_product_param {
+   		num_output: 2
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}
+	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases (usually double for better convergence)
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+#layer {
+#	name: "relu_left2"
+#	type: "ReLU"
+#	bottom: "fc2_left"
+#	top: "fc2_left"
+#}
+layer {
+	name: "loss_left_coordinate"
+	type: "EuclideanLoss"
+	bottom: "fc2_left"
+     	bottom: "left_eye"
+	top: "loss_left_coordinate"
+}
+
+
+
+layer {
+	name: "fc1_left_confidence"
+	type: "InnerProduct"
+	bottom: "conv4_3_left"
+	top: "fc1_left_confidence"
+	inner_product_param {
+   		num_output: 256
+ 		weight_filler {
+      			type: "xavier"
+    		}
+    		bias_filler {
+      			type: "constant"
+			value: 0.1
+    		}
+	}
+	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 0.05 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases (usually double for better convergence)
+  	param { 
+		lr_mult: 0.2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu_left1_confidence"
+	type: "ReLU"
+	bottom: "fc1_left_confidence"
+	top: "fc1_left_confidence"
+}
+layer {
+	name: "drop1_left_confidence"
+  	type: "Dropout"
+  	bottom: "fc1_left_confidence"
+	top: "fc1_left_confidence"
+	dropout_param {
+ 	dropout_ratio: 0.5
+  	}
+}
+layer {
+	name: "fc2_left_confidence"
+	type: "InnerProduct"
+	bottom: "fc1_left_confidence"
+	top: "fc2_left_confidence"
+	inner_product_param {
+   		num_output: 1
+ 		weight_filler {
+      			type: "gaussian"
+			std: 0.5
+    		}
+    		bias_filler {
+      			type: "constant"
+			value: 0.5
+    		}
+	}
+	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 0.05 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases (usually double for better convergence)
+  	param { 
+		lr_mult: 0.2
+		decay_mult: 0 
+	}
+}
+#layer {
+#	name: "relu_left2"
+#	type: "ReLU"
+#	bottom: "fc2_left"
+#	top: "fc2_left"
+#}
+layer {
+	name: "loss_left_confidence"
+	type: "EuclideanLoss"
+	bottom: "fc2_left_confidence"
+     	bottom: "visibility_left"
+	top: "loss_left_confidence"
+}
+
+
+layer {
+	name: "fc1_right"
+	type: "InnerProduct"
+	bottom: "conv4_3_right"
+	top: "fc1_right"
+	inner_product_param {
+   		num_output: 256
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}
+	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases (usually double for better convergence)
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+#layer {
+#	name: "relu_right1"
+#	type: "ReLU"
+#	bottom: "fc1_right"
+#	top: "fc1_right"
+#}
+layer {
+	name: "drop1_right"
+  	type: "Dropout"
+  	bottom: "fc1_right"
+	top: "fc1_right"
+	dropout_param {
+ 	dropout_ratio: 0.5
+  	}
+}
+layer {
+	name: "fc2_right"
+	type: "InnerProduct"
+	bottom: "fc1_right"
+	top: "fc2_right"
+	inner_product_param {
+   		num_output: 2
+		weight_filler {
+      			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+		}
+	}
+	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 1
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases (usually double for better convergence)
+  	param { 
+		lr_mult: 2
+		decay_mult: 0 
+	}
+}
+#layer {
+#	name: "relu_right2"
+#	type: "ReLU"
+#	bottom: "fc2_right"
+#	top: "fc2_right"
+#}
+layer {
+	name: "loss_right_coordinate"
+	type: "EuclideanLoss"
+	bottom: "fc2_right"
+     	bottom: "right_eye"
+	top: "loss_right_coordinate"
+}
+
+
+layer {
+	name: "fc1_right_confidence"
+	type: "InnerProduct"
+	bottom: "conv4_3_right"
+	top: "fc1_right_confidence"
+	inner_product_param {
+   		num_output: 256
+ 		weight_filler {
+      			type: "xavier"
+    		}
+    		bias_filler {
+      			type: "constant"
+			value: 0.1
+    		}
+	}
+	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 0.05 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases (usually double for better convergence)
+  	param { 
+		lr_mult: 0.2
+		decay_mult: 0 
+	}
+}
+layer {
+	name: "relu_right1_confidence"
+	type: "ReLU"
+	bottom: "fc1_right_confidence"
+	top: "fc1_right_confidence"
+}
+layer {
+	name: "drop1_right_confidence"
+  	type: "Dropout"
+  	bottom: "fc1_right_confidence"
+	top: "fc1_right_confidence"
+	dropout_param {
+ 	dropout_ratio: 0.5
+  	}
+}
+layer {
+	name: "fc2_right_confidence"
+	type: "InnerProduct"
+	bottom: "fc1_right_confidence"
+	top: "fc2_right_confidence"
+	inner_product_param {
+   		num_output: 1
+ 		weight_filler {
+      			type: "gaussian"
+			std: 0.5
+    		}
+    		bias_filler {
+      			type: "constant"
+			value: 0.5
+    		}
+	}
+	# learning rate and decay multipliers for the filters
+ 	param { 
+		lr_mult: 0.05 
+		decay_mult: 0
+	}
+  	# learning rate and decay multipliers for the biases (usually double for better convergence)
+  	param { 
+		lr_mult: 0.2
+		decay_mult: 0 
+	}
+}
+#layer {
+#	name: "relu_right2"
+#	type: "ReLU"
+#	bottom: "fc2_right"
+#	top: "fc2_right"
+#}
+layer {
+	name: "loss_right_confidence"
+	type: "EuclideanLoss"
+	bottom: "fc2_right_confidence"
+     	bottom: "visibility_right"
+	top: "loss_right_confidence"
+}		
+		
+
+
