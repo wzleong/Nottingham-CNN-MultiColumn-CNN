@@ -1,0 +1,67 @@
+
+#NumIters,Seconds,LearningRate,
+# 4)  loss_center_mouth_confidence
+# 5)  loss_center_mouth_coordinate
+# 6)  loss_left_eye_confidence
+# 7)  loss_left_eye_coordinate 
+# 8)  loss_left_mouth_confidence
+# 9)  loss_left_mouth_coordinate
+# 10) loss_nose_confidence
+# 11) loss_nose_coordinate
+# 12) loss_right_eye_confidence
+# 13) loss_right_eye_coordinate
+# 14) loss_right_mouth_confidence
+# 15) loss_right_mouth_coordinate
+
+set datafile separator ','
+
+set terminal png size 2000,1000
+set output 'Training_center_mouth_coordinate.png'
+set title "Training And Testing Center Mouth Coordinate"
+set xlabel "Iterations"
+
+plot '/home/wzleong/caffe/examples/nottingham_complete_eye_nose_mouth/training_plot_coordinate+visibility/train.log.train' using 1:5  with line title "train loss center mouth coordinate",\
+     '/home/wzleong/caffe/examples/nottingham_complete_eye_nose_mouth/training_plot_coordinate+visibility/train.log.test' using 1:5 with line title "test loss center mouth coordinate"
+
+set terminal png size 2000,1000
+set output 'Training_left_eye_coodinate.png'
+set title "Training And Testing Left Eye Coordinate"
+set xlabel "Iterations"
+
+plot '/home/wzleong/caffe/examples/nottingham_complete_eye_nose_mouth/training_plot_coordinate+visibility/train.log.train' using 1:7  with line title "train loss left eye coordinate",\
+     '/home/wzleong/caffe/examples/nottingham_complete_eye_nose_mouth/training_plot_coordinate+visibility/train.log.test' using 1:7 with line title "test loss left eye coordinate"
+
+set terminal png size 2000,1000
+set output 'Training_left_mouth_coodinate.png'
+set title "Training And Testing Left Mouth Coordinate"
+set xlabel "Iterations"
+
+plot '/home/wzleong/caffe/examples/nottingham_complete_eye_nose_mouth/training_plot_coordinate+visibility/train.log.train' using 1:9  with line title "train loss left mouth coordinate",\
+     '/home/wzleong/caffe/examples/nottingham_complete_eye_nose_mouth/training_plot_coordinate+visibility/train.log.test' using 1:9 with line title "test loss left mouth coordinate"
+
+set terminal png size 2000,1000
+set output 'Training_nose_coodinate.png'
+set title "Training And Testing Nose Coordinate"
+set xlabel "Iterations"
+
+plot '/home/wzleong/caffe/examples/nottingham_complete_eye_nose_mouth/training_plot_coordinate+visibility/train.log.train' using 1:11  with line title "train loss nose coordinate",\
+     '/home/wzleong/caffe/examples/nottingham_complete_eye_nose_mouth/training_plot_coordinate+visibility/train.log.test' using 1:11 with line title "test loss nose coordinate"
+
+set terminal png size 2000,1000
+set output 'Training_right_eye_coodinate.png'
+set title "Training And Testing Right Eye Coordinate"
+set xlabel "Iterations"
+
+plot '/home/wzleong/caffe/examples/nottingham_complete_eye_nose_mouth/training_plot_coordinate+visibility/train.log.train' using 1:13  with line title "train loss right eye coordinate",\
+     '/home/wzleong/caffe/examples/nottingham_complete_eye_nose_mouth/training_plot_coordinate+visibility/train.log.test' using 1:13 with line title "test loss right eye coordinate"
+
+set terminal png size 2000,1000
+set output 'Training_right_mouth_coodinate.png'
+set title "Training And Testing Right Mouth Coordinate"
+set xlabel "Iterations"
+
+plot '/home/wzleong/caffe/examples/nottingham_complete_eye_nose_mouth/training_plot_coordinate+visibility/train.log.train' using 1:15  with line title "train loss right mouth coordinate",\
+     '/home/wzleong/caffe/examples/nottingham_complete_eye_nose_mouth/training_plot_coordinate+visibility/train.log.test' using 1:15 with line title "test loss right mouth coordinate"
+
+
+
