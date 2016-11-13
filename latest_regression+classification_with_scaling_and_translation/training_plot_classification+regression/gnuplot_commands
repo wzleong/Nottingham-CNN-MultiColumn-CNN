@@ -1,0 +1,35 @@
+set datafile separator ','
+
+set terminal png size 2000,500
+set output 'Training_left_visibility.png'
+set title "Training And Testing Left Eye Visbility"
+set xlabel "Iterations"
+
+plot '/home/wzleong/caffe/examples/nottingham_new/complete_classification+regression_finetune_from_confidence_working/training_plot_classification+regression/train.log.train' using 1:4  with line title "train loss left eye visibility",\
+     '/home/wzleong/caffe/examples/nottingham_new/complete_classification+regression_finetune_from_confidence_working/training_plot_classification+regression/train.log.test' using 1:4 with line title "test loss left eye visibility"
+
+set terminal png size 2000,1000
+set output 'Training_left_coordinate.png'
+set title "Training And Testing Left Eye Coordinates"
+set xlabel "Iterations"
+plot '/home/wzleong/caffe/examples/nottingham_new/complete_classification+regression_finetune_from_confidence_working/training_plot_classification+regression/train.log.train' using 1:5  with line title "train loss left eye",\
+     '/home/wzleong/caffe/examples/nottingham_new/complete_classification+regression_finetune_from_confidence_working/training_plot_classification+regression/train.log.test' using 1:5 with line title "test loss left eye" 
+
+
+set terminal png size 2000,500
+set output 'Training_right_visibility.png'
+set title "Training And Testing Right Eye Visibility"
+set xlabel "Iterations"
+
+plot '/home/wzleong/caffe/examples/nottingham_new/complete_classification+regression_finetune_from_confidence_working/training_plot_classification+regression/train.log.train' using 1:6  with line title "train loss right eye visibility",\
+     '/home/wzleong/caffe/examples/nottingham_new/complete_classification+regression_finetune_from_confidence_working/training_plot_classification+regression/train.log.test' using 1:6 with line title "test loss right eye visibility"
+
+set terminal png size 2000,1000
+set output 'Training_right_coordinate.png'
+set title "Training And Testing Right Eye Coordinates"
+set xlabel "Iterations"
+
+plot '/home/wzleong/caffe/examples/nottingham_new/complete_classification+regression_finetune_from_confidence_working/training_plot_classification+regression/train.log.train' using 1:7  with line title "train loss right eye coordinate",\
+     '/home/wzleong/caffe/examples/nottingham_new/complete_classification+regression_finetune_from_confidence_working/training_plot_classification+regression/train.log.test' using 1:7 with line title "test loss right eye coordinate" 
+
+
