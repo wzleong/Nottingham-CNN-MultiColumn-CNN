@@ -1,0 +1,35 @@
+Useful information to edit caffemodel:
+Source from: https://stackoverflow.com/questions/41045335/how-to-modify-the-imagenet-caffe-model
+
+The Net Surgery tutorial should give you the basics you need to cover this. But let me explain the steps you need to do in more detail:
+
+    Prepare the .prototxt network architectures: You need two files: the existing ImageNet .prototxt file, and your new temporal network architecture. You should make all layers except the first convolutional layers identical in both networks, including the names of the layers. That way, you can use the ImageNet .caffemodel file to initialize the weights automatically.
+
+    As the first conv layer has a different size, you have to give it a different name in your .prototxt file than it has in the ImageNet file. Otherwise, Caffe will try to initialize this layer with the existing weights too, which will fail as they have different shapes. (This is what happens in the edit to your question.) Just name it e.g. conv1b and change all references to that layer accordingly.
+
+    Load the ImageNet network for testing, so you can extract the parameters from the model file:
+
+    net = caffe.Net('imagenet.prototxt', 'imagenet.caffemodel', caffe.TEST)
+
+    Extract the weights from this loaded model.
+
+    conv_1_weights = old_net.params['conv1'][0].data
+    conv_1_biases = old_net.params['conv1'][1].data
+
+    Average the weights across the channels:
+
+    conv_av_weights = np.mean(conv_1_weights, axis=1, keepdims=True)
+
+    Load your new network together with the old .caffemodel file, as all layers except for the first layer directly use the weights from ImageNet:
+
+    new_net = caffe.Net('new_network.prototxt', 'imagenet.caffemodel', caffe.TEST)
+
+    Assign your calculated average weights to the new network
+
+    new_net.params['conv1b'][0].data[...] = conv_av_weights
+    new_net.params['conv1b'][1].data[...] = conv_1_biases
+
+    Save your weights to a new .caffemodel file:
+
+    new_net.save('new_weights.caffemodel')
+
