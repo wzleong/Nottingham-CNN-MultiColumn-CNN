@@ -1,0 +1,603 @@
+name: "FaceNet"
+layer {
+    	name: "data"
+    	type: "Input"
+  	top: "data"
+	input_param { shape: { dim: 1 dim: 1 dim: 200 dim: 200 } }
+}
+
+###########################################################
+## Conv1+pool1 1
+###########################################################
+layer {
+    	name: "conv1"
+    	type: "Convolution"
+	bottom: "data"
+    	top: "conv1"
+    	convolution_param {
+		num_output: 32
+		kernel_size: 13
+		stride: 2
+		pad: 0
+	}	
+}
+layer {
+	name: "relu1"
+	type: "ReLU"
+	bottom: "conv1"
+	top: "conv1"
+}
+layer {
+	name: "pool1"
+	type: "Pooling"
+	bottom: "conv1"
+	top: "pool1"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 2
+	} 
+}
+
+layer {
+    	name: "conv2_1"
+    	type: "Convolution"
+	bottom: "pool1"
+    	top: "conv2_1"
+    	convolution_param {
+		num_output: 32
+		kernel_size: 3
+		stride: 1
+		pad: 0
+	}	
+}
+layer {
+	name: "relu2_1"
+	type: "ReLU"
+	bottom: "conv2_1"
+	top: "conv2_1"
+}
+layer {
+    	name: "conv2_2"
+    	type: "Convolution"
+	bottom: "conv2_1"
+    	top: "conv2_2"
+    	convolution_param {
+		num_output: 32
+		kernel_size: 3
+		stride: 1
+		pad: 0
+	}	
+}
+layer {
+	name: "relu2_2"
+	type: "ReLU"
+	bottom: "conv2_2"
+	top: "conv2_2"
+}
+layer {
+    	name: "conv2_3"
+    	type: "Convolution"
+	bottom: "conv2_2"
+    	top: "conv2_3"
+    	convolution_param {
+		num_output: 32
+		kernel_size: 3
+		stride: 1
+		pad: 0
+	}	
+}
+layer {
+	name: "relu2_3"
+	type: "ReLU"
+	bottom: "conv2_3"
+	top: "conv2_3"
+}
+layer {
+    	name: "conv2_4"
+    	type: "Convolution"
+	bottom: "conv2_3"
+    	top: "conv2_4"
+    	convolution_param {
+		num_output: 32
+		kernel_size: 3
+		stride: 1
+		pad: 0
+	}	
+}
+layer {
+	name: "relu2_4"
+	type: "ReLU"
+	bottom: "conv2_4"
+	top: "conv2_4"
+}
+layer {
+    	name: "conv2_sub"
+    	type: "Convolution"
+	bottom: "pool1"
+    	top: "conv2_sub"
+    	convolution_param {
+		num_output: 32
+		kernel_size: 3
+		stride: 1
+		pad: 0
+		dilation: 4
+	}	
+}
+layer {
+	name: "relu2_sub"
+	type: "ReLU"
+	bottom: "conv2_sub"
+	top: "conv2_sub"
+}
+layer {
+  name: "concat_conv2"
+  bottom: "conv2_sub"
+  bottom: "conv2_4"
+  top: "concat_conv2"
+  type: "Concat"
+  concat_param {
+    axis: 1
+  }
+}
+layer {
+	name: "pool2"
+	type: "Pooling"
+	bottom: "concat_conv2"
+	top: "pool2"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 2
+	} 
+}
+layer {
+    	name: "conv3_1"
+    	type: "Convolution"
+	bottom: "pool2"
+    	top: "conv3_1"
+    	convolution_param {
+		num_output: 32
+		kernel_size: 3
+		stride: 1
+		pad: 0
+	}	
+}
+layer {
+	name: "relu3_1"
+	type: "ReLU"
+	bottom: "conv3_1"
+	top: "conv3_1"
+}
+layer {
+    	name: "conv3_2"
+    	type: "Convolution"
+	bottom: "conv3_1"
+    	top: "conv3_2"
+    	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 0
+	}	
+}
+layer {
+	name: "relu3_2"
+	type: "ReLU"
+	bottom: "conv3_2"
+	top: "conv3_2"
+}
+layer {
+    	name: "conv3_sub"
+    	type: "Convolution"
+	bottom: "pool2"
+    	top: "conv3_sub"
+    	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 0
+		dilation: 2
+	}	
+}
+layer {
+	name: "relu3_sub"
+	type: "ReLU"
+	bottom: "conv3_sub"
+	top: "conv3_sub"
+}
+layer {
+  name: "concat_conv3"
+  bottom: "conv3_sub"
+  bottom: "conv3_2"
+  top: "concat_conv3"
+  type: "Concat"
+  concat_param {
+    axis: 1
+  }
+}
+layer {
+	name: "pool3"
+	type: "Pooling"
+	bottom: "concat_conv3"
+	top: "pool3"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 2
+	} 
+}
+layer {
+    	name: "conv4_1"
+    	type: "Convolution"
+	bottom: "pool3"
+    	top: "conv4_1"
+    	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 0
+	}	
+}
+layer {
+	name: "relu4_1"
+	type: "ReLU"
+	bottom: "conv4_1"
+	top: "conv4_1"
+}
+
+layer {
+    	name: "conv4_2"
+    	type: "Convolution"
+	bottom: "conv4_1"
+    	top: "conv4_2"
+    	convolution_param {
+		num_output: 128
+		kernel_size: 3
+		stride: 1
+		pad: 0
+	}	
+}
+layer {
+	name: "relu4_2"
+	type: "ReLU"
+	bottom: "conv4_2"
+	top: "conv4_2"
+}
+
+layer {
+    	name: "conv4_3"
+    	type: "Convolution"
+	bottom: "conv4_2"
+    	top: "conv4_3"
+    	convolution_param {
+		num_output: 128
+		kernel_size: 3
+		stride: 1
+		pad: 0
+	}	
+}
+layer {
+	name: "relu4_3"
+	type: "ReLU"
+	bottom: "conv4_3"
+	top: "conv4_3"
+}
+
+layer {
+    	name: "conv5"
+    	type: "Convolution"
+	bottom: "conv4_3"
+    	top: "conv5"
+    	convolution_param {
+		num_output: 512
+		kernel_size: 1
+		stride: 1
+		pad: 0
+	}	
+}
+layer {
+	name: "relu5"
+	type: "ReLU"
+	bottom: "conv5"
+	top: "conv5"
+}
+
+#############################################
+## FC layers eye confidence
+#############################################
+
+layer {
+	name: "fc1_left_eye_confidence_temp"
+	type: "InnerProduct"
+	bottom: "conv5"
+	top: "fc1_left_eye_confidence_temp"
+	inner_product_param {
+   		num_output: 149
+	}
+}
+layer {
+	name: "relu_left_eye_confidence"
+	type: "ReLU"
+	bottom: "fc1_left_eye_confidence_temp"
+	top: "fc1_left_eye_confidence_temp"
+}
+layer {
+	name: "fc2_left_eye_confidence_temp"
+	type: "InnerProduct"
+	bottom: "fc1_left_eye_confidence_temp"
+	top: "fc2_left_eye_confidence_temp"
+	inner_product_param {
+   		num_output: 1
+	}
+}
+
+layer {
+	name: "fc1_right_eye_confidence_temp"
+	type: "InnerProduct"
+	bottom: "conv5"
+	top: "fc1_right_eye_confidence_temp"
+	inner_product_param {
+   		num_output: 159
+	}
+}
+layer {
+	name: "relu_right_eye_confidence"
+	type: "ReLU"
+	bottom: "fc1_right_eye_confidence_temp"
+	top: "fc1_right_eye_confidence_temp"
+}
+layer {
+	name: "fc2_right_eye_confidence_temp"
+	type: "InnerProduct"
+	bottom: "fc1_right_eye_confidence_temp"
+	top: "fc2_right_eye_confidence_temp"
+	inner_product_param {
+   		num_output: 1
+	}
+}	
+
+
+##################################
+# FC layers nose confidence
+##################################
+
+
+layer {
+	name: "fc1_nose_confidence_temp"
+	type: "InnerProduct"
+	bottom: "conv5"
+	top: "fc1_nose_confidence_temp"
+	inner_product_param {
+   		num_output: 153
+	}
+}
+layer {
+	name: "relu_nose_confidence"
+	type: "ReLU"
+	bottom: "fc1_nose_confidence_temp"
+	top: "fc1_nose_confidence_temp"
+}
+layer {
+	name: "fc2_nose_confidence_temp"
+	type: "InnerProduct"
+	bottom: "fc1_nose_confidence_temp"
+	top: "fc2_nose_confidence_temp"
+	inner_product_param {
+   		num_output: 1
+	}
+}
+
+################################################
+# FC layers mouth confidence
+################################################
+
+layer {
+	name: "fc1_left_mouth_confidence_temp"
+	type: "InnerProduct"
+	bottom: "conv5"
+	top: "fc1_left_mouth_confidence_temp"
+	inner_product_param {
+   		num_output: 156
+	}
+}
+layer {
+	name: "relu_left_mouth_confidence"
+	type: "ReLU"
+	bottom: "fc1_left_mouth_confidence_temp"
+	top: "fc1_left_mouth_confidence_temp"
+}
+layer {
+	name: "fc2_left_mouth_confidence_temp"
+	type: "InnerProduct"
+	bottom: "fc1_left_mouth_confidence_temp"
+	top: "fc2_left_mouth_confidence_temp"
+	inner_product_param {
+   		num_output: 1
+	}
+}
+
+
+layer {
+	name: "fc1_center_mouth_confidence_temp"
+	type: "InnerProduct"
+	bottom: "conv5"
+	top: "fc1_center_mouth_confidence_temp"
+	inner_product_param {
+   		num_output: 156
+	}
+}
+layer {
+	name: "relu_center_mouth_confidence"
+	type: "ReLU"
+	bottom: "fc1_center_mouth_confidence_temp"
+	top: "fc1_center_mouth_confidence_temp"
+}
+layer {
+	name: "fc2_center_mouth_confidence_temp"
+	type: "InnerProduct"
+	bottom: "fc1_center_mouth_confidence_temp"
+	top: "fc2_center_mouth_confidence_temp"
+	inner_product_param {
+   		num_output: 1
+	}
+}	
+
+layer {
+	name: "fc1_right_mouth_confidence_temp"
+	type: "InnerProduct"
+	bottom: "conv5"
+	top: "fc1_right_mouth_confidence_temp"
+	inner_product_param {
+   		num_output: 151
+	}
+}
+layer {
+	name: "relu_right_mouth_confidence"
+	type: "ReLU"
+	bottom: "fc1_right_mouth_confidence_temp"
+	top: "fc1_right_mouth_confidence_temp"
+}
+layer {
+	name: "fc2_right_mouth_confidence_temp"
+	type: "InnerProduct"
+	bottom: "fc1_right_mouth_confidence_temp"
+	top: "fc2_right_mouth_confidence_temp"
+	inner_product_param {
+   		num_output: 1
+	}
+}	
+	
+
+
+#############################################
+## FC layers eye coordinate
+#############################################
+
+layer {
+	name: "fc1_left_eye_coordinate_temp"
+	type: "InnerProduct"
+	bottom: "conv5"
+	top: "fc1_left_eye_coordinate_temp"
+	inner_product_param {
+   		num_output: 340
+	}
+}
+layer {
+	name: "fc2_left_eye_coordinate_temp"
+	type: "InnerProduct"
+	bottom: "fc1_left_eye_coordinate_temp"
+	top: "fc2_left_eye_coordinate_temp"
+	inner_product_param {
+   		num_output: 2
+	}
+}
+
+layer {
+	name: "fc1_right_eye_coordinate_temp"
+	type: "InnerProduct"
+	bottom: "conv5"
+	top: "fc1_right_eye_coordinate_temp"
+	inner_product_param {
+   		num_output: 191
+	}
+}
+layer {
+	name: "fc2_right_eye_coordinate_temp"
+	type: "InnerProduct"
+	bottom: "fc1_right_eye_coordinate_temp"
+	top: "fc2_right_eye_coordinate_temp"
+	inner_product_param {
+   		num_output: 2
+	}
+}
+
+
+##################################
+# FC layers nose
+##################################
+
+layer {
+	name: "fc1_nose_coordinate_temp"
+	type: "InnerProduct"
+	bottom: "conv5"
+	top: "fc1_nose_coordinate_temp"
+	inner_product_param {
+   		num_output: 345
+	}
+}
+layer {
+	name: "fc2_nose_coordinate_temp"
+	type: "InnerProduct"
+	bottom: "fc1_nose_coordinate_temp"
+	top: "fc2_nose_coordinate_temp"
+	inner_product_param {
+   		num_output: 2
+	}
+}
+
+################################################
+# FC layers mouth
+################################################
+
+
+layer {
+	name: "fc1_left_mouth_coordinate_temp"
+	type: "InnerProduct"
+	bottom: "conv5"
+	top: "fc1_left_mouth_coordinate_temp"
+	inner_product_param {
+   		num_output: 180
+	}
+}
+layer {
+	name: "fc2_left_mouth_coordinate_temp"
+	type: "InnerProduct"
+	bottom: "fc1_left_mouth_coordinate_temp"
+	top: "fc2_left_mouth_coordinate_temp"
+	inner_product_param {
+   		num_output: 2
+	}
+}
+
+
+layer {
+	name: "fc1_center_mouth_coordinate_temp"
+	type: "InnerProduct"
+	bottom: "conv5"
+	top: "fc1_center_mouth_coordinate_temp"
+	inner_product_param {
+   		num_output: 358
+	}
+}
+layer {
+	name: "fc2_center_mouth_coordinate_temp"
+	type: "InnerProduct"
+	bottom: "fc1_center_mouth_coordinate_temp"
+	top: "fc2_center_mouth_coordinate_temp"
+	inner_product_param {
+   		num_output: 2
+	}
+}
+
+
+layer {
+	name: "fc1_right_mouth_coordinate_temp"
+	type: "InnerProduct"
+	bottom: "conv5"
+	top: "fc1_right_mouth_coordinate_temp"
+	inner_product_param {
+   		num_output: 232
+	}
+}
+layer {
+	name: "fc2_right_mouth_coordinate_temp"
+	type: "InnerProduct"
+	bottom: "fc1_right_mouth_coordinate_temp"
+	top: "fc2_right_mouth_coordinate_temp"
+	inner_product_param {
+   		num_output: 2
+	}
+}
+
+
